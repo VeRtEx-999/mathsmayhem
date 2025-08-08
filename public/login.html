@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MathQuest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .login-container {
+            background: linear-gradient(145deg, #fffbe7, #ffe0e9);
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 40px 30px;
+            width: 350px;
+            text-align: center;
+        }
+        .login-title {
+            font-size: 2.2rem;
+            color: #4a90e2;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0);}
+            50% { transform: translateY(-10px);}
+        }
+        .login-input {
+            width: 90%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #4a90e2;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            background: #f7faff;
+            transition: border 0.3s;
+        }
+        .login-input:focus {
+            border: 2.5px solid #ff6b6b;
+            outline: none;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.15);
+            transition: background 0.3s, transform 0.2s;
+        }
+        .login-btn:hover {
+            background: linear-gradient(90deg, #fcb045, #ff6b6b);
+            transform: scale(1.05);
+        }
+        .register-link {
+            display: block;
+            margin-top: 18px;
+            color: #4a90e2;
+            font-size: 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .register-link:hover {
+            color: #ff6b6b;
+        }
+        .login-footer {
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-icon">🔒</div>
+        <div class="login-title">Welcome to MathQuest!</div>
+        <form onsubmit="return handleLogin(event)">
+            <input class="login-input" type="text" id="login-username" placeholder="📝 Username" required><br>
+            <div style="position:relative; width:100%;">
+                <input class="login-input" type="password" id="login-password" placeholder="🔑 Password" required style="padding-right:44px; width:100%; box-sizing:border-box;">
+                <button type="button" id="togglePassword" style="position:absolute; right:18px; top:50%; transform:translateY(-50%); background:#fff; border:2px solid #4a90e2; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 8px #4a90e222; transition:background 0.2s;" tabindex="-1" aria-label="Show password">
+                    <span id="eyeIcon">
+                        <svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </button>
+            </div><br>
+            <button class="login-btn" type="submit">🚀 Log In</button>
+        </form>
+        <a class="register-link" href="register.html">Don't have an account? Register here!</a>
+        <div class="login-footer">Math is fun when you play! 🎲</div>
+    </div>
+    <script>
+// Password visibility toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('login-password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    if (toggleBtn && passwordInput && eyeIcon) {
+        let visible = false;
+        toggleBtn.addEventListener('click', function() {
+            visible = !visible;
+            passwordInput.type = visible ? 'text' : 'password';
+            eyeIcon.innerHTML = visibleß
+                ? '<svg id="eyeSlashSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.07 21.07 0 0 1 5.06-6.06"/><path d="M1 1l22 22"/><path d="M9.53 9.53A3 3 0 0 0 12 15a3 3 0 0 0 2.47-5.47"/><path d="M12 5c7 0 11 7 11 7a21.07 21.07 0 0 1-5.06 6.06"/></svg>'
+                : '<svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+        });
+    }
+});
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    // Send login request to backend
+    const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    });
+    if (res.ok) {
+        localStorage.setItem('username', username);
+        window.location.href = "index.HTML";
+    } else {
+        alert('Login failed! Please check your username and password.');
+    }
+}
+</script>
+</body>
+</html>

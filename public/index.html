@@ -1,0 +1,2826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathsMayhem - Maths Website for Kids</title>
+    <link rel="stylesheet" href="quiz-bigger.css">
+    <style>
+        .mathsmayhem-gradient-title {
+            background: linear-gradient(90deg, #E81123 0%, #FFF100 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none !important;
+        }
+        body {
+            font-family: 'Comic Sans MS', 'Comic Sans', 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-size: 1.35em;
+            background: linear-gradient(120deg, #8929ad 10%, #436aac 50%, #43b788 100%);
+            width: 100vw;
+            min-height: 100vh;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            background: transparent;
+            width: 100vw;
+            min-height: 0;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container .page {
+            background: transparent;
+            border-radius: 12px;
+            box-shadow: none;
+            padding: 0;
+        }
+        .logo-box {
+           background: transparent;
+            border: none;
+            box-shadow: none;
+            margin-bottom: 4px;
+            padding: 0;
+        }
+        .logo {
+            color: #ff00ea;
+            text-shadow: none;
+        }
+        .nav {
+            background: transparent;
+            border-radius: 12px;
+            border: none;
+            box-shadow: none;
+            margin-bottom: 10px;
+        }
+        .nav-tab {
+            background: linear-gradient(90deg, #17e3c1 0%, #308695 100%);
+            border: none;
+            color: #fff;
+            text-shadow: none;
+        }
+        .nav-tab.active, .nav-tab:hover {
+            background: linear-gradient(90deg, #308695 0%, #17e3c1 100%);
+            color: #fff;
+        }
+     @keyframes borderMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            gap: 28px;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+        .nav-tab { background: linear-gradient(90deg, #17e3c1 0%, #308695 100%); border: none; font-size: 1.05em; margin: 0 8px; padding: 10px 22px; border-radius: 12px; cursor: pointer; color: #8929ad; font-weight: bold; box-shadow: none; transition: background 0.2s, color 0.2s, transform 0.15s; text-shadow: none; }
+        .nav-tab.active, .nav-tab:hover { background: linear-gradient(90deg, #308695 0%, #17e3c1 100%); color: #8929ad; transform: scale(1.08) rotate(-2deg); text-shadow: none; }
+        .logo-box { background: transparent; border: none; border-radius: 32px; box-shadow: none; margin-bottom: 32px; padding: 32px 0 24px 0; text-align: center; }
+        .logo { font-size: 3.5em; font-weight: bold; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 8px #000, 0 2px 8px #000; display: inline-block; }
+        .page { display: none; }
+        .page.active { display: block; color: #fff; text-shadow: 1px 1px 8px #000; }
+        .btn { background: linear-gradient(90deg, #ffb347 0%, #ff69b4 100%); color: #fff; border: none; border-radius: 16px; padding: 12px 28px; font-size: 1.15em; margin: 12px 10px 0 0; cursor: pointer; font-weight: bold; box-shadow: 0 2px 8px rgba(255, 174, 201, 0.13); transition: background 0.2s, transform 0.15s; }
+        .btn {
+            background: linear-gradient(90deg, #ffb347 0%, #ff69b4 100%);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 28px;
+            font-size: 1.15em;
+            margin: 12px 10px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: none;
+            transition: background 0.2s, transform 0.15s;
+            background-clip: padding-box;
+            position: relative;
+            z-index: 1;
+        }
+        .btn:hover { background: linear-gradient(90deg, #1e3a8a 0%, #0a1a4f 100%); transform: scale(1.07) rotate(2deg); }
+        .btn:hover {
+            background: linear-gradient(90deg, #1e3a8a 0%, #0a1a4f 100%);
+            border-image: linear-gradient(90deg, #1e3a8a 0%, #0a1a4f 100%);
+            border-image-slice: 1;
+        }
+        .btn-secondary { background: #d6469f; color: #4ac6ff; border: none; box-shadow: none; }
+        .btn-secondary:hover { background: #ffe29f; color: #4ac6ff; border: none; box-shadow: none; }
+        .stats { display: flex; gap: 30px; margin: 20px 0 30px 0; flex-wrap: wrap; }
+        .stat { background: #ffe29f; border-radius: 18px; padding: 20px 32px; min-width: 120px; text-align: center; box-shadow: 0 2px 12px rgba(255, 174, 201, 0.10); border: 2px dashed #ffb347; }
+        .stat-label { color: #4ac6ff; font-size: 1.08em; font-weight: bold; }
+        .stat-label { color: #fff; font-size: 1.08em; font-weight: bold; text-shadow: 1px 1px 8px #000; }
+        .stat-value { font-size: 1.7em; font-weight: bold; margin-top: 6px; color: #fff; text-shadow: 1px 1px 8px #000; }
+        .progress-bar { width: 100%; height: 22px; background: #fff3e6; border-radius: 12px; overflow: hidden; margin: 18px 0 0 0; border: 2px solid #ffb347; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #ffb347 0%, #ff69b4 100%); width: 0%; transition: width 0.5s; border-radius: 12px; }
+        .quiz-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 22px;
+            margin: 30px 0 0 0;
+            justify-items: center;
+            align-items: stretch;
+        }
+        .quizzes-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin: 30px 0 0 0;
+            justify-items: center;
+            align-items: stretch;
+        }
+        .quiz-card { flex: 1 1 260px; max-width: 30%; min-width: 220px; box-sizing: border-box; }
+        @media (max-width: 900px) {
+            .quiz-list {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+            }
+            .quiz-card { max-width: 90%; }
+        }
+        @media (max-width: 600px) {
+            .quiz-list {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .quiz-card { max-width: 100%; }
+        }
+        .quiz-card {
+            background: linear-gradient(135deg, #E81123 0%, #FFF100 100%);
+            border-radius: 22px;
+            box-shadow: 0 4px 16px rgba(232, 17, 35, 0.13), 0 2px 8px rgba(255, 241, 0, 0.10);
+            padding: 26px 18px;
+            flex: 1 1 220px;
+            min-width: 220px;
+            max-width: 260px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #E81123;
+            transition: box-shadow 0.2s, background 0.2s, transform 0.15s, border 0.2s;
+        }
+        .quiz-card:hover {
+            background: linear-gradient(135deg, #FFF100 0%, #E81123 100%);
+            box-shadow: 0 8px 24px rgba(255, 241, 0, 0.18), 0 2px 8px rgba(232, 17, 35, 0.10);
+            border: 2px solid #FFF100;
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .quiz-icon { font-size: 2.5em; margin-bottom: 12px; }
+        .quiz-title { font-size: 1.25em; font-weight: bold; color: #4ac6ff; text-shadow: 1px 1px 0 #fff3e6; }
+        .quiz-title { font-size: 1.25em; font-weight: bold; color: #fff; text-shadow: 1px 1px 8px #000; }
+        .quiz-desc { font-size: 1em; color: #fff; margin-top: 8px; font-weight: bold; text-shadow: 1px 1px 8px #000; }
+        .difficulty-btn { background: #ffe29f; color: #4ac6ff; border: 2px solid #ffb347; border-radius: 12px; padding: 10px 20px; font-size: 1.08em; margin: 0 10px 12px 0; cursor: pointer; font-weight: bold; transition: background 0.2s, color 0.2s, transform 0.15s; }
+        .difficulty-btn.selected, .difficulty-btn:hover { background: #4ac6ff; color: #fff; transform: scale(1.08) rotate(2deg); }
+        .quiz-container { background: #fff3e6; border-radius: 22px; box-shadow: 0 4px 16px rgba(255, 174, 201, 0.13); padding: 36px 28px 28px 28px; max-width: 900px; min-width: 520px; min-height: 650px; margin: 0 auto; margin-top: 34px; display: none; position: absolute; left: 0; right: 0; z-index: 10; border: 2px solid #ffb347; }
+        .quiz-container.active { display: block; }
+        .question { font-size: 1.35em; margin-bottom: 20px; color: #8929ad !important; font-weight: bold; text-shadow: none !important; }
+        #quiz .question, #quiz input, #quiz .feedback, #quiz h2, #quiz .quiz-meta, #quiz label, #quiz .quiz-title, #quiz .quiz-desc {
+            text-shadow: none !important;
+        }
+        #quiz .quiz-meta {
+            color: #4ac6ff !important;
+        }
+        #quiz input {
+            color: #8929ad !important;
+        }
+        #quiz .feedback.correct, #quiz .feedback.incorrect {
+            text-shadow: none !important;
+        }
+        .input-container { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .input-container input { font-size: 1.15em; padding: 10px 14px; border-radius: 10px; border: 2px solid #ffb347; width: 130px; background: #fffbe7; color: #8929ad !important; font-weight: bold; text-shadow: none !important; }
+        .feedback { font-size: 1.15em; margin-top: 12px; min-height: 28px; color: #4ac6ff; font-weight: bold; }
+        .feedback { font-size: 1.15em; margin-top: 12px; min-height: 28px; color: #fff; font-weight: bold; text-shadow: 1px 1px 8px #000; }
+        .feedback.correct { color: #55ff00; animation: bounce 0.7s; text-shadow: 1px 1px 8px #55ff00 ; }
+        .feedback.incorrect { color: #ff0000; animation: shake 0.7s; text-shadow: 1px 1px 8px #ff0000; }
+        @keyframes bounce { 0% { transform: scale(1); } 30% { transform: scale(1.15); } 60% { transform: scale(0.95); } 100% { transform: scale(1); } }
+        @keyframes shake { 0% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } 100% { transform: translateX(0); } }
+        .achievements-list { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 22px; }
+        .achievement {
+            background: #ffe29f;
+            border-radius: 22px;
+            padding: 32px 20px;
+            min-width: 290px;
+            max-width: 290px;
+            min-height: 220px;
+            max-height: 220px;
+            text-align: center;
+            box-shadow: 0 2px 18px rgba(255, 174, 201, 0.15);
+            font-size: 1.22em;
+            border: 2.5px dashed #ffb347;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            word-break: break-word;
+            overflow: hidden;
+        }
+        .achievement.locked { opacity: 0.5; }
+        .achievement-icon { font-size: 2.2em; margin-bottom: 8px; }
+        .achievement-name { font-weight: bold; margin-bottom: 4px; }
+        .achievement-name { font-weight: bold; margin-bottom: 4px; color: #fff; text-shadow: 0px 0px 0px #000; }
+        .achievement-description { font-size: 0.95em; word-break: break-word; color: #fff; text-shadow: 0px 0px 0px #000; }
+        .lesson-step { background: #fff3e6; border-radius: 14px; padding: 20px 18px; margin-bottom: 20px; border: 2px solid #ffb347; color: #10c168 !important; text-shadow: none !important; }
+        .lesson-step h3 { margin: 0 0 10px 0; color: #10c168 !important; font-weight: bold; text-shadow: none !important; }
+        .lesson-step .example { background: #ffe29f; border-radius: 10px; padding: 12px 14px; margin-top: 10px; color: #10c168 !important; font-size: 1.05em; font-weight: bold; text-shadow: none !important; }
+        #celebration { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.95); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+        #celebrationMessage { font-size: 2em; color: #4a90e2; margin-bottom: 20px; }
+        #celebrationMessage { font-size: 2em; color: #fff; margin-bottom: 20px; text-shadow: 1px 1px 8px #000; }
+        #closeCelebration { background: #4a90e2; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 1.1em; cursor: pointer; }
+        @media (max-width: 700px) { .container { padding: 12px 2vw 24px 2vw; } .stats { flex-direction: column; gap: 10px; } .quiz-list { flex-direction: column; gap: 10px; } }
+        /* Floating math emoji background */
+        .floating-emoji-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .floating-emoji {
+            position: absolute;
+            font-size: 2.8em;
+            opacity: 0.44;
+            pointer-events: auto;
+            transition: transform 0.3s cubic-bezier(.4,2,.6,1), opacity 0.2s;
+            will-change: transform;
+            user-select: none;
+            cursor: pointer;
+        }
+        .floating-emoji:hover {
+            opacity: 1;
+            transform: translateY(-30px) scale(1.2) rotate(-8deg);
+            z-index: 2;
+        }
+        /* Keyframes for up and down floating */
+        @keyframes floatUpDown {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-22px); }
+            100% { transform: translateY(0); }
+        }
+        /* Each emoji gets a different duration and delay for natural effect */
+        .floating-emoji.e1 { left: 8vw; top: 12vh; animation: floatUpDown 3.2s ease-in-out infinite; animation-delay: 0s; }
+        .floating-emoji.e2 { left: 22vw; top: 60vh; animation: floatUpDown 2.7s ease-in-out infinite; animation-delay: 0.7s; }
+        .floating-emoji.e3 { left: 40vw; top: 30vh; animation: floatUpDown 3.7s ease-in-out infinite; animation-delay: 1.2s; }
+        .floating-emoji.e4 { left: 65vw; top: 18vh; animation: floatUpDown 2.9s ease-in-out infinite; animation-delay: 0.3s; }
+        .floating-emoji.e5 { left: 80vw; top: 55vh; animation: floatUpDown 3.5s ease-in-out infinite; animation-delay: 1.1s; }
+        .floating-emoji.e6 { left: 90vw; top: 15vh; animation: floatUpDown 2.5s ease-in-out infinite; animation-delay: 0.9s; }
+        .floating-emoji.e7 { left: 5vw; top: 80vh; animation: floatUpDown 3.9s ease-in-out infinite; animation-delay: 1.5s; }
+        .floating-emoji.e8 { left: 30vw; top: 10vh; animation: floatUpDown 3.1s ease-in-out infinite; animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="confetti-bg"></div>
+    <div class="floating-emoji-bg">
+        <span class="floating-emoji e1">➕</span>
+        <span class="floating-emoji e2">➖</span>
+        <span class="floating-emoji e3">✖️</span>
+        <span class="floating-emoji e4">➗</span>
+        <span class="floating-emoji e5">🧮</span>
+        <span class="floating-emoji e6">📐</span>
+        <span class="floating-emoji e7">🔢</span>
+        <span class="floating-emoji e8">🕐</span>
+    </div>
+    <div class="container">
+        <div class="logo-box">
+            <img src="logo.png" alt="Logo" style="width:640px; height:auto; display:block; margin:0 auto 16px auto; border-radius:64px; box-shadow:0 4px 32px #4ac6ff33;">
+        </div>
+        <div class="nav">
+            <button class="nav-tab active" onclick="showPage('home')">🏠 Home</button>
+            <button class="nav-tab" onclick="showPage('quizzes')">📝 Quizzes</button>
+            <button class="nav-tab" onclick="showPage('lessons')">📚 Lessons</button>
+            <button class="nav-tab" onclick="showPage('achievements')">🏅 Achievements</button>
+            <button class="nav-tab" onclick="window.location.href='login.html'" id="loginBtn">🔑 Login</button>
+        </div>
+        <div id="home" class="page active">
+        <h1 class="mathsmayhem-gradient-title" style="font-size:3em;">🎉 Welcome to MathsMayhem! 🎉</h1>
+            <p style="font-size:1.3em; color:#e1e8ec; font-weight:bold;">Sharpen your math skills with <span style="font-size:1.2em; color:#e1e8ec;">🎲 fun quizzes</span>, <span style="font-size:1.2em; color:#e1e8ec;">🧩 interactive lessons</span>, and <span style="font-size:1.2em; color:#e1e8ec;">🏅 awesome achievements</span>.<br>Ready to become a <span style="color:#e1e8ec;">Math Master</span>? <span style="font-size:1.3em; color:#e1e8ec;">✨</span></p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Total Score</div>
+                    <div class="stat-value" id="totalScore">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Current Streak</div>
+                    <div class="stat-value" id="currentStreak">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Questions Answered</div>
+                    <div class="stat-value" id="questionsAnswered">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Achievements</div>
+                    <div class="stat-value" id="achievementsCount">0</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        <div id="quizzes" class="page">
+            <h2 style="color:#4ac6ff; font-size:2em;">📝 Choose a Quiz! 📝</h2>
+            <div class="quizzes-list">
+                <div class="quiz-card" onclick="startQuiz('addition')">
+                    <div class="quiz-icon">➕</div>
+                    <div class="quiz-title">Addition Adventure</div>
+                    <div class="quiz-desc">Practice adding numbers</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('subtraction')">
+                    <div class="quiz-icon">➖</div>
+                    <div class="quiz-title">Subtraction Safari</div>
+                    <div class="quiz-desc">Sharpen your subtraction skills</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('multiplication')">
+                    <div class="quiz-icon">✖️</div>
+                    <div class="quiz-title">Multiplication Quest</div>
+                    <div class="quiz-desc">Master multiplication facts</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('division')">
+                    <div class="quiz-icon">➗</div>
+                    <div class="quiz-title">Division Castle</div>
+                    <div class="quiz-desc">Conquer division problems</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('mixed')">
+                    <div class="quiz-icon">🌟</div>
+                    <div class="quiz-title">Mixed Math Mayhem</div>
+                    <div class="quiz-desc">A mix of all operations</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('comparison')">
+                    <div class="quiz-icon">⚖️</div>
+                    <div class="quiz-title">Number Detective</div>
+                    <div class="quiz-desc">Compare numbers</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('fractions')">
+                    <div class="quiz-icon">🍕</div>
+                    <div class="quiz-title">Fraction Pizza Party</div>
+                    <div class="quiz-desc">Learn about fractions</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('patterns')">
+                    <div class="quiz-icon">🎨</div>
+                    <div class="quiz-title">Pattern Master</div>
+                    <div class="quiz-desc">Find number patterns</div>
+                </div>
+                <div class="quiz-card" onclick="startQuiz('wordproblems')">
+                    <div class="quiz-icon">📖</div>
+                    <div class="quiz-title">Story Math Heroes</div>
+                    <div class="quiz-desc">Solve word problems</div>
+                </div>
+            </div>
+        </div>
+        <div id="quizSetup" class="page">
+            <h2 id="quizTitle" style="color:#4ac6ff; font-size:2em;">🛠️ quiz Setup 🛠️</h2>
+            <div style="margin:18px 0 10px 0;">
+                <span style="font-weight:bold; color:#4ac6ff;">Select Difficulty:</span>
+                <button class="difficulty-btn" data-type="difficulty" onclick="selectDifficulty('easy', event)">Easy</button>
+                <button class="difficulty-btn" data-type="difficulty" onclick="selectDifficulty('medium', event)">Medium</button>
+                <button class="difficulty-btn" data-type="difficulty" onclick="selectDifficulty('hard', event)">Hard</button>
+            </div>
+            <div style="margin:10px 0 18px 0;">
+                <span style="font-weight:bold; color:#4ac6ff;">Number of Questions:</span>
+                <button class="difficulty-btn" data-type="questioncount" onclick="selectQuestionCount(5, event)">5</button>
+                <button class="difficulty-btn" data-type="questioncount" onclick="selectQuestionCount(10, event)">10</button>
+                <button class="difficulty-btn" data-type="questioncount" onclick="selectQuestionCount(20, event)">20</button>
+                <button class="difficulty-btn" data-type="questioncount" onclick="selectQuestionCount(50, event)">50</button>
+            </div>
+            <button class="btn" id="startquizBtn" style="display:none;" onclick="beginQuiz()">Start Quiz</button>
+            <button class="btn btn-secondary" onclick="showPage('quiz')">Back</button>
+        </div>
+        <div id="quiz" class="page">
+            <div class="quiz-container" id="quizContainer">
+            <div class="quiz-unibox">
+                <div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:8px;">
+                    <button id="quizFontInc" title="Increase Quiz Size" style="font-size:1.2em; margin-right:6px; border:none; background:linear-gradient(90deg,#ffb347,#ff69b4); color:#fff; border-radius:8px; padding:4px 12px; cursor:pointer; font-weight:bold;">A+</button>
+                    <button id="quizFontDec" title="Decrease Quiz Size" style="font-size:1.2em; border:none; background:linear-gradient(90deg,#ffb347,#ff69b4); color:#fff; border-radius:8px; padding:4px 12px; cursor:pointer; font-weight:bold;">A-</button>
+                </div>
+                <div class="quiz-unibox-inner" id="quizFontArea">
+                    <h2 id="quizTitle" style="color:#4ac6ff; font-size:2em; margin-bottom:8px; text-align:center;">📝 Quiz Time! 📝</h2>
+                    <div class="quiz-meta" style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span>Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                        <span>Streak: <span id="streakDisplay">0</span></span>
+                    </div>
+                    <div class="question" id="questionDisplay" style="margin-bottom:12px; text-align:center;">Question will appear here</div>
+                    <input type="text" id="answerInput" autocomplete="off" placeholder="Your answer" style="width:100%; font-size:1.25em; margin-bottom:12px; border-radius:0px; border:2px solid #ffb347; background:#fffbe7; color:#fff; font-weight:bold; text-shadow:0px 0px 0px #000;">
+                    <div id="quizButtons" style="display:flex; gap:18px; width:100%; margin-bottom:12px;">
+                        <button class="btn" style="flex:1;" onclick="checkAnswer()">Submit</button>
+                        <button class="btn" style="flex:1;" onclick="skipQuestion()">Skip</button>
+                    </div>
+                    <div class="feedback" id="feedback" style="width:100%; text-align:center;"></div>
+                    <div id="quizControls" style="margin-top:18px; display:none; width:100%; display:flex; gap:18px;">
+                        <button class="btn" style="flex:1;" onclick="showPage('quizetup')">Play Again</button>
+                        <button class="btn" style="flex:1;" onclick="showPage('home')">Home</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div id="lessons" class="page">
+            <h2 style="color:#4ac6ff; font-size:2em;">🧩 Lessons 🧩</h2>
+            <div class="quiz-list">
+                <div class="quiz-card" onclick="showLesson('addition')">
+                    <div class="quiz-icon">➕</div>
+                    <div class="quiz-title">Addition</div>
+                </div>
+                <div class="quiz-card" onclick="showLesson('subtraction')">
+                    <div class="quiz-icon">➖</div>
+                    <div class="quiz-title">Subtraction</div>
+                </div>
+                <div class="quiz-card" onclick="showLesson('multiplication')">
+                    <div class="quiz-icon">✖️</div>
+                    <div class="quiz-title">Multiplication</div>
+                </div>
+                <div class="quiz-card" onclick="showLesson('division')">
+                    <div class="quiz-icon">➗</div>
+                    <div class="quiz-title">Division</div>
+                </div>
+                <div class="quiz-card" onclick="showLesson('fractions')">
+                    <div class="quiz-icon">🍕</div>
+                    <div class="quiz-title">Fractions</div>
+                </div>
+                <div class="quiz-card" onclick="showLesson('patterns')">
+                    <div class="quiz-icon">🎨</div>
+                    <div class="quiz-title">Patterns</div>
+                </div>
+            </div>
+        </div>
+        <div id="lessonContent" class="page">
+            <div id="lessonSteps"></div>
+            <button class="btn" id="practiceBtn" style="display:none;">🎯 Practice This!</button>
+            <!-- Back button only shown on quiz page -->
+        </div>
+        <div id="achievements" class="page">
+            <h2 style="color:#4ac6ff; font-size:2em;">🏅 Achievements 🏅</h2>
+            <p style="font-size:1.2em; color:#4ac6ff;">Unlock achievements by completing challenges and reaching milestones!</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Total Achievements</div>
+                    <div class="stat-value" id="totalAchievements">0</div>
+                </div>
+            </div>
+            <p style="font-size:1.15em; color:#4ac6ff;">Achievements are unlocked by completing specific challenges and reaching milestones in your math journey. Keep playing to discover new achievements!</p>
+            <div style="margin:20px 0; font-size:
+1.15em; color:#4ac6ff; font-weight:bold;">Your Achievements:</div>
+            <div id="achievementMessage" style="margin-bottom:20px; color:#4ac6ff; font-weight:bold;"></div>
+            <button class="btn" id="resetAchievementsBtn" style="display:none;" onclick="resetAchievements()">Reset Achievements</button>
+            <button class="btn btn-secondary" onclick="showPage('home')">Back to Home</button>
+            <div id="achievementList" style="margin-top:20px; font-size:1.15em; color:#4ac6ff; font-weight:bold;">Achievements List:</div>
+            <div class="achievements-list" id="achievementsList"></div>
+        </div>
+    </div>
+    <div id="celebration" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.95); z-index:1000; align-items:center; justify-content:center; flex-direction:column;">
+        <div id="celebrationMessage" style="font-size:2em; color:#4a90e2; margin-bottom:20px;"></div>
+        <button id="closeCelebration" onclick="hideCelebration()">Close</button>
+    </div>
+    <!-- Add Logout Button to Navigation (hidden by default) -->
+    <button class="nav-tab" onclick="logout()" id="logoutBtn" style="display:none;position:absolute;top:16px;right:16px;z-index:200;">🚪 Logout</button>
+    <script>
+        // Make Back button on quiz page work
+        document.addEventListener('DOMContentLoaded', function() {
+            // Move Back button to quiz page if not already there
+            var quizPage = document.getElementById('quiz');
+            var quizBackBtn = document.getElementById('quizBackBtn');
+            if (!quizBackBtn && quizPage) {
+                quizBackBtn = document.createElement('button');
+                quizBackBtn.className = 'btn btn-secondary';
+                quizBackBtn.id = 'quizBackBtn';
+                quizBackBtn.textContent = '🔙 Back to Quizzes';
+                quizPage.appendChild(quizBackBtn);
+            }
+            if (quizBackBtn) {
+                quizBackBtn.onclick = function() {
+                    showPage('quizzes');
+                };
+            }
+        });
+        // Make 'Practice This!' button work for lessons (improved reliability)
+        (function() {
+            const lessonToQuiz = {
+                addition: 'addition',
+                subtraction: 'subtraction',
+                multiplication: 'multiplication',
+                division: 'division',
+                fractions: 'fractions',
+                patterns: 'patterns'
+            };
+            let lastLessonType = null;
+
+            // Always show the button for mapped lessons
+            function showPracticeBtn(type) {
+                const btn = document.getElementById('practiceBtn');
+                if (lessonToQuiz[type]) {
+                    btn.style.display = '';
+                } else {
+                    btn.style.display = 'none';
+                }
+            }
+
+            // Listen for lesson card clicks to track lesson type
+            document.querySelectorAll('.quiz-list .quiz-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = card.getAttribute('onclick')?.match(/showLesson\('([a-z]+)'\)/)?.[1];
+                    if (type) {
+                        lastLessonType = type;
+                        showPracticeBtn(type);
+                    }
+                });
+            });
+
+            // Patch showLesson if it exists
+            if (typeof window.showLesson === 'function') {
+                const origShowLesson = window.showLesson;
+                window.showLesson = function(type) {
+                    lastLessonType = type;
+                    showPracticeBtn(type);
+                    return origShowLesson.apply(this, arguments);
+                };
+            }
+
+            // Practice button click handler
+            document.getElementById('practiceBtn').onclick = function() {
+                let type = lastLessonType;
+                // Fallback: scan for visible lesson title text
+                if (!type) {
+                    const lessonTitle = document.querySelector('#lessonContent h2, #lessonContent h1, #lessonContent .lesson-title');
+                    if (lessonTitle) {
+                        const text = lessonTitle.textContent.toLowerCase();
+                        if (text.includes('addition')) type = 'addition';
+                        else if (text.includes('subtraction')) type = 'subtraction';
+                        else if (text.includes('multiplication')) type = 'multiplication';
+                        else if (text.includes('division')) type = 'division';
+                        else if (text.includes('fraction')) type = 'fractions';
+                        else if (text.includes('pattern')) type = 'patterns';
+                    }
+                }
+                // Normalize type for fractions/patterns
+                if (type === 'fraction') type = 'fractions';
+                if (type === 'pattern') type = 'patterns';
+                if (type && lessonToQuiz[type]) {
+                    startQuiz(lessonToQuiz[type]);
+                } else {
+                    alert('Could not determine the lesson topic. Please select a lesson again.');
+                }
+            };
+        })();
+        // Quiz font size controls
+        (function() {
+            const quizFontArea = document.getElementById('quizFontArea');
+            let quizFontSize = 1.0;
+            function setQuizFontSize() {
+                if (quizFontArea) quizFontArea.style.fontSize = quizFontSize + 'em';
+            }
+            document.getElementById('quizFontInc').onclick = function() {
+                quizFontSize = Math.min(quizFontSize + 0.1, 3.0);
+                setQuizFontSize();
+            };
+            document.getElementById('quizFontDec').onclick = function() {
+                quizFontSize = Math.max(quizFontSize - 0.1, 0.3);
+                setQuizFontSize();
+            };
+            setQuizFontSize();
+        })();
+        // quiz state with additional tracking
+        let quiztate = {
+            currentquiz: null,
+            difficulty: null,
+            questionCount: 0,
+            currentQuestionIndex: 0,
+            score: 0,
+            streak: 0,
+            maxStreak: 0,
+            totalCorrect: 0,
+            totalAnswered: 0,
+            questions: [],
+            attempts: 0,
+            currentAnswer: null,
+            // Additional tracking for achievements
+            perfectQuizzes: [],
+            completedQuizzes: 0,
+            firstTryCorrect: 0,
+            consecutiveFirstTry: 0,
+            wrongAnswers: 0,
+            quizTypesPlayed: new Set(),
+            lessonsRead: new Set(),
+            difficultyQuizzes: { easy: 0, medium: 0, hard: 0 },
+            startedWithWrongAnswer: false
+        };
+
+        // Initialize achievements
+        const achievements = [
+            // Basic achievements
+            { id: 'first_correct', name: 'First Success', icon: '🌟', description: 'Answer your first question correctly!', unlocked: false },
+            { id: 'first_quiz', name: 'Quiz Beginner', icon: '🎯', description: 'Complete your first quiz!', unlocked: false },
+            
+            // Streak achievements
+            { id: 'streak_3', name: 'Getting Hot', icon: '🔥', description: 'Get 3 answers in a row!', unlocked: false },
+            { id: 'streak_5', name: 'Hot Streak', icon: '🔥🔥', description: 'Get 5 answers in a row!', unlocked: false },
+            { id: 'streak_10', name: 'Math Master', icon: '👑', description: 'Get 10 answers in a row!', unlocked: false },
+            { id: 'streak_15', name: 'Unstoppable', icon: '⚡', description: 'Get 15 answers in a row!', unlocked: false },
+            { id: 'streak_20', name: 'Legend', icon: '🦸', description: 'Get 20 answers in a row!', unlocked: false },
+            { id: 'streak_25', name: 'Superhuman', icon: '💫', description: 'Get 25 answers in a row!', unlocked: false },
+            
+            // Score achievements
+            { id: 'score_50', name: 'Half Century', icon: '🏏', description: 'Score 50 points!', unlocked: false },
+            { id: 'score_100', name: 'Century Club', icon: '💯', description: 'Score 100 points!', unlocked: false },
+            { id: 'score_250', name: 'Quarter Master', icon: '🎖️', description: 'Score 250 points!', unlocked: false },
+            { id: 'score_500', name: 'Half Grand', icon: '🏆', description: 'Score 500 points!', unlocked: false },
+            { id: 'score_1000', name: 'Thousand Club', icon: '💎', description: 'Score 1000 points!', unlocked: false },
+            
+            // Subject expert achievements
+            { id: 'addition_expert', name: 'Addition Expert', icon: '➕', description: 'Score 80% or higher in Addition!', unlocked: false },
+            { id: 'subtraction_expert', name: 'Subtraction Expert', icon: '➖', description: 'Score 80% or higher in Subtraction!', unlocked: false },
+            { id: 'multiplication_expert', name: 'Multiplication Expert', icon: '✖️', description: 'Score 80% or higher in Multiplication!', unlocked: false },
+            { id: 'division_expert', name: 'Division Expert', icon: '➗', description: 'Score 80% or higher in Division!', unlocked: false },
+            { id: 'mixed_expert', name: 'Mixed Math Master', icon: '🌟', description: 'Score 80% or higher in Mixed Math!', unlocked: false },
+            { id: 'comparison_expert', name: 'Comparison Champion', icon: '⚖️', description: 'Score 80% or higher in Number Detective!', unlocked: false },
+            { id: 'fractions_expert', name: 'Fraction Hero', icon: '🍕', description: 'Score 80% or higher in Fractions!', unlocked: false },
+            { id: 'patterns_expert', name: 'Pattern Genius', icon: '🎨', description: 'Score 80% or higher in Patterns!', unlocked: false },
+            { id: 'wordproblems_expert', name: 'Story Math Wizard', icon: '📖', description: 'Score 80% or higher in Word Problems!', unlocked: false },
+            
+            // Perfect score achievements
+            { id: 'perfect_5', name: 'Perfect Start', icon: '⭐', description: 'Get 100% on a 5-question quiz!', unlocked: false },
+            { id: 'perfect_10', name: 'Perfect Ten', icon: '🌟', description: 'Get 100% on a 10-question quiz!', unlocked: false },
+            { id: 'perfect_20', name: 'Perfect Score', icon: '✨', description: 'Get 100% on a 20+ question quiz!', unlocked: false },
+            
+            // Quantity achievements
+            { id: 'questions_25', name: 'Quarter Century', icon: '📊', description: 'Answer 25 questions correctly!', unlocked: false },
+            { id: 'questions_50', name: 'Half Hundred', icon: '📈', description: 'Answer 50 questions correctly!', unlocked: false },
+            { id: 'questions_100', name: 'Century Solver', icon: '🧮', description: 'Answer 100 questions correctly!', unlocked: false },
+            { id: 'questions_200', name: 'Double Century', icon: '🎯', description: 'Answer 200 questions correctly!', unlocked: false },
+            { id: 'questions_500', name: 'Math Marathon', icon: '🏃‍♂️', description: 'Answer 500 questions correctly!', unlocked: false },
+            
+            // Speed achievements
+            { id: 'speed_demon', name: 'Speed Demon', icon: '💨', description: 'Answer 10 questions correctly in a row on first try!', unlocked: false },
+            { id: 'lightning_fast', name: 'Lightning Fast', icon: '⚡', description: 'Answer 20 questions correctly in a row on first try!', unlocked: false },
+            
+            // Difficulty achievements
+            { id: 'easy_master', name: 'Easy Master', icon: '🟢', description: 'Complete 5 easy quizzes!', unlocked: false },
+            { id: 'medium_master', name: 'Medium Master', icon: '🟡', description: 'Complete 5 medium quizzes!', unlocked: false },
+            { id: 'hard_master', name: 'Hard Master', icon: '🔴', description: 'Complete 5 hard quizzes!', unlocked: false },
+            
+            // Endurance achievements
+            { id: 'endurance_50', name: 'Endurance Runner', icon: '🏃', description: 'Complete a 50-question quiz!', unlocked: false },
+            { id: 'endurance_100', name: 'Math Marathoner', icon: '🏃‍♀️', description: 'Complete a 100-question quiz!', unlocked: false },
+            
+            // Special achievements
+            { id: 'comeback_kid', name: 'Comeback Kid', icon: '🔄', description: 'Score 100% after getting the first question wrong!', unlocked: false },
+            { id: 'persistent', name: 'Never Give Up', icon: '💪', description: 'Complete a quiz after getting 5 questions wrong!', unlocked: false },
+            { id: 'explorer', name: 'Math Explorer', icon: '🗺️', description: 'Try 5 different quiz types!', unlocked: false },
+            { id: 'scholar', name: 'Math Scholar', icon: '🎓', description: 'Read 4 different lesson types!', unlocked: false },
+            { id: 'dedicated', name: 'Dedicated Learner', icon: '📚', description: 'Complete 10 total quizzes!', unlocked: false },
+            { id: 'champion', name: 'Math Champion', icon: '🥇', description: 'Unlock 20 other achievements!', unlocked: false }
+        ];
+
+        // Show page function
+        function showPage(pageId) {
+            // Hide all pages EXCEPT quiz (quiz is positioned absolutely)
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                if (page.id !== 'quiz') {
+                    page.classList.remove('active');
+                }
+            });
+            
+            // Hide all nav tabs active state
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Handle quiz page specially
+            const quizPageEl = document.getElementById('quiz');
+            const quizContainerEl = document.getElementById('quizContainer');
+            
+            if (pageId === 'quiz') {
+                // Show quiz page
+                if (quizPageEl) quizPageEl.classList.add('active');
+            } else {
+                // Hide quiz completely when not in use
+                if (quizPageEl) quizPageEl.classList.remove('active');
+                if (quizContainerEl) quizContainerEl.style.display = 'none';
+                
+                // Show the selected page
+                document.getElementById(pageId).classList.add('active');
+            }
+            
+            // Set active tab - find the tab that was clicked
+            const clickedTab = Array.from(tabs).find(tab => 
+                tab.textContent.toLowerCase().includes(pageId) || 
+                (pageId === 'home' && tab.textContent.includes('Home'))
+            );
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+            
+            // Special handling for achievements page
+            if (pageId === 'achievements') {
+                displayAchievements();
+            }
+        }
+
+        // Start quiz function
+    function startQuiz(quizType) {
+        quiztate.currentquiz = quizType;
+        quiztate.difficulty = null;
+        quiztate.questionCount = 0;
+
+        // Update quiz title
+        const titles = {
+            'addition': '🎯 Addition Adventure',
+            'subtraction': '🦁 Subtraction Safari',
+            'multiplication': '⚔️ Multiplication Quest',
+            'division': '🏰 Division Castle',
+            'mixed': '🌟 Mixed Math Mayhem',
+            'comparison': '⚖️ Number Detective',
+            'fractions': '🍕 Fraction Pizza Party',
+            'patterns': '🎨 Pattern Master',
+            'wordproblems': '📖 Story Math Heroes'
+        };
+        document.getElementById('quizTitle').textContent = titles[quizType];
+
+        // Reset selections
+        document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('selected'));
+        document.getElementById('startquizBtn').style.display = 'none';
+
+        showPage('quizSetup');
+    }
+
+        // --- Progress saving functions ---
+        async function saveProgress() {
+            const username = localStorage.getItem('username');
+            if (!username) return; // Don't save if not logged in
+            
+            // Create a progress object with all the data you want to save
+            const progressData = {
+            score: quiztate.score,
+            streak: quiztate.streak,
+            maxStreak: quiztate.maxStreak,
+            totalCorrect: quiztate.totalCorrect,
+            totalAnswered: quiztate.totalAnswered,
+            achievements: achievements.map(a => ({
+                id: a.id,
+                unlocked: a.unlocked
+            })),
+            lessonsRead: Array.from(quiztate.lessonsRead),
+            quizTypesPlayed: Array.from(quiztate.quizTypesPlayed),
+            difficultyQuizzes: quiztate.difficultyQuizzes
+            };
+            
+            try {
+            await fetch('http://localhost:3000/api/progress', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, data: progressData })
+            });
+            console.log('Progress saved successfully!');
+            } catch (error) {
+            console.error('Error saving progress:', error);
+            }
+        }
+
+        // Only keep this loadProgress function
+        async function loadProgress() {
+            const username = localStorage.getItem('username');
+            if (!username) return;
+            try {
+                const response = await fetch(`http://localhost:3000/api/progress/${username}`);
+                const result = await response.json();
+                if (result.data && Object.keys(result.data).length > 0) {
+                    quiztate.score = result.data.score || 0;
+                    quiztate.streak = result.data.streak || 0;
+                    quiztate.maxStreak = result.data.maxStreak || 0;
+                    quiztate.totalCorrect = result.data.totalCorrect || 0;
+                    quiztate.totalAnswered = result.data.totalAnswered || 0;
+                    quiztate.wrongAnswers = result.data.wrongAnswers || 0;
+                    quiztate.completedQuizzes = result.data.completedQuizzes || 0;
+                    quiztate.firstTryCorrect = result.data.firstTryCorrect || 0;
+                    quiztate.consecutiveFirstTry = result.data.consecutiveFirstTry || 0;
+                    quiztate.perfectQuizzes = result.data.perfectQuizzes || [];
+                    quiztate.lessonsRead = new Set(result.data.lessonsRead || []);
+                    quiztate.quizTypesPlayed = new Set(result.data.quizTypesPlayed || []);
+                    quiztate.difficultyQuizzes = result.data.difficultyQuizzes || { easy: 0, medium: 0, hard: 0 };
+                    if (result.data.achievements) {
+                        result.data.achievements.forEach(savedAchievement => {
+                            const achievement = achievements.find(a => a.id === savedAchievement.id);
+                            if (achievement) achievement.unlocked = savedAchievement.unlocked;
+                        });
+                    }
+                    updateStats();
+                    updateAchievementsCount();
+                    displayAchievements();
+                    console.log('Progress loaded successfully!');
+                }
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        // Modern unlockAchievement: unlocks, saves, and shows a beautiful overlay
+        function unlockAchievement(achievementId) {
+            const achievement = achievements.find(a => a.id === achievementId);
+            if (achievement && !achievement.unlocked) {
+                achievement.unlocked = true;
+                showCelebration(achievement.name, achievement.icon);
+                updateAchievementsCount();
+                saveProgress();
+            }
+        }
+        // Modern, visually impressive achievement celebration overlay
+        function showCelebration(name, icon) {
+            // Remove any existing confetti
+            const oldConfetti = document.getElementById('confettiCanvas');
+            if (oldConfetti) oldConfetti.remove();
+
+            // Confetti canvas
+            const canvas = document.createElement('canvas');
+            canvas.id = 'confettiCanvas';
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '1001';
+            document.body.appendChild(canvas);
+            launchConfetti(canvas);
+
+            // Card overlay
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'flex';
+            celebration.innerHTML = `
+                <div style="background: linear-gradient(135deg, #ffe29f 0%, #ffb347 100%); box-shadow: 0 8px 40px #ffb34755, 0 2px 8px #4ac6ff22; border-radius: 32px; padding: 48px 38px 38px 38px; text-align: center; max-width: 420px; margin: 0 auto; border: 4px solid #4ac6ff; position: relative;">
+                    <div style="font-size: 3.5em; margin-bottom: 18px;">${icon}</div>
+                    <div style="font-size: 2.1em; font-weight: bold; color: #4ac6ff; margin-bottom: 10px; text-shadow: 1px 1px 0 #fffbe7;">Achievement Unlocked!</div>
+                    <div style="font-size: 1.5em; color: #ffb347; font-weight: bold; margin-bottom: 12px;">${name}</div>
+                    <button id="closeCelebration" style="background: linear-gradient(90deg, #4ac6ff 0%, #ffb347 100%); color: #fff; border: none; border-radius: 12px; padding: 12px 32px; font-size: 1.1em; font-weight: bold; margin-top: 18px; cursor: pointer; box-shadow: 0 2px 8px #4ac6ff22;">Close</button>
+                </div>
+            `;
+            document.getElementById('closeCelebration').onclick = hideCelebration;
+        }
+
+        // Confetti animation (simple burst)
+        function launchConfetti(canvas) {
+            const ctx = canvas.getContext('2d');
+            const W = window.innerWidth, H = window.innerHeight;
+            canvas.width = W; canvas.height = H;
+            const colors = ['#ffb347', '#4ac6ff', '#ffe29f', '#ff69b4', '#fffbe7', '#cedb0e'];
+            const confetti = [];
+            for (let i = 0; i < 120; i++) {
+                confetti.push({
+                    x: Math.random() * W,
+                    y: Math.random() * -H/2,
+                    r: Math.random() * 8 + 6,
+                    d: Math.random() * 80 + 40,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 20 - 10,
+                    tiltAngle: 0,
+                    tiltAngleInc: (Math.random() * 0.07) + 0.05
+                });
+            }
+            let angle = 0;
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                for (let i = 0; i < confetti.length; i++) {
+                    let c = confetti[i];
+                    ctx.beginPath();
+                    ctx.ellipse(c.x, c.y, c.r, c.r/2, c.tilt, 0, 2 * Math.PI);
+                    ctx.fillStyle = c.color;
+                    ctx.globalAlpha = 0.85;
+                    ctx.fill();
+                }
+                update();
+            }
+            function update() {
+                angle += 0.01;
+                for (let i = 0; i < confetti.length; i++) {
+                    let c = confetti[i];
+                    c.y += (Math.cos(angle + c.d) + 2 + c.r/4) * 0.9;
+                    c.x += Math.sin(angle) * 2;
+                    c.tiltAngle += c.tiltAngleInc;
+                    c.tilt = Math.sin(c.tiltAngle) * 15;
+                    if (c.y > H + 20) {
+                        c.x = Math.random() * W;
+                        c.y = Math.random() * -20;
+                    }
+                }
+            }
+            let frame;
+            function loop() {
+                draw();
+                frame = requestAnimationFrame(loop);
+            }
+            loop();
+            setTimeout(() => {
+                cancelAnimationFrame(frame);
+                if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+            }, 2600);
+        }
+
+        // Hide celebration overlay
+        function hideCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'none';
+            celebration.innerHTML = '<div id="celebrationMessage"></div><button id="closeCelebration" onclick="hideCelebration()">Close</button>';
+            const confetti = document.getElementById('confettiCanvas');
+            if (confetti) confetti.remove();
+        }
+
+        // Update the endQuiz function to save progress
+        // (You should call saveProgress() at the end of endQuiz)
+        // If you have multiple endQuiz definitions, update all to include saveProgress()
+
+        // Select difficulty
+        function selectDifficulty(level) {
+            quiztate.difficulty = level;
+            // Only remove 'selected' from difficulty buttons
+            document.querySelectorAll('.difficulty-btn[data-type="difficulty"]').forEach(btn => btn.classList.remove('selected'));
+            if (event && event.target) event.target.classList.add('selected');
+            checkReadyToStart();
+        }
+
+        // Select question count
+        function selectQuestionCount(count) {
+            quiztate.questionCount = count;
+            // Only remove 'selected' from question count buttons
+            document.querySelectorAll('.difficulty-btn[data-type="questioncount"]').forEach(btn => btn.classList.remove('selected'));
+            if (event && event.target) event.target.classList.add('selected');
+            checkReadyToStart();
+        }
+
+        // Check if ready to start
+        function checkReadyToStart() {
+            if (quiztate.difficulty && quiztate.questionCount > 0) {
+                document.getElementById('startquizBtn').style.display = 'inline-block';
+            }
+        }
+
+        // Begin quiz
+        function beginQuiz() {
+            generateQuestions();
+            quiztate.currentQuestionIndex = 0;
+            quiztate.attempts = 0;
+            quiztate.wrongAnswers = 0;
+            quiztate.startedWithWrongAnswer = false;
+            quiztate.consecutiveFirstTry = 0;
+
+            // Track quiz type played
+            quiztate.quizTypesPlayed.add(quiztate.currentquiz);
+
+            // Set up quiz page
+            const titles = {
+                'addition': '🎯 Addition Adventure',
+                'subtraction': '🦁 Subtraction Safari',
+                'multiplication': '⚔️ Multiplication Quest',
+                'division': '🏰 Division Castle',
+                'mixed': '🌟 Mixed Math Mayhem',
+                'comparison': '⚖️ Number Detective',
+                'fractions': '🍕 Fraction Pizza Party',
+                'patterns': '🎨 Pattern Master',
+                'wordproblems': '📖 Story Math Heroes'
+            };
+            document.getElementById('quizTitle').textContent = titles[quiztate.currentquiz];
+            document.getElementById('totalQuestions').textContent = quiztate.questionCount;
+            document.getElementById('streakDisplay').textContent = quiztate.streak;
+
+
+            // Always show answer bar and quiz buttons at the start of every quiz
+            const quizContainerEl = document.getElementById('quizContainer');
+            const inputContainerEl = document.getElementById('inputContainer');
+            let answerInputEl = document.getElementById('answerInput');
+            let quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+
+            // Safety: re-append answerInput if missing
+            if (inputContainerEl && !answerInputEl) {
+                answerInputEl = document.createElement('input');
+                answerInputEl.type = 'text';
+                answerInputEl.id = 'answerInput';
+                answerInputEl.className = 'answer-input';
+                inputContainerEl.appendChild(answerInputEl);
+            }
+            // Safety: re-append quizButtons if missing
+            if (quizContainerEl && !quizButtonsEl) {
+                quizButtonsEl = document.createElement('div');
+                quizButtonsEl.id = 'quizButtons';
+                quizButtonsEl.className = 'quiz-buttons';
+                // Add your quiz buttons here if needed
+                quizContainerEl.appendChild(quizButtonsEl);
+            }
+
+            if (quizContainerEl) quizContainerEl.style.display = 'block';
+            if (inputContainerEl) inputContainerEl.style.display = 'block';
+            if (answerInputEl) {
+                answerInputEl.style.display = 'inline-block';
+                answerInputEl.value = '';
+                answerInputEl.focus();
+            }
+            if (quizButtonsEl) quizButtonsEl.style.display = 'flex';
+            if (feedbackEl) feedbackEl.style.display = 'flex';
+            if (quizControlsEl) quizControlsEl.style.display = 'flex';
+
+            showPage('quiz');
+            showNextQuestion();
+        }
+
+        // Generate questions based on quiz type and difficulty
+        function generateQuestions() {
+            quiztate.questions = [];
+
+            // Special handling for wordproblems: shuffle and pick unique questions, never repeat within a quiz
+            if (quiztate.currentquiz === 'wordproblems') {
+                const problems = {
+                    easy: [
+                        { text: "Sarah has 8 stickers. Her friend gives her 5 more stickers. How many stickers does Sarah have now?", answer: 13 },
+                        { text: "There are 12 apples in a basket. Tom eats 4 apples. How many apples are left?", answer: 8 },
+                        { text: "Jake has 3 bags with 4 candies in each bag. How many candies does Jake have in total?", answer: 12 },
+                        { text: "Lily has 10 balloons. 3 fly away. How many does she have left?", answer: 7 },
+                        { text: "Ben finds 6 seashells and his sister gives him 2 more. How many does he have?", answer: 8 },
+                        { text: "A box has 9 crayons. If you add 4 more, how many crayons now?", answer: 13 },
+                        { text: "There are 7 ducks in a pond. 2 more join. How many ducks now?", answer: 9 },
+                        { text: "Mia bakes 5 cookies and eats 2. How many left?", answer: 3 },
+                        { text: "A farmer has 10 cows. 3 are sold. How many cows left?", answer: 7 },
+                        { text: "A toy store has 15 teddy bears. 6 are sold. How many teddy bears left?", answer: 9 },
+                        { text: "A class has 20 students. 5 go home early. How many students left?", answer: 15 },
+                        { text: "A pizza is cut into 8 slices. You eat 2. How many slices left?", answer: 6 },
+                        { text: "A box has 10 chocolates. You eat 3. How many chocolates left?", answer: 7 },
+                        { text: "There are 4 cats and 3 dogs in a park. How many animals in total?", answer: 7 },
+                        { text: "A library has 12 books. You borrow 5. How many books left?", answer: 7 },
+                        { text: "A garden has 6 flowers. 2 more bloom. How many flowers now?", answer: 8 },
+                        { text: "A box has 5 toys. You buy 3 more. How many toys now?", answer: 8 },
+                        { text: "There are 9 birds in a tree. 4 fly away. How many birds left?", answer: 5 },
+                        { text: "A jar has 8 cookies. You eat 2. How many cookies left?", answer: 6 },
+                        { text: "A basket has 10 oranges. You eat 3. How many oranges left?", answer: 7 },
+                        { text: "A class has 15 students. 3 are absent. How many students present?", answer: 12 },
+                        { text: "A box has 7 balls. You lose 2. How many balls left?", answer: 5 },
+                        { text: "There are 10 cars in a parking lot. 4 leave. How many cars left?", answer: 6 },
+                        { text: "A dog has 5 bones. He eats 1. How many bones left?", answer: 4 },
+                        { text: "A tree has 8 apples. You pick 3. How many apples left?", answer: 5 },
+                        { text: "A box has 6 toys. You give away 2. How many toys left?", answer: 4 },
+                        { text: "A tree has 8 apples. 5 fall down. How many apples left?", answer: 3 },
+                        { text: "Tom has 4 red cars and 6 blue cars. How many cars in total?", answer: 10 },
+                        { text: "Anna has 6 pencils. She gives 2 to her friend. How many pencils does she have left?", answer: 4 },
+                        { text: "There are 5 birds on a branch. 3 more land. How many birds now?", answer: 8 },
+                        { text: "A basket has 7 oranges. You eat 2. How many left?", answer: 5 },
+                        { text: "Sam has 9 marbles. He finds 3 more. How many marbles now?", answer: 12 },
+                        { text: "A dog has 4 bones. He buries 1. How many bones left?", answer: 3 },
+                        { text: "There are 8 frogs in a pond. 4 jump out. How many frogs left?", answer: 4 },
+                        { text: "A box has 10 chocolates. You eat 6. How many left?", answer: 4 },
+                        { text: "Lucy has 3 dolls. She gets 5 more for her birthday. How many dolls now?", answer: 8 },
+                        { text: "A train has 5 carriages. Each carriage has 2 doors. How many doors in total?", answer: 10 },
+                        { text: "There are 6 fish in a tank. 2 are taken out. How many fish left?", answer: 4 },
+                        { text: "A pizza is cut into 8 slices. You eat 3. How many slices left?", answer: 5 },
+                        { text: "A spider has 8 legs. 2 break off. How many legs left?", answer: 6 },
+                        { text: "A bag has 7 candies. You give 4 to a friend. How many left?", answer: 3 },
+                        { text: "There are 10 cookies. You eat 7. How many left?", answer: 3 },
+                        { text: "A box has 12 eggs. 5 are used for baking. How many eggs left?", answer: 7 },
+                        { text: "A garden has 6 flowers. 3 more bloom. How many flowers now?", answer: 9 },
+                        { text: "A shelf has 8 books. 2 fall off. How many books left?", answer: 6 },
+                        { text: "A class has 9 students. 1 leaves. How many students left?", answer: 8 },
+                        { text: "A bag has 5 apples. You buy 4 more. How many apples now?", answer: 9 },
+                        { text: "A box has 7 balls. You lose 2. How many balls left?", answer: 5 },
+                        { "text": "Tom has 12 apples. He eats 4 of them. How many apples does Tom have left?", "answer": 8 },
+                        { "text": "Lily has 7 pencils. She buys 6 more pencils. How many pencils does Lily have now?", "answer": 13 },
+                        { "text": "A box has 15 chocolates. 9 are eaten. How many chocolates are left in the box?", "answer": 6 },
+                        { "text": "Jake had 10 marbles. He found 3 more under the bed. How many marbles does he have now?", "answer": 13 },
+                        { "text": "Emily read 5 books last week and 8 books this week. How many books has she read in total?", "answer": 13 },
+                        { "text": "Noah had 20 sweets. He gave 7 to his sister. How many sweets does he have now?", "answer": 13 },
+                        { "text": "There were 18 birds on a tree. 5 flew away. How many birds are left on the tree?", "answer": 13 },
+                        { "text": "Sophie collected 9 shells. Her friend gave her 4 more. How many shells does Sophie have now?", "answer": 13 },
+                        { "text": "A basket had 22 apples. 9 were taken out. How many apples remain in the basket?", "answer": 13 },
+                        { "text": "Michael baked 6 muffins. Then he baked 7 more. How many muffins did he bake in total?", "answer": 13 },
+                        { text: "Ella has 7 candies. She gives 3 to her brother. How many candies does she have left?", answer: 4 },
+                        { text: "There are 6 ducks in a pond. 4 more ducks join them. How many ducks are there now?", answer: 10 },
+                        { text: "A basket has 9 apples. You eat 2. How many apples are left?", answer: 7 },
+                        { text: "Liam has 5 toy cars. He gets 6 more for his birthday. How many cars does he have now?", answer: 11 },
+                        { text: "A box has 10 pencils. 3 pencils break. How many pencils are left?", answer: 7 },
+                        { text: "Sophie has 8 balloons. She gives 2 to her friend. How many does she have left?", answer: 6 },
+                        { text: "There are 11 cookies on a plate. 5 are eaten. How many cookies remain?", answer: 6 },
+                        { text: "A basket holds 6 apples. You pick 7 more. How many apples now?", answer: 13 },
+                        { text: "Noah has 9 marbles. He loses 4. How many marbles does he have left?", answer: 5 },
+                        { text: "A box has 12 crayons. 6 are used. How many crayons are left?", answer: 6 }
+                        ,{ text: "Olivia has 10 stickers. She gives 4 to her friend. How many does she have left?", answer: 6 }
+                        ,{ text: "There are 8 birds in a tree. 3 fly away. How many birds are left?", answer: 5 }
+                        ,{ text: "A basket has 12 apples. You eat 5. How many apples are left?", answer: 7 }
+                        ,{ text: "Lucas has 6 toy cars. He gets 7 more. How many cars does he have now?", answer: 13 }
+                        ,{ text: "A box has 15 pencils. 8 are used. How many pencils are left?", answer: 7 }
+                        ,{ text: "Emma has 9 candies. She gives 2 to her brother. How many candies does she have left?", answer: 7 }
+                        ,{ text: "There are 14 ducks in a pond. 6 swim away. How many ducks are left?", answer: 8 }
+                        ,{ text: "A bag has 11 marbles. You lose 3. How many marbles are left?", answer: 8 }
+                        ,{ text: "A box has 13 crayons. If you add 5 more, how many crayons now?", answer: 18 }
+                        ,{ text: "A tree has 10 apples. 7 fall down. How many apples left?", answer: 3 }
+                    ],
+                    medium: [
+                        { text: "A store has 45 books. They sell 18 books in the morning and 12 books in the afternoon. How many books are left?", answer: 15 },
+                        { text: "Emma saves $7 each week. How much money will she have after 8 weeks?", answer: 56 },
+                        { text: "There are 72 students going on a field trip. If each bus holds 24 students, how many buses are needed?", answer: 3 },
+                        { text: "A farmer has 36 eggs. He puts them in cartons of 6. How many cartons does he fill?", answer: 6 },
+                        { text: "A pizza is cut into 8 slices. If 5 are eaten, how many are left?", answer: 3 },
+                        { text: "A class collects 28 cans for recycling. If they split them into groups of 4, how many groups?", answer: 7 },
+                        { text: "A train has 5 carriages with 12 seats each. How many seats in total?", answer: 60 },
+                        { text: "A baker makes 24 cupcakes and sells 17. How many left?", answer: 7 },
+                        { text: "A rope is 30 meters long. If you cut off 12 meters, how much is left?", answer: 18 },
+                        { text: "A box holds 9 rows of 5 pencils. How many pencils in the box?", answer: 45 },
+                        { text: "A family has 3 children. Each child has 4 toys. How many toys in total?", answer: 12 },
+                        { text: "A baker bakes 36 muffins. He puts them in boxes of 6. How many boxes?", answer: 6 },
+                        { text: "A team scores 15 points in the first half and 18 in the second. Total points?", answer: 33 },
+                        { text: "A bus leaves at 9:00 am and arrives at 11:30 am. How many hours is the trip?", answer: 2.5 },
+                        { text: "A shop sells 8 pens for $2 each. How much money for all pens?", answer: 16 },
+                        { text: "A class has 24 students. They split into groups of 6. How many groups?", answer: 4 },
+                        { text: "A baker uses 3 eggs for each cake. He bakes 7 cakes. How many eggs?", answer: 21 },
+                        { text: "A box has 48 candies. 16 are eaten. How many left?", answer: 32 },
+                        { text: "A movie lasts 120 minutes. It starts at 3:00 pm. When does it end? (in 24h, e.g. 5.0)", answer: 5.0 },
+                        { text: "A runner completes 4 laps of 400m each. How many meters in total?", answer: 1600 },
+                        { text: "A baker has 60 cookies. He packs them in bags of 10. How many bags?", answer: 6 },
+                        { text: "A zoo has 8 cages with 5 monkeys each. How many monkeys?", answer: 40 },
+                        { text: "A box has 36 pencils. 9 are broken. How many pencils left?", answer: 27 },
+                        { text: "A class has 30 students. 12 are girls. How many are boys?", answer: 18 },
+                        { text: "A baker bakes 5 trays of 8 cookies. How many cookies?", answer: 40 },
+                        { text: "A train travels 60 km in 2 hours. What is the average speed?", answer: 30 },
+                        { text: "A bag has 20 marbles. 8 are red, the rest are blue. How many blue marbles?", answer: 12 },
+                        { text: "A pizza costs $12. You buy 3. How much do you pay?", answer: 36 },
+                        { text: "A class has 5 rows of 6 desks. How many desks?", answer: 30 },
+                        { text: "A baker uses 2 cups of flour for each loaf. He bakes 9 loaves. How many cups?", answer: 18 },  
+                        { text: "A box has 50 chocolates. 20 are dark chocolate. How many are milk chocolate?", answer: 30 },
+                        { text: "A school has 120 students. If each class has 30 students, how many classes?", answer: 4 },
+                        { text: "A farmer has 80 apples. He sells 25. How many apples left?", answer: 55 },
+                        { text: "A library has 200 books. If 50 are checked out, how many books remain?", answer: 150 },
+                        { "text": "Ava had 25 sweets. She gave 7 to her brother. How many sweets does she have left?", "answer": 18 },
+                        { "text": "Ben has 15 toy cars. He buys 6 more. How many toy cars does he have now?", "answer": 21 },
+                        { "text": "A class had 28 students. 5 went home early. How many students are still in class?", "answer": 23 },
+                        { "text": "Maya picked 34 flowers. 12 of them wilted. How many are still fresh?", "answer": 22 },
+                        { "text": "There are 40 chairs in a hall. 17 are taken. How many are still free?", "answer": 23 },
+                        { "text": "Jack read 14 pages in the morning and 11 pages in the evening. How many pages did he read that day?", "answer": 25 },
+                        { "text": "Ella collected 20 stamps. Her cousin gave her 9 more. How many stamps does she have now?", "answer": 29 },
+                        { "text": "A football team scored 18 goals in one season and 12 in the next. How many did they score altogether?", "answer": 30 },
+                        { "text": "There were 27 books on a shelf. 9 fell off. How many books remain on the shelf?", "answer": 18 },
+                        { "text": "Luca had £50. He spent £18 on a toy. How much money does he have left?", "answer": 32 },
+                        { text: "A farmer has 24 eggs. He puts them in cartons of 6. How many cartons does he fill?", answer: 4 },
+                        { text: "A class has 18 students. They split into 3 equal groups. How many students in each group?", answer: 6 },
+                        { text: "A baker makes 30 cookies. He gives 12 to his friends. How many cookies does he have left?", answer: 18 },
+                        { text: "A train has 4 carriages with 15 seats each. How many seats in total?", answer: 60 },
+                        { text: "A shop sells 8 boxes of crayons. Each box has 5 crayons. How many crayons in total?", answer: 40 },
+                        { text: "A class has 27 students. They split into 3 teams. How many students per team?", answer: 9 },
+                        { text: "A baker bakes 40 cupcakes. He gives 15 away. How many cupcakes left?", answer: 25 },
+                        { text: "A zoo has 5 cages with 7 monkeys each. How many monkeys in total?", answer: 35 },
+                        { text: "A train travels 90 km in 3 hours. What is the average speed?", answer: 30 },
+                        { text: "A shop has 36 pencils. 12 are sold. How many pencils remain?", answer: 24 }
+                        ,{ text: "A class has 36 students. They split into 4 teams. How many students per team?", answer: 9 }
+                        ,{ text: "A baker bakes 50 cupcakes. He gives 20 away. How many cupcakes left?", answer: 30 }
+                        ,{ text: "A zoo has 6 cages with 8 monkeys each. How many monkeys in total?", answer: 48 }
+                        ,{ text: "A train travels 120 km in 4 hours. What is the average speed?", answer: 30 }
+                        ,{ text: "A shop has 48 pencils. 18 are sold. How many pencils remain?", answer: 30 }
+                        ,{ text: "A farmer has 60 eggs. He puts them in cartons of 12. How many cartons does he fill?", answer: 5 }
+                        ,{ text: "A class has 40 students. They split into 5 equal groups. How many students in each group?", answer: 8 }
+                        ,{ text: "A baker makes 36 cookies. He gives 14 to his friends. How many cookies does he have left?", answer: 22 }
+                        ,{ text: "A train has 6 carriages with 10 seats each. How many seats in total?", answer: 60 }
+                        ,{ text: "A shop sells 10 boxes of crayons. Each box has 6 crayons. How many crayons in total?", answer: 60 }
+                    ],
+                    hard: [
+                        { text: "A bakery makes 144 cookies. They pack them into boxes of 12. If they sell 8 boxes, how many cookies are left?", answer: 48 },
+                        { text: "Mike has 3 times as many marbles as Lisa. If Lisa has 15 marbles, how many marbles do they have together?", answer: 60 },
+                        { text: "A rectangle has a length of 12 cm and width of 8 cm. What is the perimeter of the rectangle?", answer: 40 },
+                        { "text": "Liam has 3 boxes of crayons. Each box has 5 crayons. He finds 4 more crayons on the table. How many crayons does Liam have in total?", "answer": 19 },
+                        { "text": "Emma buys 4 packs of pencils. Each pack contains 6 pencils. She gives 5 pencils to her friend. How many pencils does she have left?", "answer": 19 },
+                        { "text": "A baker bakes 7 trays of cookies. Each tray holds 8 cookies. He eats 5 cookies. How many cookies are left?", "answer": 51 },
+                        { "text": "Noah read 3 chapters each day for 5 days. Then he read 2 more chapters. How many chapters did he read in total?", "answer": 17 },
+                        { "text": "Sophia planted 6 rows of flowers. Each row had 4 flowers. Then she planted 3 more flowers. How many flowers did she plant in total?", "answer": 27 },
+                        { "text": "There are 9 students. Each student brings 2 pens. The teacher gives 3 more pens to each student. How many pens are there in total?", "answer": 45 },
+                        { "text": "A farmer has 4 fields. Each field has 10 cows. 5 cows run away. How many cows are left?", "answer": 35 },
+                        { "text": "A toy costs £7. Mia buys 3 toys and then spends £5 on sweets. How much does she spend altogether?", "answer": 26 },
+                        { "text": "Oliver makes 5 paper planes each day for 4 days. Then he gives away 6 planes. How many paper planes does he have left?", "answer": 14 },
+                        { "text": "There are 6 boxes. Each box has 9 oranges. 12 oranges are taken out. How many oranges remain?", "answer": 42 },
+                        { text: "A school has 5 classes with 28 students each. How many students in total?", answer: 140 },
+                        { text: "A shop sold 75 pens on Monday and 89 on Tuesday. How many pens in total?", answer: 164 },
+                        { text: "A tank holds 250 liters of water. 75 liters are used. How much is left?", answer: 175 },
+                        { text: "A marathon is 42 km. If you run 17 km, how much is left?", answer: 25 },
+                        { text: "A baker bakes 96 muffins and puts them in boxes of 8. How many boxes?", answer: 12 },
+                        { text: "A family eats 3 pizzas with 8 slices each. How many slices did they eat?", answer: 24 },
+                        { text: "A movie starts at 2:15 pm and ends at 4:00 pm. How many minutes long is the movie?", answer: 105 },
+                        { text: "A factory produces 250 toys a day. In 7 days, how many toys?", answer: 1750 },
+                        { text: "A car travels 360 km in 4 hours. What is the average speed?", answer: 90 },
+                        { text: "A baker uses 3 eggs for each cake. He bakes 15 cakes. How many eggs?", answer: 45 },
+                        { text: "A class has 32 students. 3/4 are present. How many are present?", answer: 24 },
+                        { text: "A shop has 120 apples. 35 are sold. How many left?", answer: 85 },
+                        { text: "A train leaves at 8:30 am and arrives at 13:15. How many hours is the trip?", answer: 4.75 },
+                        { text: "A baker bakes 8 trays of 18 cookies. How many cookies?", answer: 144 },
+                        { text: "A team scores 27 points in the first half and 34 in the second. Total points?", answer: 61 },
+                        { text: "A bus has 40 seats. 27 are taken. How many seats left?", answer: 13 },
+                        { text: "A class has 6 rows of 7 desks. How many desks?", answer: 42 },
+                        { text: "A baker uses 2.5 cups of flour for each loaf. He bakes 12 loaves. How many cups?", answer: 30 },
+                        { text: "A box has 200 candies. 3/5 are chocolate. How many are chocolate?", answer: 120 },
+                        { text: "A movie lasts 150 minutes. It starts at 6:10 pm. When does it end? (in 24h, e.g. 8.6)", answer: 8.6 },
+                        { text: "A runner completes 10 laps of 400m each. How many meters in total?", answer: 4000 },
+                        { text: "A baker has 180 cookies. He packs them in bags of 15. How many bags?", answer: 12 },
+                        { text: "A zoo has 12 cages with 9 monkeys each. How many monkeys?", answer: 108 },
+                        { text: "A box has 90 pencils. 27 are broken. How many pencils left?", answer: 63 },
+                        { text: "A class has 40 students. 17 are girls. How many are boys?", answer: 23 },
+                        { text: "A baker bakes 7 trays of 16 cookies. How many cookies?", answer: 112 },
+                        { text: "A train travels 240 km in 3 hours. What is the average speed?", answer: 80 }
+                        // New hard word problems
+                        ,{ text: "A library has 120 books. 45 are checked out. How many books remain in the library?", answer: 75 }
+                        ,{ text: "A baker bakes 5 trays of 16 muffins. How many muffins in total?", answer: 80 }
+                        ,{ text: "A school has 6 classes with 23 students each. How many students in total?", answer: 138 }
+                        ,{ text: "A marathon is 42 km long. If you have run 17 km, how many kilometers are left?", answer: 25 }
+                        ,{ text: "A box contains 96 candies. If you divide them equally among 8 friends, how many candies does each friend get?", answer: 12 }
+                        ,{ text: "A library has 200 books. 75 are checked out and 25 are returned. How many books are now in the library?", answer: 150 }
+                        ,{ text: "A baker bakes 120 cookies. He puts them in boxes of 10. How many boxes does he fill?", answer: 12 }
+                        ,{ text: "A school has 8 classes with 25 students each. How many students in total?", answer: 200 }
+                        ,{ text: "A marathon is 50 km long. If you have run 32 km, how many kilometers are left?", answer: 18 }
+                        ,{ text: "A box contains 144 candies. If you divide them equally among 12 friends, how many candies does each friend get?", answer: 12 }
+                        ,{ text: "A library has 300 books. 100 are checked out and 50 are returned. How many books are now in the library?", answer: 250 }
+                        ,{ text: "A baker bakes 180 cookies. He puts them in boxes of 15. How many boxes does he fill?", answer: 12 }
+                        ,{ text: "A school has 10 classes with 30 students each. How many students in total?", answer: 300 }
+                        ,{ text: "A marathon is 60 km long. If you have run 45 km, how many kilometers are left?", answer: 15 }
+                        ,{ text: "A box contains 180 candies. If you divide them equally among 15 friends, how many candies does each friend get?", answer: 12 }
+                        ,{ text: "A shop has 250 apples. 100 are sold and 30 are returned. How many apples now?", answer: 180 }
+                        ,{ text: "A baker bakes 210 cookies. He puts them in boxes of 14. How many boxes does he fill?", answer: 15 }
+                        ,{ text: "A school has 12 classes with 28 students each. How many students in total?", answer: 336 }
+                        ,{ text: "A marathon is 80 km long. If you have run 60 km, how many kilometers are left?", answer: 20 }
+                        ,{ text: "A box contains 168 candies. If you divide them equally among 14 friends, how many candies does each friend get?", answer: 12 }
+                    ]
+                };
+                // Clone and shuffle the array
+                let pool = problems[quiztate.difficulty].slice();
+                for (let i = pool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pool[i], pool[j]] = [pool[j], pool[i]];
+                }
+                // Limit to pool size to avoid repeats
+                let qCount = Math.min(quiztate.questionCount, pool.length);
+                for (let i = 0; i < qCount; i++) {
+                    let p = pool[i];
+                    quiztate.questions.push({
+                        questionText: p.text,
+                        answer: p.answer
+                    });
+                }
+                // If user requested more than available, show a warning
+                if (quiztate.questionCount > pool.length) {
+                    setTimeout(() => {
+                        alert('Not enough unique word problems for this quiz length. Only ' + pool.length + ' unique questions will be used.');
+                    }, 100);
+                }
+            } else {
+                for (let i = 0; i < quiztate.questionCount; i++) {
+                    let question = generateQuestion();
+                    quiztate.questions.push(question);
+                }
+            }
+        }
+
+        function generateQuestion() {
+            let a, b, operator, answer, questionText;
+            
+            switch (quiztate.currentquiz) {
+                case 'addition':
+                    if (quiztate.difficulty === 'easy') {
+                        a = Math.floor(Math.random() * 10) + 1;
+                        b = Math.floor(Math.random() * 10) + 1;
+                    } else if (quiztate.difficulty === 'medium') {
+                        a = Math.floor(Math.random() * 50) + 1;
+                        b = Math.floor(Math.random() * 50) + 1;
+                    } else {
+                        a = Math.floor(Math.random() * 100) + 1;
+                        b = Math.floor(Math.random() * 100) + 1;
+                    }
+                    operator = '+';
+                    answer = a + b;
+                    questionText = `${a} ${operator} ${b} = ?`;
+                    break;
+                    
+                case 'subtraction':
+                    if (quiztate.difficulty === 'easy') {
+                        a = Math.floor(Math.random() * 20) + 10;
+                        b = Math.floor(Math.random() * 10) + 1;
+                    } else if (quiztate.difficulty === 'medium') {
+                        a = Math.floor(Math.random() * 100) + 20;
+                        b = Math.floor(Math.random() * 50) + 1;
+                    } else {
+                        a = Math.floor(Math.random() * 200) + 50;
+                        b = Math.floor(Math.random() * 100) + 1;
+                    }
+                    if (a < b) [a, b] = [b, a];
+                    operator = '-';
+                    answer = a - b;
+                    questionText = `${a} ${operator} ${b} = ?`;
+                    break;
+                    
+                case 'multiplication':
+                    if (quiztate.difficulty === 'easy') {
+                        a = Math.floor(Math.random() * 5) + 1;
+                        b = Math.floor(Math.random() * 10) + 1;
+                    } else if (quiztate.difficulty === 'medium') {
+                        a = Math.floor(Math.random() * 20) + 1;
+                        b = Math.floor(Math.random() * 10) + 1;
+                    } else {
+                        a = Math.floor(Math.random() * 100) + 1;
+                        b = Math.floor(Math.random() * 12) + 1;
+                    }
+                    operator = '×';
+                    answer = a * b;
+                    questionText = `${a} ${operator} ${b} = ?`;
+                    break;
+                    
+                case 'division':
+                    if (quiztate.difficulty === 'easy') {
+                        b = Math.floor(Math.random() * 5) + 2;
+                        answer = Math.floor(Math.random() * 10) + 1;
+                    } else if (quiztate.difficulty === 'medium') {
+                        b = Math.floor(Math.random() * 100) + 2;
+                        answer = Math.floor(Math.random() * 12) + 1;
+                    } else {
+                        b = Math.floor(Math.random() * 1000) + 2;
+                        answer = Math.floor(Math.random() * 15) + 1;
+                    }
+                    a = answer * b;
+                    operator = '÷';
+                    questionText = `${a} ${operator} ${b} = ?`;
+                    break;
+                    
+                case 'mixed':
+                    const operations = ['addition', 'subtraction', 'multiplication'];
+                    if (quiztate.difficulty !== 'easy') operations.push('division');
+                    const randomOp = operations[Math.floor(Math.random() * operations.length)];
+                    
+                    const originalquiz = quiztate.currentquiz;
+                    quiztate.currentquiz = randomOp;
+                    const mixedQuestion = generateQuestion();
+                    quiztate.currentquiz = originalquiz;
+                    return mixedQuestion;
+                    
+                case 'comparison':
+                    if (quiztate.difficulty === 'easy') {
+                        a = Math.floor(Math.random() * 20) + 1;
+                        b = Math.floor(Math.random() * 20) + 1;
+                    } else {
+                        a = Math.floor(Math.random() * 100) + 1;
+                        b = Math.floor(Math.random() * 100) + 1;
+                    }
+                    
+                    if (a > b) {
+                        answer = '>';
+                    } else if (a < b) {
+                        answer = '<';
+                    } else {
+                        answer = '=';
+                    }
+                    questionText = `${a} ___ ${b}  (Type >, <, or =)`;
+                    break;
+                    
+                case 'fractions':
+                    if (quiztate.difficulty === 'easy') {
+                        const numerator = Math.floor(Math.random() * 3) + 1;
+                        const denominator = Math.floor(Math.random() * 3) + 2;
+                        questionText = `What is ${numerator}/${denominator} as a decimal? (Round to 1 decimal place)`;
+                        answer = Math.round((numerator / denominator) * 10) / 10;
+                    } else if (quiztate.difficulty === 'medium') {
+                        const denom = Math.floor(Math.random() * 6) + 4;
+                        const num1 = Math.floor(Math.random() * 3) + 1;
+                        const num2 = Math.floor(Math.random() * 3) + 1;
+                        questionText = `${num1}/${denom} + ${num2}/${denom} = ?/${denom}  (Enter the numerator)`;
+                        answer = num1 + num2;
+                    } else {
+                        const whole = Math.floor(Math.random() * 3) + 1;
+                        const num = Math.floor(Math.random() * 3) + 1;
+                        const denom = Math.floor(Math.random() * 4) + 4;
+                        questionText = `Convert ${whole} ${num}/${denom} to improper fraction. What is the numerator?`;
+                        answer = (whole * denom) + num;
+                    }
+                    break;
+                    
+                case 'patterns':
+                    const patternTypes = ['add', 'multiply', 'subtract'];
+                    const patternType = patternTypes[Math.floor(Math.random() * patternTypes.length)];
+                    
+                    if (patternType === 'add') {
+                        const step = quiztate.difficulty === 'easy' ? Math.floor(Math.random() * 5) + 1 : 
+                                   quiztate.difficulty === 'medium' ? Math.floor(Math.random() * 10) + 1 :
+                                   Math.floor(Math.random() * 15) + 1;
+                        const start = Math.floor(Math.random() * 10) + 1;
+                        const sequence = [start, start + step, start + (2 * step), start + (3 * step)];
+                        answer = start + (4 * step);
+                        questionText = `${sequence[0]}, ${sequence[1]}, ${sequence[2]}, ${sequence[3]}, ?`;
+                    } else if (patternType === 'multiply') {
+                        const multiplier = quiztate.difficulty === 'easy' ? 2 : 
+                                         quiztate.difficulty === 'medium' ? Math.floor(Math.random() * 2) + 2 : 3;
+                        const start = quiztate.difficulty === 'easy' ? 1 : Math.floor(Math.random() * 3) + 1;
+                        const sequence = [start, start * multiplier, start * multiplier * multiplier];
+                        answer = start * multiplier * multiplier * multiplier;
+                        questionText = `${sequence[0]}, ${sequence[1]}, ${sequence[2]}, ?`;
+                    } else {
+                        const step = quiztate.difficulty === 'easy' ? Math.floor(Math.random() * 3) + 1 : 
+                                   Math.floor(Math.random() * 8) + 1;
+                        const start = Math.floor(Math.random() * 20) + 20;
+                        const sequence = [start, start - step, start - (2 * step), start - (3 * step)];
+                        answer = start - (4 * step);
+                        questionText = `${sequence[0]}, ${sequence[1]}, ${sequence[2]}, ${sequence[3]}, ?`;
+                    }
+                    break;
+                    
+                case 'wordproblems':
+                    const problems = {
+                        easy: [
+                            { text: "Sarah has 8 stickers. Her friend gives her 5 more stickers. How many stickers does Sarah have now?", answer: 13 },
+                            { text: "There are 12 apples in a basket. Tom eats 4 apples. How many apples are left?", answer: 8 },
+                            { text: "Jake has 3 bags with 4 candies in each bag. How many candies does Jake have in total?", answer: 12 }
+                        ],
+                        medium: [
+                            { text: "A store has 45 books. They sell 18 books in the morning and 12 books in the afternoon. How many books are left?", answer: 15 },
+                            { text: "Emma saves $7 each week. How much money will she have after 8 weeks?", answer: 56 },
+                            { text: "There are 72 students going on a field trip. If each bus holds 24 students, how many buses are needed?", answer: 3 }
+                        ],
+                        hard: [
+                            { text: "A bakery makes 144 cookies. They pack them into boxes of 12. If they sell 8 boxes, how many cookies are left?", answer: 48 },
+                            { text: "Mike has 3 times as many marbles as Lisa. If Lisa has 15 marbles, how many marbles do they have together?", answer: 60 },
+                            { text: "A rectangle has a length of 12 cm and width of 8 cm. What is the perimeter of the rectangle?", answer: 40 }
+                        ]
+                    };
+                    
+                    const problemSet = problems[quiztate.difficulty];
+                    const selectedProblem = problemSet[Math.floor(Math.random() * problemSet.length)];
+                    questionText = selectedProblem.text;
+                    answer = selectedProblem.answer;
+                    break;
+            }
+            
+            return { a, b, operator, answer, questionText };
+        }
+
+        // Show next question
+        function showNextQuestion() {
+            if (quiztate.currentQuestionIndex >= quiztate.questions.length) {
+                endQuiz();
+                return;
+            }
+ 
+            const question = quiztate.questions[quiztate.currentQuestionIndex];
+            const questionText = question.questionText || `${question.a} ${question.operator} ${question.b} = ?`;
+
+
+
+            // Always show answer bar and quiz buttons for every question
+            const inputContainerEl = document.getElementById('inputContainer');
+            const quizContainerEl = document.getElementById('quizContainer');
+            let answerInputEl = document.getElementById('answerInput');
+            let quizButtonsEl = document.getElementById('quizButtons');
+
+            // Make sure inputContainerEl is visible
+            if (inputContainerEl) {
+                inputContainerEl.style.display = 'block';
+            }
+            // Make sure quizContainerEl is visible
+            if (quizContainerEl) {
+                quizContainerEl.style.display = 'block';
+            }
+
+            // Remove duplicate answerInput if any
+            if (inputContainerEl) {
+                const inputs = inputContainerEl.querySelectorAll('#answerInput');
+                if (inputs.length > 1) {
+                    for (let i = 1; i < inputs.length; i++) {
+                        inputs[i].remove();
+                    }
+                }
+                answerInputEl = inputContainerEl.querySelector('#answerInput');
+            }
+
+            // If answerInput is missing, create and append it
+            if (inputContainerEl && !answerInputEl) {
+                answerInputEl = document.createElement('input');
+                answerInputEl.type = 'text';
+                answerInputEl.id = 'answerInput';
+                answerInputEl.className = 'answer-input';
+                answerInputEl.placeholder = 'Type your answer...';
+                answerInputEl.tabIndex = 0;
+                inputContainerEl.appendChild(answerInputEl);
+            }
+
+            // Make sure answerInput is visible and ready
+            if (answerInputEl) {
+                answerInputEl.style.display = 'inline-block';
+                answerInputEl.value = '';
+                answerInputEl.focus();
+            }
+
+            // Quiz buttons
+            if (quizContainerEl) {
+                quizContainerEl.style.display = 'block';
+                const buttons = quizContainerEl.querySelectorAll('#quizButtons');
+                if (buttons.length > 1) {
+                    for (let i = 1; i < buttons.length; i++) {
+                        buttons[i].remove();
+                    }
+                }
+                quizButtonsEl = quizContainerEl.querySelector('#quizButtons');
+            }
+            if (quizContainerEl && !quizButtonsEl) {
+                quizButtonsEl = document.createElement('div');
+                quizButtonsEl.id = 'quizButtons';
+                quizButtonsEl.className = 'quiz-buttons';
+                quizContainerEl.appendChild(quizButtonsEl);
+            }
+            if (quizButtonsEl) quizButtonsEl.style.display = 'flex';
+
+            document.getElementById('questionDisplay').textContent = questionText;
+            document.getElementById('currentQuestion').textContent = quiztate.currentQuestionIndex + 1;
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+
+            quiztate.currentAnswer = question.answer;
+            quiztate.attempts = 0;
+        }
+
+        // Check answer
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim();
+            const feedbackEl = document.getElementById('feedback');
+            let isCorrect = false;
+            
+            // Handle different answer types
+            if (quiztate.currentquiz === 'comparison') {
+                isCorrect = userAnswer === quiztate.currentAnswer.toString();
+            } else {
+                const numAnswer = parseFloat(userAnswer);
+                if (isNaN(numAnswer) && quiztate.currentquiz !== 'comparison') {
+                    feedbackEl.textContent = '🤔 Please enter a number!';
+                    feedbackEl.className = 'feedback incorrect shake';
+                    setTimeout(() => feedbackEl.classList.remove('shake'), 500);
+                    return;
+                }
+                isCorrect = Math.abs(numAnswer - quiztate.currentAnswer) < 0.1;
+            }
+            
+            quiztate.attempts++;
+            quiztate.totalAnswered++;
+            
+            if (isCorrect) {
+                // Correct answer!
+                quiztate.totalCorrect++;
+                quiztate.streak++;
+                if (quiztate.streak > quiztate.maxStreak) {
+                    quiztate.maxStreak = quiztate.streak;
+                }
+                
+                // Track first try correct answers
+                if (quiztate.attempts === 1) {
+                    quiztate.firstTryCorrect++;
+                    quiztate.consecutiveFirstTry++;
+                } else {
+                    quiztate.consecutiveFirstTry = 0;
+                }
+                
+                // Track if started with wrong answer but recovered
+                if (quiztate.currentQuestionIndex === 0 && quiztate.attempts > 1) {
+                    quiztate.startedWithWrongAnswer = true;
+                }
+                
+                // Calculate points based on streak and difficulty
+                let points = 10;
+                if (quiztate.difficulty === 'medium') points = 15;
+                if (quiztate.difficulty === 'hard') points = 20;
+                if (quiztate.streak >= 3) points *= 1.5;
+                if (quiztate.attempts === 1) points *= 1.2; // First try bonus
+                
+                quiztate.score += Math.floor(points);
+                
+                const encouragement = [
+                    "🎉 Excellent work!",
+                    "⭐ Amazing job!",
+                    "🌟 Fantastic!",
+                    "🎯 Perfect!",
+                    "🚀 Outstanding!",
+                    "💫 Brilliant!",
+                    "🏆 Superb!"
+                ];
+                
+                feedbackEl.textContent = encouragement[Math.floor(Math.random() * encouragement.length)] + 
+                    ` +${Math.floor(points)} points!`;
+                feedbackEl.className = 'feedback correct bounce';
+                
+                // Check achievements
+                checkAchievements();
+                
+                // Auto-clear input and move to next question after 1.5 seconds
+                document.getElementById('answerInput').value = '';
+                setTimeout(() => {
+                    quiztate.currentQuestionIndex++;
+                    showNextQuestion();
+                    updateStats();
+                }, 1500);
+                
+            } else {
+                // Wrong answer
+                quiztate.streak = 0;
+                quiztate.consecutiveFirstTry = 0;
+                quiztate.wrongAnswers++;
+                
+                if (quiztate.attempts < 2) {
+                    // First wrong attempt - give hint
+                    const hints = [
+                        "🤔 Not quite! Try again!",
+                        "💡 Close, but try once more!",
+                        "🎯 Think about it again!",
+                        "🔄 Give it another shot!"
+                    ];
+                    feedbackEl.textContent = hints[Math.floor(Math.random() * hints.length)];
+                    feedbackEl.className = 'feedback incorrect shake';
+                    
+                } else {
+                    // Second wrong attempt - show answer and move on
+                    feedbackEl.textContent = `😊 The answer was ${quiztate.currentAnswer}. Let's try the next one!`;
+                    feedbackEl.className = 'feedback incorrect';
+                    
+                    // Auto-clear input and move to next question after 2 seconds
+                    document.getElementById('answerInput').value = '';
+                    setTimeout(() => {
+                        quiztate.currentQuestionIndex++;
+                        showNextQuestion();
+                    }, 2000);
+                }
+            }
+            
+            updateStats();
+            
+            // Remove animation class after animation
+            setTimeout(() => {
+                feedbackEl.classList.remove('bounce', 'shake');
+            }, 1000);
+        }
+
+        // Skip question (if enabled)
+        function skipQuestion() {
+            quiztate.streak = 0;
+            quiztate.currentQuestionIndex++;
+            showNextQuestion();
+            updateStats();
+        }
+
+        // End quiz
+        function endQuiz() {
+            const accuracy = quiztate.totalAnswered > 0 ? 
+                Math.round((quiztate.totalCorrect / quiztate.totalAnswered) * 100) : 0;
+            quiztate.completedQuizzes++;
+            quiztate.difficultyQuizzes[quiztate.difficulty]++;
+            // Check for perfect quiz
+            if (accuracy === 100) {
+                quiztate.perfectQuizzes.push({
+                    type: quiztate.currentquiz,
+                    difficulty: quiztate.difficulty,
+                    questions: quiztate.questionCount
+                });
+            }
+            // Check for quiz-specific achievements
+            if (accuracy >= 80) {
+                if (quiztate.currentquiz === 'addition') unlockAchievement('addition_expert');
+                if (quiztate.currentquiz === 'subtraction') unlockAchievement('subtraction_expert');
+                if (quiztate.currentquiz === 'multiplication') unlockAchievement('multiplication_expert');
+                if (quiztate.currentquiz === 'division') unlockAchievement('division_expert');
+                if (quiztate.currentquiz === 'mixed') unlockAchievement('mixed_expert');
+                if (quiztate.currentquiz === 'comparison') unlockAchievement('comparison_expert');
+                if (quiztate.currentquiz === 'fractions') unlockAchievement('fractions_expert');
+                if (quiztate.currentquiz === 'patterns') unlockAchievement('patterns_expert');
+                if (quiztate.currentquiz === 'wordproblems') unlockAchievement('wordproblems_expert');
+            }
+            // Check various achievements
+            unlockAchievement('first_quiz');
+            // Perfect score achievements
+            if (accuracy === 100) {
+                if (quiztate.questionCount >= 5) unlockAchievement('perfect_5');
+                if (quiztate.questionCount >= 10) unlockAchievement('perfect_10');
+                if (quiztate.questionCount >= 20) unlockAchievement('perfect_20');
+            }
+                        // Show completion message
+            // Hide quiz UI elements instead of removing them
+            const quizContainerEl = document.getElementById('quizContainer');
+            const inputContainerEl = document.getElementById('inputContainer');
+            const answerInputEl = document.getElementById('answerInput');
+            const quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+            if (quizContainerEl) quizContainerEl.style.display = 'none';
+            if (inputContainerEl) inputContainerEl.style.display = 'none';
+            if (answerInputEl) answerInputEl.style.display = 'none';
+            if (quizButtonsEl) quizButtonsEl.style.display = 'none';
+            if (feedbackEl) feedbackEl.style.display = 'none';
+            if (quizControlsEl) quizControlsEl.style.display = 'none';
+
+            // Show a modern, organized overlay for the completion message
+            let endOverlay = document.getElementById('endOverlay');
+            if (!endOverlay) {
+                endOverlay = document.createElement('div');
+                endOverlay.id = 'endOverlay';
+                endOverlay.style.position = 'fixed';
+                endOverlay.style.top = '0';
+                endOverlay.style.left = '0';
+                endOverlay.style.width = '100vw';
+                endOverlay.style.height = '100vh';
+                endOverlay.style.background = 'rgba(255,255,255,0.97)';
+                endOverlay.style.display = 'flex';
+                endOverlay.style.flexDirection = 'column';
+                endOverlay.style.justifyContent = 'center';
+                endOverlay.style.alignItems = 'center';
+                endOverlay.style.zIndex = '1000';
+                document.body.appendChild(endOverlay);
+            } else {
+                endOverlay.style.display = 'flex';
+            }
+            endOverlay.innerHTML = `
+                <div class="quiz-complete-card">
+                    <div class="quiz-complete-emoji">🎉</div>
+                    <div class="quiz-complete-title">Quiz Complete!</div>
+                    <div class="quiz-complete-stats" role="group" aria-label="Quiz Results">
+                        <div class="quiz-complete-stat" role="region" aria-label="Score">
+                            <span class="quiz-complete-label">Score:</span>
+                            <b class="quiz-complete-value">${quiztate.score} points</b>
+                        </div>
+                        <div class="quiz-complete-stat" role="region" aria-label="Accuracy">
+                            <span class="quiz-complete-label">Accuracy:</span>
+                            <b class="quiz-complete-value">${accuracy}%</b>
+                        </div>
+                        <div class="quiz-complete-stat" role="region" aria-label="Best Streak">
+                            <span class="quiz-complete-label">Best Streak:</span>
+                            <b class="quiz-complete-value">${quiztate.maxStreak}</b>
+                        </div>
+                    </div>
+                    <div class="quiz-complete-actions">
+                        <button class="btn btn-secondary" onclick="restartQuizFromEnd()">🎮 Play Again</button>
+                        <button class="btn btn-secondary" onclick="goHomeFromEnd()">🏠 Home</button>
+                    </div>
+                </div>
+            `;
+            // Add modern styles for the completion card if not already present
+            if (!document.getElementById('quiz-complete-style')) {
+                const style = document.createElement('style');
+                style.id = 'quiz-complete-style';
+                style.innerHTML = `
+                .quiz-complete-card {
+                    background: linear-gradient(135deg, #fafdff 0%, #e6f7ff 100%);
+                    box-shadow: 0 8px 40px #4ac6ff33, 0 2px 8px #ffb34722;
+                    border-radius: 32px;
+                    padding: 48px 38px 38px 38px;
+                    text-align: center;
+                    max-width: 420px;
+                    margin: 0 auto;
+                    border: 4px solid #4ac6ff;
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    animation: popCelebration 0.7s cubic-bezier(.4,2,.6,1);
+                }
+                .quiz-complete-emoji {
+                    font-size: 3.5em;
+                    margin-bottom: 10px;
+                    filter: drop-shadow(0 0 16px #ffb34788) drop-shadow(0 0 32px #4ac6ff66);
+                }
+                .quiz-complete-title {
+                    font-size: 2em;
+                    font-weight: 900;
+                    color: #2196f3;
+                    margin-bottom: 18px;
+                    letter-spacing: 1px;
+                    text-shadow: 0 2px 8px #4ac6ff22;
+                }
+                .quiz-complete-stats {
+                    margin-bottom: 18px;
+                    width: 100%;
+                }
+                .quiz-complete-stat {
+                    font-size: 1.2em;
+                    margin: 10px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                }
+                .quiz-complete-stat span {
+                    color: #2196f3;
+                    font-weight: 700;
+                }
+                /* Stat value colors by meaning */
+                .quiz-complete-stat b {
+                    font-weight: 700;
+                }
+                .quiz-complete-stat:nth-child(1) b { /* Score */
+                    color: #ffb347;
+                }
+                .quiz-complete-stat:nth-child(2) b { /* Accuracy */
+                    color: #2196f3;
+                }
+                .quiz-complete-stat:nth-child(3) b { /* Best Streak */
+                    color: #10c168;
+                }
+                .quiz-complete-actions {
+                    display: flex;
+                    gap: 16px;
+                    justify-content: center;
+                    margin-top: 10px;
+                }
+                @media (max-width: 500px) {
+                    .quiz-complete-card {
+                        padding: 24px 8px 18px 8px;
+                        max-width: 98vw;
+                    }
+                }
+                `;
+                document.head.appendChild(style);
+            }
+            saveProgress();
+        }
+
+        // Restore all quiz UI elements and start a new quiz from the end screen
+        function restartQuizFromEnd() {
+            const quizContainerEl = document.getElementById('quizContainer');
+            const inputContainerEl = document.getElementById('inputContainer');
+            let answerInputEl = document.getElementById('answerInput');
+            const quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+            if (quizContainerEl) quizContainerEl.style.display = 'block';
+            if (inputContainerEl) inputContainerEl.style.display = 'block';
+            // If answerInput is missing, create and append it
+            if (inputContainerEl && !answerInputEl) {
+                answerInputEl = document.createElement('input');
+                answerInputEl.type = 'text';
+                answerInputEl.id = 'answerInput';
+                answerInputEl.className = 'answer-input';
+                answerInputEl.placeholder = 'Type your answer...';
+                answerInputEl.tabIndex = 0;
+                inputContainerEl.appendChild(answerInputEl);
+            }
+            // Always get the latest reference and show/focus
+            answerInputEl = document.getElementById('answerInput');
+            if (answerInputEl) {
+                answerInputEl.style.display = 'inline-block';
+                answerInputEl.value = '';
+                answerInputEl.focus();
+            }
+            if (quizButtonsEl) quizButtonsEl.style.display = 'flex';
+            if (feedbackEl) feedbackEl.style.display = 'flex';
+            if (quizControlsEl) quizControlsEl.style.display = 'flex';
+            // Hide end overlay if present
+            const endOverlay = document.getElementById('endOverlay');
+            if (endOverlay) endOverlay.style.display = 'none';
+            beginQuiz();
+        }
+
+        // Restore UI and go to home from end screen
+        function goHomeFromEnd() {
+            const quizContainerEl = document.getElementById('quizContainer');
+            const inputContainerEl = document.getElementById('inputContainer');
+            let answerInputEl = document.getElementById('answerInput');
+            const quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+            if (quizContainerEl) quizContainerEl.style.display = 'block';
+            if (inputContainerEl) inputContainerEl.style.display = 'block';
+            // If answerInput is missing, create and append it
+            if (inputContainerEl && !answerInputEl) {
+                answerInputEl = document.createElement('input');
+                answerInputEl.type = 'text';
+                answerInputEl.id = 'answerInput';
+                answerInputEl.className = 'answer-input';
+                answerInputEl.placeholder = 'Type your answer...';
+                answerInputEl.tabIndex = 0;
+                inputContainerEl.appendChild(answerInputEl);
+            }
+        }
+        // Update statistics
+        // Only keep this updateStats function
+        function updateStats() {
+            // Home page stats
+            if (document.getElementById('totalScore')) document.getElementById('totalScore').textContent = quiztate.score || 0;
+            if (document.getElementById('currentStreak')) document.getElementById('currentStreak').textContent = quiztate.streak || 0;
+            if (document.getElementById('questionsAnswered')) document.getElementById('questionsAnswered').textContent = quiztate.totalAnswered || 0;
+            if (document.getElementById('achievementsCount')) document.getElementById('achievementsCount').textContent = achievements.filter(a => a.unlocked).length;
+            if (document.getElementById('streakDisplay')) document.getElementById('streakDisplay').textContent = quiztate.streak || 0;
+            // Progress bar
+            let progress = 0;
+            if (quiztate.questionCount > 0) {
+                progress = ((quiztate.currentQuestionIndex) / quiztate.questionCount) * 100;
+            }
+            if (document.getElementById('progressFill')) document.getElementById('progressFill').style.width = progress + '%';
+
+            // Achievements page stats
+            if (document.getElementById('totalAchievements')) document.getElementById('totalAchievements').textContent = achievements.filter(a => a.unlocked).length;
+            if (document.getElementById('difficultyQuizzes')) document.getElementById('difficultyQuizzes').textContent = `Easy: ${dq.easy || 0}, Medium: ${dq.medium || 0}, Hard: ${dq.hard || 0}`;
+        }
+
+        // Achievement system
+        function checkAchievements() {
+            if (quiztate.totalCorrect === 1) unlockAchievement('first_correct');
+            
+            // Streak achievements
+            if (quiztate.streak === 3) unlockAchievement('streak_3');
+            if (quiztate.streak === 5) unlockAchievement('streak_5');
+            if (quiztate.streak === 10) unlockAchievement('streak_10');
+            if (quiztate.streak === 15) unlockAchievement('streak_15');
+            if (quiztate.streak === 20) unlockAchievement('streak_20');
+            if (quiztate.streak === 25) unlockAchievement('streak_25');
+            
+            // Score achievements
+            if (quiztate.score >= 50) unlockAchievement('score_50');
+            if (quiztate.score >= 100) unlockAchievement('score_100');
+            if (quiztate.score >= 250) unlockAchievement('score_250');
+            if (quiztate.score >= 500) unlockAchievement('score_500');
+            if (quiztate.score >= 1000) unlockAchievement('score_1000');
+            
+            // Correct answers achievements
+            if (quiztate.totalCorrect >= 25) unlockAchievement('questions_25');
+            if (quiztate.totalCorrect >= 50) unlockAchievement('questions_50');
+            if (quiztate.totalCorrect >= 100) unlockAchievement('questions_100');
+            if (quiztate.totalCorrect >= 200) unlockAchievement('questions_200');
+            if (quiztate.totalCorrect >= 500) unlockAchievement('questions_500');
+            
+            // Speed achievements (consecutive first tries)
+            if (quiztate.consecutiveFirstTry >= 10) unlockAchievement('speed_demon');
+            if (quiztate.consecutiveFirstTry >= 20) unlockAchievement('lightning_fast');
+        }
+        
+        function checkAllAchievements() {
+            // Difficulty master achievements
+            if (quiztate.difficultyQuizzes.easy >= 5) unlockAchievement('easy_master');
+            if (quiztate.difficultyQuizzes.medium >= 5) unlockAchievement('medium_master');
+            if (quiztate.difficultyQuizzes.hard >= 5) unlockAchievement('hard_master');
+            
+            // Explorer achievement
+            if (quiztate.quizTypesPlayed.size >= 5) unlockAchievement('explorer');
+            
+            // Scholar achievement
+            if (quiztate.lessonsRead.size >= 4) unlockAchievement('scholar');
+            
+            // Dedicated learner achievement
+            if (quiztate.completedQuizzes >= 10) unlockAchievement('dedicated');
+            
+            // Champion achievement (unlock 20 others)
+            const unlockedCount = achievements.filter(a => a.unlocked && a.id !== 'champion').length;
+            if (unlockedCount >= 20) unlockAchievement('champion');
+        }
+
+        function unlockAchievement(achievementId) {
+            const achievement = achievements.find(a => a.id === achievementId);
+            if (achievement && !achievement.unlocked) {
+                achievement.unlocked = true;
+                showCelebration(`🎉 Achievement Unlocked: <span style='color:#ffb347;'>${achievement.name}</span>! <span style='font-size:2em;'>${achievement.icon}</span>`);
+                updateAchievementsCount();
+                saveProgress();
+            }
+        }
+
+        function updateAchievementsCount() {
+            const unlockedCount = achievements.filter(a => a.unlocked).length;
+            document.getElementById('achievementsCount').textContent = unlockedCount;
+        }
+
+        function displayAchievements() {
+            const achievementsList = document.getElementById('achievementsList');
+            achievementsList.innerHTML = '';
+            // Only show actual achievements, not stats like perfect quizzes, first try correct, etc.
+            achievements.forEach(achievement => {
+                // If the achievement is a stat, skip it
+                const statIds = [
+                    'perfect_quizzes', 'first_try_correct', 'consecutive_first_try', 'wrong_answers', 'quizzes_played', 'difficulty_quizzes'
+                ];
+                if (statIds.includes(achievement.id)) return;
+                const achievementEl = document.createElement('div');
+                achievementEl.className = `achievement${achievement.unlocked ? '' : ' locked'}`;
+                achievementEl.innerHTML = `
+                    <div class="achievement-icon">${achievement.unlocked ? achievement.icon : '🔒'}</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-description">${achievement.description}</div>
+                `;
+                achievementsList.appendChild(achievementEl);
+            });
+        }
+
+        // Show celebration
+        function showCelebration(message) {
+            // Create confetti if not already present
+            let confetti = document.getElementById('confetti');
+            if (!confetti) {
+                confetti = document.createElement('div');
+                confetti.id = 'confetti';
+                confetti.style.position = 'fixed';
+                confetti.style.top = '0';
+                confetti.style.left = '0';
+                confetti.style.width = '100vw';
+                confetti.style.height = '100vh';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '2000';
+                document.body.appendChild(confetti);
+            }
+            confetti.innerHTML = '';
+            // Generate confetti pieces
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.style.position = 'absolute';
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.top = Math.random() * 10 + 'vh';
+                piece.style.width = '16px';
+                piece.style.height = '16px';
+                piece.style.borderRadius = '50%';
+                piece.style.background = `hsl(${Math.random()*360},90%,60%)`;
+                piece.style.opacity = '0.85';
+                piece.style.transform = `scale(${0.7 + Math.random()*0.7})`;
+                piece.style.transition = 'top 1.5s cubic-bezier(.4,2,.6,1), opacity 1.5s';
+                confetti.appendChild(piece);
+                setTimeout(() => {
+                    piece.style.top = (80 + Math.random()*10) + 'vh';
+                    piece.style.opacity = '0';
+                }, 50 + Math.random()*200);
+            }
+            // Style and show the celebration overlay
+            const celebration = document.getElementById('celebration');
+            const celebrationMessage = document.getElementById('celebrationMessage');
+            if (celebration) {
+                celebration.style.display = 'flex';
+                celebration.style.alignItems = 'center';
+                celebration.style.justifyContent = 'center';
+                celebration.style.flexDirection = 'column';
+                celebration.style.position = 'fixed';
+                celebration.style.top = '0';
+                celebration.style.left = '0';
+                celebration.style.width = '100vw';
+                celebration.style.height = '100vh';
+                celebration.style.background = 'rgba(255,255,255,0.93)';
+                celebration.style.zIndex = '1500';
+                celebration.style.animation = 'popCelebration 0.7s cubic-bezier(.4,2,.6,1)';
+            }
+            if (celebrationMessage) {
+                // Extract achievement name and icon from the message string
+                let nameMatch = message.match(/<span style='color:#ffb347;'>(.*?)<\/span>/);
+                let iconMatch = message.match(/<span style='font-size:2em;'>(.*?)<\/span>/);
+                let achievementName = nameMatch ? nameMatch[1] : '';
+                let achievementIcon = iconMatch ? iconMatch[1] : '';
+                // Modern card-style, animated gradient, big emoji, close button, glow
+                celebrationMessage.innerHTML = `
+                  <div class="achievement-card-celebration">
+                    <button class="close-celebration-btn" onclick="hideCelebration()">✖</button>
+                    <div class="achievement-emoji-glow">${achievementIcon}</div>
+                    <div class="achievement-title-gradient">Achievement Unlocked!</div>
+                    <div class="achievement-name-glow">${achievementName}</div>
+                    <div class="achievement-congrats">Congratulations!</div>
+                  </div>
+                `;
+                celebrationMessage.style.textAlign = 'center';
+                celebrationMessage.style.margin = '0 auto 20px auto';
+                celebrationMessage.style.maxWidth = '90vw';
+            }
+            // Add modern styles if not already present
+            if (!document.getElementById('achievement-celebration-style')) {
+                const style = document.createElement('style');
+                style.id = 'achievement-celebration-style';
+                style.innerHTML = `
+                .achievement-card-celebration {
+                  background: rgba(255,255,255,0.98);
+                  border-radius: 32px;
+                  box-shadow: 0 8px 32px 0 rgba(76,199,255,0.25), 0 0 0 8px #ffb34722;
+                  padding: 40px 32px 32px 32px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  position: relative;
+                  animation: popCelebration 0.7s cubic-bezier(.4,2,.6,1);
+                  min-width: 320px;
+                  max-width: 90vw;
+                }
+                .achievement-emoji-glow {
+                  font-size: 3.5em;
+                  margin-bottom: 10px;
+                  filter: drop-shadow(0 0 16px #ffb34788) drop-shadow(0 0 32px #4ac6ff66);
+                  animation: emojiPop 1.2s cubic-bezier(.4,2,.6,1);
+                }
+                .achievement-title-gradient {
+                  font-size: 1.5em;
+                  font-weight: 900;
+                  background: linear-gradient(90deg,#ffb347,#4ac6ff,#ff69b4,#10c168,#9021c7);
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  text-fill-color: transparent;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                  animation: gradientMove 2.5s linear infinite;
+                }
+                .achievement-name-glow {
+                  font-size: 2.1em;
+                  font-weight: 800;
+                  color: #ffb347;
+                  text-shadow: 0 2px 12px #ffb34788, 0 0 8px #4ac6ff66;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                  animation: nameBounce 1.2s cubic-bezier(.4,2,.6,1);
+                }
+                .achievement-congrats {
+                  font-size: 1.2em;
+                  color: #10c168;
+                  font-weight: 700;
+                  margin-top: 8px;
+                  letter-spacing: 0.5px;
+                }
+                .close-celebration-btn {
+                  position: absolute;
+                  top: 12px;
+                  right: 18px;
+                  background: none;
+                  border: none;
+                  font-size: 1.3em;
+                  color: #9021c7;
+                  cursor: pointer;
+                  opacity: 0.7;
+                  transition: opacity 0.2s;
+                }
+                .close-celebration-btn:hover {
+                  opacity: 1;
+                }
+                @keyframes emojiPop {0%{transform:scale(0.7);opacity:0.2;}60%{transform:scale(1.2);opacity:1;}100%{transform:scale(1);opacity:1;}}
+                @keyframes nameBounce {0%{transform:scale(0.7) rotate(-8deg);opacity:0.2;}40%{transform:scale(1.15) rotate(8deg);opacity:1;}60%{transform:scale(0.95) rotate(-4deg);}80%{transform:scale(1.05) rotate(4deg);}100%{transform:scale(1) rotate(0deg);opacity:1;}}
+                @keyframes gradientMove {0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+                `;
+                document.head.appendChild(style);
+            }
+            // Remove confetti after 2s
+            setTimeout(() => {
+                if (confetti) confetti.innerHTML = '';
+            }, 2000);
+            // Add skibidi bounce animation style if not already present
+            if (!document.getElementById('skibidi-bounce-style')) {
+                const skibidiStyle = document.createElement('style');
+                skibidiStyle.id = 'skibidi-bounce-style';
+                skibidiStyle.innerHTML = `@keyframes skibidiBounce {0%{transform:scale(0.7) rotate(-8deg);opacity:0.2;}40%{transform:scale(1.15) rotate(8deg);opacity:1;}60%{transform:scale(0.95) rotate(-4deg);}80%{transform:scale(1.05) rotate(4deg);}100%{transform:scale(1) rotate(0deg);opacity:1;}}`;
+                document.head.appendChild(skibidiStyle);
+            }
+        }
+        /* Add popCelebration animation */
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes popCelebration {0%{transform:scale(0.7);opacity:0.2;}60%{transform:scale(1.1);opacity:1;}100%{transform:scale(1);opacity:1;}}`;
+        document.head.appendChild(style);
+
+        function hideCelebration() {
+            document.getElementById('celebration').style.display = 'none';
+        }
+
+        // Lessons system
+        function showLesson(lessonType) {
+            // Track lesson as read
+            quiztate.lessonsRead.add(lessonType);
+            checkAllAchievements();
+            saveProgress();
+            const lessons = {
+                addition: {
+                    title: '➕ Addition Basics',
+                    steps: [
+                        {
+                            title: 'What is Addition?',
+                            content: 'Addition means putting things together! When we add, we combine groups to make a bigger group.',
+                            example: 'If you have 3 apples 🍎🍎🍎 and someone gives you 2 more 🍎🍎, you now have 5 apples total! 3 + 2 = 5'
+                        },
+                        {
+                            title: 'Using Your Fingers',
+                            content: 'Your fingers are great math tools! You can count on them to help solve addition problems.',
+                            example: 'For 4 + 3: Hold up 4 fingers, then count up 3 more (5, 6, 7). The answer is 7!'
+                        },
+                        {
+                            title: 'The Addition Symbol',
+                            content: 'The plus sign (+) means "add" or "put together". The equal sign (=) means "the same as".',
+                            example: '2 + 3 = 5 means "2 plus 3 equals 5" or "2 and 3 together make 5"'
+                        },
+                        {
+                            title: 'Practice Tips',
+                            content: 'Start with small numbers and work your way up. Remember: the order doesn\'t matter! 2 + 3 = 3 + 2',
+                            example: 'Try these: 1+1=?, 2+2=?, 3+1=?, 1+4=?'
+                        }
+                    ]
+                },
+                subtraction: {
+                    title: '➖ Subtraction Basics',
+                    steps: [
+                        {
+                            title: 'What is Subtraction?',
+                            content: 'Subtraction means taking away! When we subtract, we remove some items from a group.',
+                            example: 'If you have 5 cookies 🍪🍪🍪🍪🍪 and eat 2 of them, you have 3 cookies left! 5 - 2 = 3'
+                        },
+                        {
+                            title: 'Using Your Fingers',
+                            content: 'Start with all your fingers up for the first number, then put down fingers for the number you\'re taking away.',
+                            example: 'For 7 - 3: Hold up 7 fingers, put down 3 fingers, count what\'s left. You have 4!'
+                        },
+                        {
+                            title: 'The Subtraction Symbol',
+                            content: 'The minus sign (-) means "take away" or "subtract". The equal sign (=) shows the result.',
+                            example: '8 - 3 = 5 means "8 take away 3 equals 5" or "8 minus 3 is 5"'
+                        },
+                        {
+                            title: 'Practice Tips',
+                            content: 'Always start with the bigger number first. You can\'t take away more than you have!',
+                            example: 'Try these: 5-1=?, 6-2=?, 10-3=?, 9-4=?'
+                        }
+                    ]
+                },
+                multiplication: {
+                    title: '✖️ Multiplication Basics',
+                    steps: [
+                        {
+                            title: 'What is Multiplication?',
+                            content: 'Multiplication is like repeated addition! It\'s a faster way to add the same number many times.',
+                            example: '3 × 4 is the same as 3 + 3 + 3 + 3 = 12. We have 4 groups of 3!'
+                        },
+                        {
+                            title: 'The Multiplication Symbol',
+                            content: 'The times sign (×) means "groups of". We can also use the word "times".',
+                            example: '2 × 5 means "2 groups of 5" or "5 + 5" which equals 10'
+                        },
+                        {
+                            title: 'Skip Counting',
+                            content: 'Skip counting helps with multiplication! Count by the same number each time.',
+                            example: 'For 4 × 3, skip count by 3: 3, 6, 9, 12. So 4 × 3 = 12!'
+                        },
+                        {
+                            title: 'Times Tables',
+                            content: 'Start with easier tables like 2, 5, and 10. These have patterns that make them easier to remember!',
+                            example: 'Table of 2: 2, 4, 6, 8, 10... Table of 5: 5, 10, 15, 20, 25...'
+                        }
+                    ]
+                },
+                division: {
+                    title: '➗ Division Basics',
+                    steps: [
+                        {
+                            title: 'What is Division?',
+                            content: 'Division is sharing equally! When we divide, we split things into equal groups.',
+                            example: 'If you have 12 cookies 🍪 and want to share them equally among 3 friends, each friend gets 4 cookies! 12 ÷ 3 = 4'
+                        },
+                        {
+                            title: 'Division as Repeated Subtraction',
+                            content: 'Division is like subtracting the same number over and over until you reach zero.',
+                            example: '15 ÷ 3 = ? Think: 15 - 3 = 12, 12 - 3 = 9, 9 - 3 = 6, 6 - 3 = 3, 3 - 3 = 0. We subtracted 5 times, so 15 ÷ 3 = 5!'
+                        },
+                        {
+                            title: 'The Division Symbol',
+                            content: 'The division sign (÷) means "divided by" or "shared equally". We can also use / for division.',
+                            example: '20 ÷ 4 = 5 means "20 divided by 4 equals 5" or "20 shared among 4 groups gives 5 in each group"'
+                        },
+                        {
+                            title: 'Division and Multiplication',
+                            content: 'Division is the opposite of multiplication! If you know multiplication tables, division becomes easier.',
+                            example: 'If 4 × 6 = 24, then 24 ÷ 4 = 6 and 24 ÷ 6 = 4. They\'re like puzzle pieces that fit together!'
+                        }
+                    ]
+                },
+                fractions: {
+                    title: '🍕 Understanding Fractions',
+                    steps: [
+                        {
+                            title: 'What are Fractions?',
+                            content: 'Fractions show parts of a whole! The top number (numerator) shows how many parts we have. The bottom number (denominator) shows how many parts the whole is divided into.',
+                            example: 'If you eat 3 slices of a pizza cut into 8 pieces, you ate 3/8 of the pizza! 🍕'
+                        },
+                        {
+                            title: 'Reading Fractions',
+                            content: 'We read fractions as "numerator over denominator" or use special names for common denominators.',
+                            example: '1/2 = "one half", 1/4 = "one quarter", 3/4 = "three quarters", 1/3 = "one third"'
+                        },
+                        {
+                            title: 'Equivalent Fractions',
+                            content: 'Different fractions can represent the same amount! Like cutting a cake into different sized pieces.',
+                            example: '1/2 = 2/4 = 4/8. Half a pizza is the same whether it\'s cut into 2, 4, or 8 pieces!'
+                        },
+                        {
+                            title: 'Adding Simple Fractions',
+                            content: 'When fractions have the same denominator, just add the numerators!',
+                            example: '1/4 + 2/4 = 3/4. One quarter plus two quarters equals three quarters!'
+                        }
+                    ]
+                },
+                patterns: {
+                    title: '🎨 Number Patterns',
+                    steps: [
+                        {
+                            title: 'What are Patterns?',
+                            content: 'Patterns are sequences that follow a rule! Numbers can create beautiful patterns just like colors or shapes.',
+                            example: '2, 4, 6, 8, 10... This pattern adds 2 each time. Can you see it? 🌈'
+                        },
+                        {
+                            title: 'Growing Patterns',
+                            content: 'Some patterns grow by adding or multiplying the same number each time.',
+                            example: 'Adding pattern: 5, 10, 15, 20, 25 (add 5). Multiplying pattern: 2, 4, 8, 16, 32 (multiply by 2)'
+                        },
+                        {
+                            title: 'Shrinking Patterns',
+                            content: 'Patterns can also get smaller by subtracting or dividing!',
+                            example: 'Subtracting: 50, 45, 40, 35, 30 (subtract 5). Dividing: 64, 32, 16, 8, 4 (divide by 2)'
+                        },
+                        {
+                            title: 'Finding the Rule',
+                            content: 'To find a pattern\'s rule, look at how each number changes to become the next number.',
+                            example: 'In 3, 7, 11, 15, 19... each number is 4 more than the previous one. The rule is "add 4"!'
+                        }
+                    ]
+                }
+            };
+            
+            const lesson = lessons[lessonType];
+            const lessonSteps = document.getElementById('lessonSteps');
+            lessonSteps.innerHTML = `<h2 style="color: #4a90e2; text-align: center; margin-bottom: 30px;">${lesson.title}</h2>`;
+            
+            lesson.steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'lesson-step';
+                stepEl.innerHTML = `
+                    <h3>Step ${index + 1}: ${step.title}</h3>
+                    <p>${step.content}</p>
+                    <div class="example">
+                        <strong>Example:</strong> ${step.example}
+                    </div>
+                `;
+                lessonSteps.appendChild(stepEl);
+            });
+            
+            document.getElementById('practiceBtn').style.display = 'block';
+            document.getElementById('practiceBtn').onclick = () => startquiz(lessonType);
+            showPage('lessonContent');
+        }
+
+        function startLessonPractice() {
+            showPage('quiz');
+        }
+
+        // Handle Enter key in answer input and initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            // Initialize stats safely
+            const totalScoreEl = document.getElementById('totalScore');
+            const currentStreakEl = document.getElementById('currentStreak');
+            const questionsAnsweredEl = document.getElementById('questionsAnswered');
+            const achievementsCountEl = document.getElementById('achievementsCount');
+            if (totalScoreEl) totalScoreEl.textContent = '0';
+            if (currentStreakEl) currentStreakEl.textContent = '0';
+            if (questionsAnsweredEl) questionsAnsweredEl.textContent = '0';
+            if (achievementsCountEl) achievementsCountEl.textContent = '0';
+            // Set up answer input event listener
+            const answerInput = document.getElementById('answerInput');
+            if (answerInput) {
+                answerInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkAnswer();
+                    }
+                });
+            }
+            // Initialize achievements display
+            displayAchievements();
+            // Update auth buttons on load
+            updateAuthButtons();
+        });
+
+        // (Removed duplicate updateStats)
+        // Call loadProgress on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            updateAuthButtons();
+        });
+        // Show/hide login and logout buttons based on login state
+        function updateAuthButtons() {
+            const username = localStorage.getItem('username');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (username) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = '';
+            } else {
+                if (loginBtn) loginBtn.style.display = '';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('username');
+            updateAuthButtons();
+            // Optionally reload or redirect to home
+            showPage('home');
+        }
+
+        // Safe update achievements count
+        function updateAchievementsCount() {
+            const achievementsCountEl = document.getElementById('achievementsCount');
+            if (achievementsCountEl) {
+                const unlockedCount = achievements.filter(a => a.unlocked).length;
+                achievementsCountEl.textContent = unlockedCount;
+            }
+        }
+
+        // Safe show celebration
+function showCelebration(message) {
+    const celebrationEl = document.getElementById('celebration');
+    const celebrationMessageEl = document.getElementById('celebrationMessage');
+
+    // Try to extract achievement name and icon from the message string (if present)
+    let nameMatch = message.match(/<span style='color:#ffb347;'>(.*?)<\/span>/);
+    let iconMatch = message.match(/<span style='font-size:2em;'>(.*?)<\/span>/);
+    let achievementName = nameMatch ? nameMatch[1] : message;
+    let achievementIcon = iconMatch ? iconMatch[1] : '';
+
+    // Fallback: if no HTML, just show the message as the name
+    if (!achievementIcon && !achievementName) achievementName = message;
+
+    if (celebrationMessageEl) {
+        celebrationMessageEl.innerHTML = `
+            <div style="font-size: 3em; margin-bottom: 10px;">${achievementIcon}</div>
+            <div style="font-size: 1.5em; color: #ffb347; font-weight: bold; margin-bottom: 8px;">${achievementName}</div>
+            <div style="font-size: 1.1em; color: #4ac6ff;">Achievement Unlocked!</div>
+        `;
+    }
+    if (celebrationEl) celebrationEl.style.display = 'flex';
+}
+
+        // Safe hide celebration
+        function hideCelebration() {
+            const celebrationEl = document.getElementById('celebration');
+            if (celebrationEl) celebrationEl.style.display = 'none';
+        }
+
+        // Safe display achievements
+        function displayAchievements() {
+            const achievementsList = document.getElementById('achievementsList');
+            if (!achievementsList) return;
+            
+            achievementsList.innerHTML = '';
+            
+            achievements.forEach(achievement => {
+                const achievementEl = document.createElement('div');
+                achievementEl.className = `achievement ${achievement.unlocked ? '' : 'locked'}`;
+                achievementEl.innerHTML = `
+                    <div class="achievement-icon">${achievement.unlocked ? achievement.icon : '🔒'}</div>
+                    <h4>${achievement.name}</h4>
+                    <p>${achievement.description}</p>
+                `;
+                achievementsList.appendChild(achievementEl);
+            });
+        }
+
+        // Safe show next question
+        function showNextQuestion() {
+            if (quiztate.currentQuestionIndex >= quiztate.questions.length) {
+                endQuiz();
+                return;
+            }
+            
+            const question = quiztate.questions[quiztate.currentQuestionIndex];
+            const questionText = question.questionText || `${question.a} ${question.operator} ${question.b} = ?`;
+            
+            const quizContainerEl = document.getElementById('quizContainer');
+            const questionDisplayEl = document.getElementById('questionDisplay');
+            const currentQuestionEl = document.getElementById('currentQuestion');
+            const inputContainerEl = document.getElementById('inputContainer');
+            const answerInputEl = document.getElementById('answerInput');
+            const quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+            
+            // Show the entire quiz container first
+            if (quizContainerEl) quizContainerEl.style.display = 'block';
+            
+            // Show all quiz elements when starting a question
+            if (questionDisplayEl) {
+                questionDisplayEl.textContent = questionText;
+                questionDisplayEl.style.display = 'flex';
+            }
+            if (currentQuestionEl) currentQuestionEl.textContent = quiztate.currentQuestionIndex + 1;
+            if (inputContainerEl) inputContainerEl.style.display = 'block';
+            if (answerInputEl) {
+                answerInputEl.value = '';
+                answerInputEl.focus();
+            }
+            if (quizButtonsEl) quizButtonsEl.style.display = 'block';
+            if (feedbackEl) {
+                feedbackEl.textContent = '';
+                feedbackEl.className = 'feedback';
+                feedbackEl.style.display = 'flex';
+            }
+            if (quizControlsEl) quizControlsEl.style.display = 'block';
+            
+            quiztate.currentAnswer = question.answer;
+            quiztate.attempts = 0;
+        }
+
+        // Safe check answer function
+        function checkAnswer() {
+            const answerInputEl = document.getElementById('answerInput');
+            const feedbackEl = document.getElementById('feedback');
+            
+            if (!answerInputEl || !feedbackEl) return;
+            
+            const userAnswer = answerInputEl.value.trim();
+            let isCorrect = false;
+            
+            // Handle different answer types
+            if (quiztate.currentquiz === 'comparison') {
+                isCorrect = userAnswer === quiztate.currentAnswer.toString();
+            } else {
+                const numAnswer = parseFloat(userAnswer);
+                if (isNaN(numAnswer) && quiztate.currentquiz !== 'comparison') {
+                    feedbackEl.textContent = '🤔 Please enter a number!';
+                    feedbackEl.className = 'feedback incorrect shake';
+                    setTimeout(() => feedbackEl.classList.remove('shake'), 500);
+                    return;
+                }
+                isCorrect = Math.abs(numAnswer - quiztate.currentAnswer) < 0.1;
+            }
+            
+            quiztate.attempts++;
+            quiztate.totalAnswered++;
+            
+            if (isCorrect) {
+                // Correct answer!
+                quiztate.totalCorrect++;
+                quiztate.streak++;
+                if (quiztate.streak > quiztate.maxStreak) {
+                    quiztate.maxStreak = quiztate.streak;
+                }
+                
+                // Track first try correct answers
+                if (quiztate.attempts === 1) {
+                    quiztate.firstTryCorrect++;
+                    quiztate.consecutiveFirstTry++;
+                } else {
+                    quiztate.consecutiveFirstTry = 0;
+                }
+                
+                // Track if started with wrong answer but recovered
+                if (quiztate.currentQuestionIndex === 0 && quiztate.attempts > 1) {
+                    quiztate.startedWithWrongAnswer = true;
+                }
+                
+                // Calculate points based on streak and difficulty
+                let points = 10;
+                if (quiztate.difficulty === 'medium') points = 15;
+                if (quiztate.difficulty === 'hard') points = 20;
+                if (quiztate.streak >= 3) points *= 1.5;
+                if (quiztate.attempts === 1) points *= 1.2; // First try bonus
+                
+                quiztate.score += Math.floor(points);
+                
+                const encouragement = [
+                    "🎉 Excellent work!",
+                    "⭐ Amazing job!",
+                    "🌟 Fantastic!",
+                    "🎯 Perfect!",
+                    "🚀 Outstanding!",
+                    "💫 Brilliant!",
+                    "🏆 Superb!"
+                ];
+                
+                feedbackEl.textContent = encouragement[Math.floor(Math.random() * encouragement.length)] + 
+                    ` +${Math.floor(points)} points!`;
+                feedbackEl.className = 'feedback correct bounce';
+                
+                // Check achievements
+                checkAchievements();
+                
+                // Auto-clear input and move to next question after 1.5 seconds
+                answerInputEl.value = '';
+                setTimeout(() => {
+                    quiztate.currentQuestionIndex++;
+                    showNextQuestion();
+                    updateStats();
+                }, 1500);
+                
+            } else {
+                // Wrong answer
+                quiztate.streak = 0;
+                quiztate.consecutiveFirstTry = 0;
+                quiztate.wrongAnswers++;
+                
+                if (quiztate.attempts < 2) {
+                    // First wrong attempt - give hint
+                    const hints = [
+                        "🤔 Not quite! Try again!",
+                        "💡 Close, but try once more!",
+                        "🎯 Think about it again!",
+                        "🔄 Give it another shot!"
+                    ];
+                    feedbackEl.textContent = hints[Math.floor(Math.random() * hints.length)];
+                    feedbackEl.className = 'feedback incorrect shake';
+                    
+                } else {
+                    // Second wrong attempt - show answer and move on
+                    feedbackEl.textContent = `😊 The answer was ${quiztate.currentAnswer}. Let's try the next one!`;
+                    feedbackEl.className = 'feedback incorrect';
+                    
+                    // Auto-clear input and move to next question after 2 seconds
+                    answerInputEl.value = '';
+                    setTimeout(() => {
+                        quiztate.currentQuestionIndex++;
+                        showNextQuestion();
+                    }, 2000);
+                }
+            }
+            
+            updateStats();
+            
+            // Remove animation class after animation
+            setTimeout(() => {
+                feedbackEl.classList.remove('bounce', 'shake');
+            }, 1000);
+        }
+
+        // Safe begin quiz function
+        function beginQuiz() {
+            generateQuestions();
+            generateQuestions();
+            quiztate.currentQuestionIndex = 0;
+            quiztate.attempts = 0;
+            quiztate.wrongAnswers = 0;
+            quiztate.startedWithWrongAnswer = false;
+            quiztate.consecutiveFirstTry = 0;
+
+            // Track quiz type played
+            quiztate.quizTypesPlayed.add(quiztate.currentquiz);
+
+            // Set up quiz page
+            const titles = {
+                'subtraction': '🦁 Subtraction Safari',
+                'multiplication': '⚔️ Multiplication Quest',
+                'division': '🏰 Division Castle',
+                'mixed': '🌟 Mixed Math Mayhem',
+                'comparison': '⚖️ Number Detective',
+                'fractions': '🍕 Fraction Pizza Party',
+                'patterns': '🎨 Pattern Master',
+                'wordproblems': '📖 Story Math Heroes'
+            };
+
+            const quizTitleEl = document.getElementById('quizTitle');
+            const totalQuestionsEl = document.getElementById('totalQuestions');
+            const streakDisplayEl = document.getElementById('streakDisplay');
+            const quizContainerEl = document.getElementById('quizContainer');
+            const inputContainerEl = document.getElementById('inputContainer');
+            let answerInputEl = document.getElementById('answerInput');
+            const quizButtonsEl = document.getElementById('quizButtons');
+            const feedbackEl = document.getElementById('feedback');
+            const quizControlsEl = document.getElementById('quizControls');
+            const fontSizeBtn = document.getElementById('increaseFontBtn');
+            // Restore all quiz UI elements
+            if (quizContainerEl) quizContainerEl.style.display = 'block';
+            if (inputContainerEl) inputContainerEl.style.display = 'block';
+            // If answerInput is missing, create and append it
+            if (inputContainerEl && !answerInputEl) {
+                answerInputEl = document.createElement('input');
+                answerInputEl.type = 'text';
+                answerInputEl.id = 'answerInput';
+                answerInputEl.className = 'answer-input';
+                answerInputEl.placeholder = 'Type your answer...';
+                answerInputEl.tabIndex = 0;
+                inputContainerEl.appendChild(answerInputEl);
+            }
+            // Always get the latest reference and show/focus
+            answerInputEl = document.getElementById('answerInput');
+            if (answerInputEl) {
+                answerInputEl.style.display = 'inline-block';
+                answerInputEl.value = '';
+                answerInputEl.focus();
+            }
+            if (quizButtonsEl) quizButtonsEl.style.display = 'flex';
+            if (feedbackEl) {
+                feedbackEl.style.display = 'flex';
+                feedbackEl.textContent = '';
+            }
+            if (quizControlsEl) quizControlsEl.style.display = 'flex';
+            // Restore font size button if present
+            if (fontSizeBtn) fontSizeBtn.style.display = 'inline-block';
+            // Hide end overlay if present
+            const endOverlay = document.getElementById('endOverlay');
+            if (endOverlay) endOverlay.style.display = 'none';
+
+            if (quizTitleEl) quizTitleEl.textContent = titles[quiztate.currentquiz];
+            if (totalQuestionsEl) totalQuestionsEl.textContent = quiztate.questionCount;
+            if (streakDisplayEl) streakDisplayEl.textContent = quiztate.streak;
+
+            showPage('quiz');
+            showNextQuestion();
+        }
+
+        // Safe end quiz function
+        function endQuiz() {
+            const accuracy = quiztate.totalAnswered > 0 ? 
+                Math.round((quiztate.totalCorrect / quiztate.totalAnswered) * 100) : 0;
+            
+            quiztate.completedQuizzes++;
+            quiztate.difficultyQuizzes[quiztate.difficulty]++;
+            
+            // Check for perfect quiz
+            if (accuracy === 100) {
+                quiztate.perfectQuizzes.push({
+                    type: quiztate.currentquiz,
+                    difficulty: quiztate.difficulty,
+                    questions: quiztate.questionCount
+                });
+            }
+            
+            // Check for quiz-specific achievements
+            if (accuracy >= 80) {
+                if (quiztate.currentquiz === 'addition') unlockAchievement('addition_expert');
+                if (quiztate.currentquiz === 'subtraction') unlockAchievement('subtraction_expert');
+                if (quiztate.currentquiz === 'multiplication') unlockAchievement('multiplication_expert');
+                if (quiztate.currentquiz === 'division') unlockAchievement('division_expert');
+                if (quiztate.currentquiz === 'mixed') unlockAchievement('mixed_expert');
+                if (quiztate.currentquiz === 'comparison') unlockAchievement('comparison_expert');
+                if (quiztate.currentquiz === 'fractions') unlockAchievement('fractions_expert');
+                if (quiztate.currentquiz === 'patterns') unlockAchievement('patterns_expert');
+                if (quiztate.currentquiz === 'wordproblems') unlockAchievement('wordproblems_expert');
+            }
+            
+            // Check various achievements
+            unlockAchievement('first_quiz');
+            
+            // Perfect score achievements
+            if (accuracy === 100) {
+                if (quiztate.questionCount >= 5) unlockAchievement('perfect_5');
+                if (quiztate.questionCount >= 10) unlockAchievement('perfect_10');
+                if (quiztate.questionCount >= 20) unlockAchievement('perfect_20');
+            }
+            
+            // Endurance achievements
+            if (quiztate.questionCount >= 50) unlockAchievement('endurance_50');
+            if (quiztate.questionCount >= 100) unlockAchievement('endurance_100');
+            
+            // Comeback achievement
+            if (quiztate.startedWithWrongAnswer && accuracy === 100) {
+                unlockAchievement('comeback_kid');
+            }
+            
+            // Persistent achievement
+            if (quiztate.wrongAnswers >= 5) {
+                unlockAchievement('persistent');
+            }
+            
+            // Final achievement checks
+            checkAllAchievements();
+            function unlockAchievement(achievementId) {
+    const achievement = achievements.find(a => a.id === achievementId);
+    if (achievement && !achievement.unlocked) {
+        achievement.unlocked = true;
+        showCelebration(`🎉 Achievement Unlocked: ${achievement.name}! 🎉`);
+        updateAchievementsCount();
+        saveProgress(); // Add this line
+    }
+}
+            // Endurance achievements
+            if (quiztate.questionCount >= 50) unlockAchievement('endurance_50');
+            if (quiztate.questionCount >= 100) unlockAchievement('endurance_100');
+            // Comeback achievement
+            if (quiztate.startedWithWrongAnswer && accuracy === 100) {
+                unlockAchievement('comeback_kid');
+            }
+            // Persistent achievement
+            if (quiztate.wrongAnswers >= 5) {
+                unlockAchievement('persistent');
+            }
+            // Final achievement checks
+            checkAllAchievements();
+            saveProgress();
+            // Show completion message safely
+            const questionDisplayEl = document.getElementById('questionDisplay');
+            const answerInputEl = document.getElementById('answerInput');
+            const feedbackEl = document.getElementById('feedback');
+            
+            const message = `
+                <h2>🎉 Quiz Complete! 🎉</h2>
+                <div style="margin: 30px 0;">
+                    <div style="font-size: 1.2em; margin: 10px 0;">
+                        <strong>Score:</strong> ${quiztate.score} points
+                    </div>
+                    <div style="font-size: 1.2em; margin: 10px 0;">
+                        <strong>Accuracy:</strong> ${accuracy}%
+                    </div>
+                    <div style="font-size: 1.2em; margin: 10px 0;">
+                        <strong>Best Streak:</strong> ${quiztate.maxStreak}
+                    </div>
+                </div>
+            `;
+            
+            if (questionDisplayEl) questionDisplayEl.innerHTML = message;
+            if (answerInputEl) answerInputEl.style.display = 'none';
+            if (feedbackEl) feedbackEl.textContent = '';
+            
+            // Remove submit and skip buttons from the DOM when quiz is completed
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn && submitBtn.parentNode) submitBtn.parentNode.removeChild(submitBtn);
+            const skipBtn = document.getElementById('skipBtn');
+            if (skipBtn && skipBtn.parentNode) skipBtn.parentNode.removeChild(skipBtn);
+        }
+    </script>
+</body>
+</html>
+</html>

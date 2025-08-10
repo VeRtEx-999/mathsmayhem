@@ -504,10 +504,12 @@
         </div>
     </div>
     
+    <script src="user-manager.js"></script>
     <script>
         function selectPlan(planType) {
             // Check if user is logged in
-            const isLoggedIn = localStorage.getItem('username') || (typeof userManager !== 'undefined' && userManager.isLoggedIn());
+            const currentUser = localStorage.getItem('currentUser');
+            const isLoggedIn = currentUser || (typeof userManager !== 'undefined' && userManager.isLoggedIn());
             
             if (!isLoggedIn) {
                 alert('Please log in first to select a subscription plan!');
@@ -522,17 +524,13 @@
                     break;
                     
                 case 'premium':
-                    alert('🌟 Thank you for choosing Premium! This is a demo - in a real app, this would redirect to payment processing.');
-                    // In a real application, this would integrate with payment providers like Stripe, PayPal, etc.
-                    localStorage.setItem('subscriptionPlan', 'premium');
-                    window.location.href = 'index.html';
+                    localStorage.setItem('selectedPlan', 'premium');
+                    window.location.href = 'billing.html';
                     break;
                     
                 case 'family':
-                    alert('👨‍👩‍👧‍👦 Thank you for choosing Family Plan! This is a demo - in a real app, this would redirect to payment processing.');
-                    // In a real application, this would integrate with payment providers
-                    localStorage.setItem('subscriptionPlan', 'family');
-                    window.location.href = 'index.html';
+                    localStorage.setItem('selectedPlan', 'family');
+                    window.location.href = 'billing.html';
                     break;
                     
                 case 'school':
@@ -540,15 +538,13 @@
                     break;
                     
                 case 'tutor':
-                    alert('🧑‍🏫 Thank you for choosing Pro Tutor! This is a demo - in a real app, this would redirect to payment processing.\n\nThis plan includes AI-powered tutoring, personalized study plans, and weekly 1-on-1 sessions!');
-                    localStorage.setItem('subscriptionPlan', 'tutor');
-                    window.location.href = 'index.html';
+                    localStorage.setItem('selectedPlan', 'tutor');
+                    window.location.href = 'billing.html';
                     break;
                     
                 case 'genius':
-                    alert('🧠 Welcome to Math Genius level! This is a demo - in a real app, this would redirect to payment processing.\n\nYou now have access to advanced competitions, university content, and expert mentors!');
-                    localStorage.setItem('subscriptionPlan', 'genius');
-                    window.location.href = 'index.html';
+                    localStorage.setItem('selectedPlan', 'genius');
+                    window.location.href = 'billing.html';
                     break;
             }
         }

@@ -3142,9 +3142,13 @@
                 userManager.logout();
             }
             localStorage.removeItem('username'); // Clean up old system too
-            updateAuthButtons();
-            // Optionally reload or redirect to home
-            showPage('home');
+            localStorage.removeItem('subscriptionPlan'); // Clear subscription
+            localStorage.removeItem('hasPaymentMethod'); // Clear payment info
+            localStorage.removeItem('selectedPlan'); // Clear any pending selections
+            
+            // Redirect to welcome page
+            alert('👋 You have been logged out successfully!\n\nRedirecting to welcome page...');
+            window.location.href = 'welcome.html';
         }
 
         // Safe update achievements count

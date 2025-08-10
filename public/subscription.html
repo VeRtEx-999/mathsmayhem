@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Subscription - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+        }
+        
+        .subscription-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header .emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0);}
+            50% { transform: translateY(-15px);}
+        }
+        
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .plan-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .plan-card.popular {
+            border: 3px solid #ff6b6b;
+            transform: scale(1.05);
+        }
+        
+        .plan-card.popular::before {
+            content: "MOST POPULAR! 🌟";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+        }
+        
+        .plan-card.school-plan {
+            border: 3px solid #4a90e2;
+            background: linear-gradient(145deg, #f8fafc, #e6f3ff);
+        }
+        
+        .plan-card.school-plan::before {
+            content: "FOR EDUCATORS 🎓";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(74,144,226,0.3);
+        }
+        
+        .plan-card.genius-plan {
+            border: 3px solid #9b59b6;
+            background: linear-gradient(145deg, #fdf8ff, #f3e5f5);
+        }
+        
+        .plan-card.genius-plan::before {
+            content: "GENIUS LEVEL 🧠";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(155,89,182,0.3);
+        }
+        
+        .plan-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .plan-title {
+            font-size: 2rem;
+            color: #4a90e2;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .plan-period {
+            font-size: 1rem;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+        
+        .plan-features li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .plan-features li::before {
+            content: "✅ ";
+            color: #10c168;
+            font-weight: bold;
+        }
+        
+        .plan-features li.not-included::before {
+            content: "❌ ";
+            color: #ff6b6b;
+        }
+        
+        .plan-features li.not-included {
+            color: #aaa;
+            text-decoration: line-through;
+        }
+        
+        .subscribe-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74,144,226,0.3);
+        }
+        
+        .subscribe-btn:hover {
+            background: linear-gradient(90deg, #667eea, #4a90e2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74,144,226,0.4);
+        }
+        
+        .subscribe-btn.popular {
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+            box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+        }
+        
+        .subscribe-btn.popular:hover {
+            background: linear-gradient(90deg, #fcb045, #ff6b6b);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+        }
+        
+        .subscribe-btn.school-btn {
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            box-shadow: 0 4px 15px rgba(74,144,226,0.3);
+        }
+        
+        .subscribe-btn.school-btn:hover {
+            background: linear-gradient(90deg, #667eea, #4a90e2);
+            box-shadow: 0 6px 20px rgba(74,144,226,0.4);
+        }
+        
+        .subscribe-btn.genius-btn {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 15px rgba(155,89,182,0.3);
+        }
+        
+        .subscribe-btn.genius-btn:hover {
+            background: linear-gradient(90deg, #8e44ad, #9b59b6);
+            box-shadow: 0 6px 20px rgba(155,89,182,0.4);
+        }
+        
+        .benefits-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .benefits-title {
+            font-size: 2.5rem;
+            color: #4a90e2;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .benefit-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-title {
+            font-size: 1.3rem;
+            color: #4a90e2;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .benefit-description {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #4a90e2;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .emoji {
+                font-size: 3rem;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .benefits-section {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="subscription-container">
+        <a href="index.html" class="back-btn">🏠 Back to Home</a>
+        
+        <div class="header">
+            <div class="emoji">🚀</div>
+            <h1>Unlock Premium Math Adventures!</h1>
+            <p style="font-size: 1.2rem; margin-top: 15px;">Choose the perfect plan to supercharge your learning journey!</p>
+        </div>
+        
+        <div class="plans-container">
+            <!-- Free Plan -->
+            <div class="plan-card">
+                <div class="plan-icon">🆓</div>
+                <div class="plan-title">Free Explorer</div>
+                <div class="plan-price">
+                    £0
+                    <div class="plan-period">Forever</div>
+                </div>
+                <ul class="plan-features">
+                    <li>5 Quizzes per day</li>
+                    <li>Basic achievements</li>
+                    <li>Progress tracking</li>
+                    <li>All quiz types</li>
+                    <li class="not-included">Unlimited quizzes</li>
+                    <li class="not-included">Premium achievements</li>
+                    <li class="not-included">Detailed analytics</li>
+                    <li class="not-included">Ad-free experience</li>
+                </ul>
+                <button class="subscribe-btn" onclick="selectPlan('free')">Continue Free</button>
+            </div>
+            
+            <!-- Premium Plan -->
+            <div class="plan-card popular">
+                <div class="plan-icon">⭐</div>
+                <div class="plan-title">Math Champion</div>
+                <div class="plan-price">
+                    £1.50
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="plan-features">
+                    <li>Unlimited quizzes</li>
+                    <li>All achievements unlocked</li>
+                    <li>Detailed progress analytics</li>
+                    <li>Priority support</li>
+                    <li>Ad-free experience</li>
+                    <li>Custom difficulty levels</li>
+                    <li>Performance insights</li>
+                    <li>Exclusive themes</li>
+                </ul>
+                <button class="subscribe-btn popular" onclick="selectPlan('premium')">Start Premium</button>
+            </div>
+            
+            <!-- Family Plan -->
+            <div class="plan-card">
+                <div class="plan-icon">👨‍👩‍👧‍👦</div>
+                <div class="plan-title">Family Pack</div>
+                <div class="plan-price">
+                    £3.50
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="plan-features">
+                    <li>Everything in Premium</li>
+                    <li>Up to 6 family accounts</li>
+                    <li>Family progress dashboard</li>
+                    <li>Parental controls</li>
+                    <li>Learning goals setting</li>
+                    <li>Weekly family reports</li>
+                    <li>Educational tips for parents</li>
+                    <li>Priority customer support</li>
+                </ul>
+                <button class="subscribe-btn" onclick="selectPlan('family')">Choose Family</button>
+            </div>
+            
+            <!-- School Plan -->
+            <div class="plan-card school-plan">
+                <div class="plan-icon">🏫</div>
+                <div class="plan-title">Schools & Education</div>
+                <div class="plan-price">
+                    £12.50
+                    <div class="plan-period">per classroom/month</div>
+                </div>
+                <ul class="plan-features">
+                    <li>Everything in Family Plan</li>
+                    <li>Up to 35 student accounts</li>
+                    <li>Teacher dashboard & controls</li>
+                    <li>Class progress tracking</li>
+                    <li>Assignment management</li>
+                    <li>Curriculum alignment tools</li>
+                    <li>Bulk student management</li>
+                    <li>Detailed reporting for teachers</li>
+                    <li>White-label branding</li>
+                    <li>Dedicated support manager</li>
+                </ul>
+                <button class="subscribe-btn school-btn" onclick="selectPlan('school')">Contact for Schools</button>
+            </div>
+            
+            <!-- Pro Tutor Plan -->
+            <div class="plan-card">
+                <div class="plan-icon">🧑‍🏫</div>
+                <div class="plan-title">Pro Tutor</div>
+                <div class="plan-price">
+                    £5.99
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="plan-features">
+                    <li>Everything in Premium</li>
+                    <li>AI-powered tutoring</li>
+                    <li>Personalized study plans</li>
+                    <li>Step-by-step solutions</li>
+                    <li>Video explanations</li>
+                    <li>Homework helper</li>
+                    <li>Practice problem generator</li>
+                    <li>Weekly 1-on-1 sessions</li>
+                    <li>Advanced performance tracking</li>
+                </ul>
+                <button class="subscribe-btn" onclick="selectPlan('tutor')">Get Pro Tutor</button>
+            </div>
+            
+            <!-- Math Genius Plan -->
+            <div class="plan-card genius-plan">
+                <div class="plan-icon">🧠</div>
+                <div class="plan-title">Math Genius</div>
+                <div class="plan-price">
+                    £9.99
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="plan-features">
+                    <li>Everything in Pro Tutor</li>
+                    <li>Advanced math competitions prep</li>
+                    <li>University-level content</li>
+                    <li>Research project guidance</li>
+                    <li>Math olympiad training</li>
+                    <li>Expert mentor access</li>
+                    <li>Academic writing support</li>
+                    <li>College application help</li>
+                    <li>Lifetime access guarantee</li>
+                    <li>Priority feature requests</li>
+                </ul>
+                <button class="subscribe-btn genius-btn" onclick="selectPlan('genius')">Become a Genius</button>
+            </div>
+        </div>
+        
+        <div class="benefits-section">
+            <div class="benefits-title">Why Go Premium? 🌟</div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-title">Unlimited Practice</div>
+                    <div class="benefit-description">Take as many quizzes as you want! No daily limits, no waiting - just pure math fun!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-title">Detailed Analytics</div>
+                    <div class="benefit-description">Track your progress with beautiful charts, see your strengths, and identify areas to improve!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏆</div>
+                    <div class="benefit-title">Exclusive Achievements</div>
+                    <div class="benefit-description">Unlock special badges and achievements only available to premium members!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚫</div>
+                    <div class="benefit-title">Ad-Free Experience</div>
+                    <div class="benefit-description">Focus on learning without any distractions - enjoy a clean, smooth experience!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Priority Support</div>
+                    <div class="benefit-description">Get help faster with our priority customer support - we're here to help you succeed!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎨</div>
+                    <div class="benefit-title">Custom Themes</div>
+                    <div class="benefit-description">Personalize your learning experience with exclusive themes and color schemes!</div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏫</div>
+                    <div class="benefit-title">Perfect for Schools</div>
+                    <div class="benefit-description">Manage entire classrooms with teacher dashboards, student progress tracking, and curriculum-aligned content!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function selectPlan(planType) {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('username') || (typeof userManager !== 'undefined' && userManager.isLoggedIn());
+            
+            if (!isLoggedIn) {
+                alert('Please log in first to select a subscription plan!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            switch(planType) {
+                case 'free':
+                    alert('🎉 You\'re already enjoying our free plan! Keep exploring and learning!');
+                    window.location.href = 'index.html';
+                    break;
+                    
+                case 'premium':
+                    alert('🌟 Thank you for choosing Premium! This is a demo - in a real app, this would redirect to payment processing.');
+                    // In a real application, this would integrate with payment providers like Stripe, PayPal, etc.
+                    localStorage.setItem('subscriptionPlan', 'premium');
+                    window.location.href = 'index.html';
+                    break;
+                    
+                case 'family':
+                    alert('👨‍👩‍👧‍👦 Thank you for choosing Family Plan! This is a demo - in a real app, this would redirect to payment processing.');
+                    // In a real application, this would integrate with payment providers
+                    localStorage.setItem('subscriptionPlan', 'family');
+                    window.location.href = 'index.html';
+                    break;
+                    
+                case 'school':
+                    alert('🏫 Interested in Schools & Education Plan?\n\nThank you for your interest! This plan includes:\n• Up to 35 student accounts per classroom\n• Teacher dashboard and management tools\n• Advanced reporting and analytics\n• Curriculum alignment features\n• Dedicated support\n\nPlease contact us at schools@mathsmayhem.com or call +44 123 456 789 for a custom quote and demo!\n\nWe\'ll get back to you within 24 hours.');
+                    break;
+                    
+                case 'tutor':
+                    alert('🧑‍🏫 Thank you for choosing Pro Tutor! This is a demo - in a real app, this would redirect to payment processing.\n\nThis plan includes AI-powered tutoring, personalized study plans, and weekly 1-on-1 sessions!');
+                    localStorage.setItem('subscriptionPlan', 'tutor');
+                    window.location.href = 'index.html';
+                    break;
+                    
+                case 'genius':
+                    alert('🧠 Welcome to Math Genius level! This is a demo - in a real app, this would redirect to payment processing.\n\nYou now have access to advanced competitions, university content, and expert mentors!');
+                    localStorage.setItem('subscriptionPlan', 'genius');
+                    window.location.href = 'index.html';
+                    break;
+            }
+        }
+        
+        // Check user's current plan and update UI accordingly
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            const planCards = document.querySelectorAll('.plan-card');
+            
+            planCards.forEach(card => {
+                const planTitle = card.querySelector('.plan-title').textContent.toLowerCase();
+                const button = card.querySelector('.subscribe-btn');
+                
+                if ((currentPlan === 'premium' && planTitle.includes('champion')) ||
+                    (currentPlan === 'family' && planTitle.includes('family')) ||
+                    (currentPlan === 'school' && planTitle.includes('schools')) ||
+                    (currentPlan === 'tutor' && planTitle.includes('tutor')) ||
+                    (currentPlan === 'genius' && planTitle.includes('genius')) ||
+                    (currentPlan === 'free' && planTitle.includes('explorer'))) {
+                    button.textContent = '✅ Current Plan';
+                    button.style.background = 'linear-gradient(90deg, #10c168, #48bb78)';
+                    button.disabled = true;
+                    button.style.cursor = 'default';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

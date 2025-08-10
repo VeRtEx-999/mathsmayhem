@@ -1,10 +1,15 @@
 {
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "Maths Challenge/**/*.html", "use": "@vercel/static" }
-  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 10
+    }
+  },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/Maths Challenge/$1" }
+    { "src": "/user-auth", "dest": "/api/create-user.js" },
+    { "src": "/user-create", "dest": "/api/new-user.js" },
+    { "src": "/test-hello", "dest": "/api/hello.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
+    { "src": "/", "dest": "/public/welcome.html" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }

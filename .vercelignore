@@ -1,0 +1,2 @@
+# Disable automatic authentication protection
+!MathsChallenge/api/*.js

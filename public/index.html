@@ -81,21 +81,164 @@
             100% { background-position: 0% 50%; }
         }
         .nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
             margin-bottom: 40px;
-            gap: 28px;
-            background: transparent;
-            border-radius: 0;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            width: 100%;
-            max-width: 100%;
+            padding: 18px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            width: 95%;
+            max-width: 1400px;
+            position: relative;
+            z-index: 10;
+            margin: 0 auto 40px auto;
         }
-        .nav-tab { background: linear-gradient(90deg, #17e3c1 0%, #308695 100%); border: none; font-size: 1.05em; margin: 0 8px; padding: 10px 22px; border-radius: 12px; cursor: pointer; color: #8929ad; font-weight: bold; box-shadow: none; transition: background 0.2s, color 0.2s, transform 0.15s; text-shadow: none; }
-        .nav-tab.active, .nav-tab:hover { background: linear-gradient(90deg, #308695 0%, #17e3c1 100%); color: #8929ad; transform: scale(1.08) rotate(-2deg); text-shadow: none; }
+        
+        .nav-section {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .nav-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .nav-section-title {
+            margin: 0 0 12px 0;
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+        
+        .nav-tab { 
+            background: linear-gradient(90deg, #17e3c1 0%, #308695 100%); 
+            border: none; 
+            font-size: 0.85em; 
+            margin: 0; 
+            padding: 8px 12px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            color: #fff; 
+            font-weight: bold; 
+            box-shadow: 0 3px 10px rgba(23, 227, 193, 0.2); 
+            transition: all 0.3s ease; 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+            position: relative; 
+            z-index: 15; 
+            pointer-events: auto;
+            flex: 1;
+            min-width: 80px;
+            max-width: 120px;
+            text-align: center;
+            word-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-tab.active, .nav-tab:hover { 
+            background: linear-gradient(90deg, #308695 0%, #17e3c1 100%); 
+            color: #fff; 
+            transform: translateY(-2px) scale(1.02); 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 15px rgba(48, 134, 149, 0.3);
+        }
+        
+        .premium-btn {
+            background: linear-gradient(90deg, #ff6b6b 0%, #fcb045 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3) !important;
+            position: relative;
+            overflow: hidden;
+            max-width: 150px !important;
+            min-width: 100px !important;
+        }
+        
+        .premium-btn:hover {
+            background: linear-gradient(90deg, #fcb045 0%, #ff6b6b 100%) !important;
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4) !important;
+        }
+        
+        .premium-feature-btn {
+            background: linear-gradient(90deg, #10c168 0%, #17e3c1 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 3px 10px rgba(16, 193, 104, 0.3) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-feature-btn:hover {
+            background: linear-gradient(90deg, #17e3c1 0%, #10c168 100%) !important;
+            box-shadow: 0 6px 15px rgba(16, 193, 104, 0.4) !important;
+        }
+        
+        .premium-shine {
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .nav {
+                grid-template-columns: 1fr;
+                padding: 12px 15px;
+                gap: 12px;
+                width: 90%;
+            }
+            
+            .nav-section {
+                padding: 12px 15px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .nav-tab {
+                min-width: auto;
+                width: 100%;
+                padding: 10px 16px;
+            }
+        }
+        
+        /* Wide screen optimization */
+        @media (min-width: 1200px) {
+            .nav {
+                grid-template-columns: 2fr 1fr 1.5fr;
+                gap: 25px;
+                padding: 20px 35px;
+            }
+        }
         .logo-box { background: transparent; border: none; border-radius: 32px; box-shadow: none; margin-bottom: 32px; padding: 32px 0 24px 0; text-align: center; }
         .logo { font-size: 3.5em; font-weight: bold; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 8px #000, 0 2px 8px #000; display: inline-block; }
         .page { display: none; }
@@ -183,6 +326,105 @@
             border: 2px solid #FFF100;
             transform: scale(1.05) rotate(-2deg);
         }
+        .quiz-card.daily-limit-reached {
+            opacity: 0.6;
+            position: relative;
+        }
+        .quiz-card.daily-limit-reached::after {
+            content: "🔒 Premium";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255,107,107,0.3);
+        }
+        .quiz-card.daily-limit-reached:hover {
+            opacity: 0.8;
+            transform: scale(1.02);
+        }
+        
+        .quiz-card.premium-locked {
+            background: linear-gradient(135deg, #666 0%, #444 100%);
+            opacity: 0.7;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .quiz-card.premium-locked::after {
+            content: '🔒 PREMIUM';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd700);
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-shadow: none;
+        }
+        
+        .quiz-card.premium-locked:hover {
+            transform: translateY(-2px);
+            opacity: 0.8;
+        }
+        
+        .quiz-card.ai-tutor-locked {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            opacity: 0.8;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .quiz-card.ai-tutor-locked::after {
+            content: '🤖 AI TUTOR';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-shadow: none;
+        }
+        
+        .quiz-card.ai-tutor-locked:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .quiz-card.genius-locked {
+            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+            opacity: 0.8;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .quiz-card.genius-locked::after {
+            content: '🧠 GENIUS';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(90deg, #9c27b0, #673ab7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-shadow: none;
+        }
+        
+        .quiz-card.genius-locked:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
         .quiz-icon { font-size: 2.5em; margin-bottom: 12px; }
         .quiz-title { font-size: 1.25em; font-weight: bold; color: #4ac6ff; text-shadow: 1px 1px 0 #fff3e6; }
         .quiz-title { font-size: 1.25em; font-weight: bold; color: #fff; text-shadow: 1px 1px 8px #000; }
@@ -233,10 +475,25 @@
             overflow: hidden;
         }
         .achievement.locked { opacity: 0.5; }
+        .achievement.premium-locked-achievement { 
+            opacity: 0.6; 
+            border: 2px dashed #ff6b6b; 
+            background: linear-gradient(135deg, #ffe29f 0%, #ffb347 50%, #ff6b6b 100%);
+        }
         .achievement-icon { font-size: 2.2em; margin-bottom: 8px; }
         .achievement-name { font-weight: bold; margin-bottom: 4px; }
         .achievement-name { font-weight: bold; margin-bottom: 4px; color: #fff; text-shadow: 0px 0px 0px #000; }
         .achievement-description { font-size: 0.95em; word-break: break-word; color: #fff; text-shadow: 0px 0px 0px #000; }
+        .upgrade-badge {
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 8px;
+            display: inline-block;
+        }
         .lesson-step { background: #fff3e6; border-radius: 14px; padding: 20px 18px; margin-bottom: 20px; border: 2px solid #ffb347; color: #10c168 !important; text-shadow: none !important; }
         .lesson-step h3 { margin: 0 0 10px 0; color: #10c168 !important; font-weight: bold; text-shadow: none !important; }
         .lesson-step .example { background: #ffe29f; border-radius: 10px; padding: 12px 14px; margin-top: 10px; color: #10c168 !important; font-size: 1.05em; font-weight: bold; text-shadow: none !important; }
@@ -301,11 +558,42 @@
             <img src="logo.png" alt="Logo" style="width:640px; height:auto; display:block; margin:0 auto 16px auto; border-radius:64px; box-shadow:0 4px 32px #4ac6ff33;">
         </div>
         <div class="nav">
-            <button class="nav-tab active" onclick="showPage('home')">🏠 Home</button>
-            <button class="nav-tab" onclick="showPage('quizzes')">📝 Quizzes</button>
-            <button class="nav-tab" onclick="showPage('lessons')">📚 Lessons</button>
-            <button class="nav-tab" onclick="showPage('achievements')">🏅 Achievements</button>
-            <button class="nav-tab" onclick="window.location.href='login.html'" id="loginBtn">🔑 Login</button>
+            <!-- Main Navigation Section -->
+            <div class="nav-section main-nav">
+                <h3 class="nav-section-title">🎯 Navigate</h3>
+                <div class="nav-buttons">
+                    <button class="nav-tab active" onclick="showPage('home')">🏠 Home</button>
+                    <button class="nav-tab" onclick="showPage('quizzes')">📝 Quizzes</button>
+                    <button class="nav-tab" onclick="showPage('lessons')">📚 Lessons</button>
+                    <button class="nav-tab" onclick="showPage('achievements')">🏅 Awards</button>
+                </div>
+            </div>
+            
+            <!-- Premium Section -->
+            <div class="nav-section premium-nav">
+                <h3 class="nav-section-title">⭐ Premium</h3>
+                <div class="nav-buttons">
+                    <button class="nav-tab premium-btn" onclick="window.location.href='subscription.html'">
+                        <span class="premium-shine">✨</span> Upgrade
+                    </button>
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('family-dashboard.html')" id="familyBtn" style="display:none;">
+                        👨‍👩‍👧‍👦 Family
+                    </button>
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('analytics.html')" id="analyticsBtn" style="display:none;">
+                        📊 Analytics
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Account Section -->
+            <div class="nav-section account-nav">
+                <h3 class="nav-section-title">👤 Account</h3>
+                <div class="nav-buttons">
+                    <button class="nav-tab" onclick="window.location.href='login.html'" id="loginBtn">🔑 Login</button>
+                    <button class="nav-tab" onclick="window.location.href='register.html'" id="registerBtn">📝 Register</button>
+                    <button class="nav-tab" onclick="logout()" id="logoutBtn" style="display:none;">🚪 Logout</button>
+                </div>
+            </div>
         </div>
         <div id="home" class="page active">
         <h1 class="mathsmayhem-gradient-title" style="font-size:3em;">🎉 Welcome to MathsMayhem! 🎉</h1>
@@ -334,6 +622,7 @@
         </div>
         <div id="quizzes" class="page">
             <h2 style="color:#4ac6ff; font-size:2em;">📝 Choose a Quiz! 📝</h2>
+            <div class="quiz-count-display" style="text-align: center; margin-bottom: 20px; font-size: 1.1rem;"></div>
             <div class="quizzes-list">
                 <div class="quiz-card" onclick="startQuiz('addition')">
                     <div class="quiz-icon">➕</div>
@@ -365,20 +654,35 @@
                     <div class="quiz-title">Number Detective</div>
                     <div class="quiz-desc">Compare numbers</div>
                 </div>
-                <div class="quiz-card" onclick="startQuiz('fractions')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumQuiz('fractions')">
                     <div class="quiz-icon">🍕</div>
                     <div class="quiz-title">Fraction Pizza Party</div>
                     <div class="quiz-desc">Learn about fractions</div>
                 </div>
-                <div class="quiz-card" onclick="startQuiz('patterns')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumQuiz('patterns')">
                     <div class="quiz-icon">🎨</div>
                     <div class="quiz-title">Pattern Master</div>
                     <div class="quiz-desc">Find number patterns</div>
                 </div>
-                <div class="quiz-card" onclick="startQuiz('wordproblems')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumQuiz('wordproblems')">
                     <div class="quiz-icon">📖</div>
                     <div class="quiz-title">Story Math Heroes</div>
                     <div class="quiz-desc">Solve word problems</div>
+                </div>
+                <div class="quiz-card ai-tutor-locked" onclick="handleAITutorQuiz('algebra')">
+                    <div class="quiz-icon">🤖</div>
+                    <div class="quiz-title">AI Algebra Tutor</div>
+                    <div class="quiz-desc">Personal AI math tutor</div>
+                </div>
+                <div class="quiz-card ai-tutor-locked" onclick="handleAITutorQuiz('geometry')">
+                    <div class="quiz-icon">📐</div>
+                    <div class="quiz-title">AI Geometry Guide</div>
+                    <div class="quiz-desc">Step-by-step solutions</div>
+                </div>
+                <div class="quiz-card genius-locked" onclick="handleGeniusFeature('advanced-calc')">
+                    <div class="quiz-icon">🧮</div>
+                    <div class="quiz-title">Advanced Calculator</div>
+                    <div class="quiz-desc">Scientific calculations</div>
                 </div>
             </div>
         </div>
@@ -439,7 +743,7 @@
                     <div class="quiz-icon">➖</div>
                     <div class="quiz-title">Subtraction</div>
                 </div>
-                <div class="quiz-card" onclick="showLesson('multiplication')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumLesson('multiplication')">
                     <div class="quiz-icon">✖️</div>
                     <div class="quiz-title">Multiplication</div>
                 </div>
@@ -447,11 +751,11 @@
                     <div class="quiz-icon">➗</div>
                     <div class="quiz-title">Division</div>
                 </div>
-                <div class="quiz-card" onclick="showLesson('fractions')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumLesson('fractions')">
                     <div class="quiz-icon">🍕</div>
                     <div class="quiz-title">Fractions</div>
                 </div>
-                <div class="quiz-card" onclick="showLesson('patterns')">
+                <div class="quiz-card premium-locked" onclick="handlePremiumLesson('patterns')">
                     <div class="quiz-icon">🎨</div>
                     <div class="quiz-title">Patterns</div>
                 </div>
@@ -639,6 +943,12 @@
             { id: 'score_500', name: 'Half Grand', icon: '🏆', description: 'Score 500 points!', unlocked: false },
             { id: 'score_1000', name: 'Thousand Club', icon: '💎', description: 'Score 1000 points!', unlocked: false },
             
+            // Premium achievements (only unlockable by premium users)
+            { id: 'family_manager', name: 'Family Manager', icon: '👨‍👩‍👧‍👦', description: 'Set up family dashboard!', unlocked: false, premium: true },
+            { id: 'analytics_explorer', name: 'Data Detective', icon: '📊', description: 'View your analytics dashboard!', unlocked: false, premium: true },
+            { id: 'ai_student', name: 'AI Student', icon: '🤖', description: 'Ask your first AI tutor question!', unlocked: false, proTutor: true },
+            { id: 'genius_calculator', name: 'Calculator Genius', icon: '🧮', description: 'Use the advanced calculator!', unlocked: false, genius: true },
+            
             // Subject expert achievements
             { id: 'addition_expert', name: 'Addition Expert', icon: '➕', description: 'Score 80% or higher in Addition!', unlocked: false },
             { id: 'subtraction_expert', name: 'Subtraction Expert', icon: '➖', description: 'Score 80% or higher in Subtraction!', unlocked: false },
@@ -646,9 +956,9 @@
             { id: 'division_expert', name: 'Division Expert', icon: '➗', description: 'Score 80% or higher in Division!', unlocked: false },
             { id: 'mixed_expert', name: 'Mixed Math Master', icon: '🌟', description: 'Score 80% or higher in Mixed Math!', unlocked: false },
             { id: 'comparison_expert', name: 'Comparison Champion', icon: '⚖️', description: 'Score 80% or higher in Number Detective!', unlocked: false },
-            { id: 'fractions_expert', name: 'Fraction Hero', icon: '🍕', description: 'Score 80% or higher in Fractions!', unlocked: false },
-            { id: 'patterns_expert', name: 'Pattern Genius', icon: '🎨', description: 'Score 80% or higher in Patterns!', unlocked: false },
-            { id: 'wordproblems_expert', name: 'Story Math Wizard', icon: '📖', description: 'Score 80% or higher in Word Problems!', unlocked: false },
+            { id: 'fractions_expert', name: 'Fraction Hero', icon: '🍕', description: 'Score 80% or higher in Fractions!', unlocked: false, premium: true },
+            { id: 'patterns_expert', name: 'Pattern Genius', icon: '🎨', description: 'Score 80% or higher in Patterns!', unlocked: false, premium: true },
+            { id: 'wordproblems_expert', name: 'Story Math Wizard', icon: '📖', description: 'Score 80% or higher in Word Problems!', unlocked: false, premium: true },
             
             // Perfect score achievements
             { id: 'perfect_5', name: 'Perfect Start', icon: '⭐', description: 'Get 100% on a 5-question quiz!', unlocked: false },
@@ -727,10 +1037,21 @@
             if (pageId === 'achievements') {
                 displayAchievements();
             }
+            
+            // Special handling for quizzes page - update quiz count display
+            if (pageId === 'quizzes') {
+                updateQuizCountDisplay();
+            }
         }
 
         // Start quiz function
     function startQuiz(quizType) {
+        // Check if user has reached daily limit (only for non-premium users)
+        if (!isPremiumUser() && hasReachedDailyLimit()) {
+            showPremiumUpgradeModal();
+            return;
+        }
+
         quiztate.currentquiz = quizType;
         quiztate.difficulty = null;
         quiztate.questionCount = 0;
@@ -754,6 +1075,384 @@
         document.getElementById('startquizBtn').style.display = 'none';
 
         showPage('quizSetup');
+    }
+
+    // --- Premium System Functions ---
+    function isPremiumUser() {
+        const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+        return subscriptionPlan && (subscriptionPlan === 'premium' || subscriptionPlan === 'family' || 
+               subscriptionPlan === 'pro-tutor' || subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+    }
+
+    function isFamilyPlanUser() {
+        const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+        return subscriptionPlan && (subscriptionPlan === 'family' || subscriptionPlan === 'pro-tutor' || 
+               subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+    }
+
+    function isAITutorUser() {
+        const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+        return subscriptionPlan && (subscriptionPlan === 'pro-tutor' || subscriptionPlan === 'math-genius' || 
+               subscriptionPlan === 'schools');
+    }
+
+    function isGeniusUser() {
+        const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+        return subscriptionPlan && (subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+    }
+
+    function handleAITutorQuiz(quizType) {
+        if (isAITutorUser()) {
+            startAITutorSession(quizType);
+        } else {
+            showUpgradeModal('Pro Tutor', 'AI Tutoring features with step-by-step explanations');
+        }
+    }
+
+    function handleGeniusFeature(featureType) {
+        if (isGeniusUser()) {
+            openGeniusFeature(featureType);
+        } else {
+            showUpgradeModal('Math Genius', 'Advanced mathematical tools and features');
+        }
+    }
+
+    function startAITutorSession(quizType) {
+        // Create AI Tutor modal
+        const modal = `
+            <div id="aiTutorModal" style="
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.9); z-index: 10000; 
+                display: flex; align-items: center; justify-content: center;
+            ">
+                <div style="
+                    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                    border-radius: 25px; padding: 40px; max-width: 600px; width: 90%;
+                    text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    max-height: 80vh; overflow-y: auto;
+                ">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🤖</div>
+                    <h2 style="color: #4a90e2; margin-bottom: 15px; font-size: 2rem;">AI Math Tutor</h2>
+                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 25px;">
+                        Hello! I'm your personal AI math tutor. I'll help you solve problems step-by-step!
+                    </p>
+                    <div id="tutorContent" style="background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: left;">
+                        <p><strong>🎯 What I can help with:</strong></p>
+                        <ul style="color: #666; line-height: 1.6; margin: 10px 0; padding-left: 20px;">
+                            <li>📝 Step-by-step problem solving</li>
+                            <li>💡 Explain mathematical concepts</li>
+                            <li>🔍 Break down complex problems</li>
+                            <li>📊 Visual explanations with examples</li>
+                            <li>🎨 Interactive learning activities</li>
+                        </ul>
+                        <div style="background: white; border-radius: 10px; padding: 15px; margin-top: 15px;">
+                            <p style="color: #4a90e2; font-weight: bold; margin-bottom: 10px;">Try asking me:</p>
+                            <p style="color: #666; margin: 5px 0;">"How do I solve 2x + 5 = 13?"</p>
+                            <p style="color: #666; margin: 5px 0;">"Explain fractions to me"</p>
+                            <p style="color: #666; margin: 5px 0;">"What's the area of a circle?"</p>
+                        </div>
+                    </div>
+                    <textarea id="tutorInput" placeholder="Ask me any math question..." style="
+                        width: 100%; height: 80px; padding: 15px; border-radius: 15px;
+                        border: 2px solid #e0e0e0; font-size: 1rem; resize: none;
+                        margin-bottom: 20px; box-sizing: border-box;
+                    "></textarea>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="askAITutor()" style="
+                            background: linear-gradient(90deg, #4a90e2, #357abd);
+                            color: white; border: none; padding: 15px 25px;
+                            border-radius: 20px; font-size: 1.1rem; font-weight: bold;
+                            cursor: pointer; box-shadow: 0 4px 15px rgba(74,144,226,0.3);
+                        ">🤖 Ask Tutor</button>
+                        <button onclick="closeAITutorModal()" style="
+                            background: #e2e8f0; color: #666; border: none;
+                            padding: 15px 25px; border-radius: 20px; font-size: 1.1rem;
+                            cursor: pointer;
+                        ">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modal);
+    }
+
+    function askAITutor() {
+        const input = document.getElementById('tutorInput');
+        const question = input.value.trim();
+        
+        if (!question) {
+            alert('Please enter a question for the AI tutor!');
+            return;
+        }
+        
+        // Unlock AI student achievement on first question
+        unlockAchievement('ai_student');
+        
+        // Simulate AI response with educational content
+        const responses = {
+            'fraction': "🍕 Great question about fractions! Let me break this down:\n\n1️⃣ A fraction shows parts of a whole\n2️⃣ The top number (numerator) = parts you have\n3️⃣ The bottom number (denominator) = total parts\n\nExample: 3/4 means you have 3 out of 4 equal parts! 🎯",
+            'algebra': "🔢 Algebra is like solving puzzles! Here's how:\n\n1️⃣ Find what 'x' equals\n2️⃣ Do the same thing to both sides\n3️⃣ Get 'x' by itself\n\nExample: 2x + 5 = 13\n→ 2x = 13 - 5 = 8\n→ x = 8 ÷ 2 = 4 ✨",
+            'geometry': "📐 Geometry is about shapes and space! Key concepts:\n\n🔺 Triangles: 3 sides, angles add to 180°\n⭕ Circles: Area = πr², Circumference = 2πr\n🔲 Rectangles: Area = length × width\n\nRemember: Draw it out to visualize! 🎨"
+        };
+        
+        // Simple keyword matching for demo
+        let response = "🤔 Interesting question! Let me help you understand this concept step by step:\n\n";
+        
+        if (question.toLowerCase().includes('fraction')) {
+            response += responses.fraction;
+        } else if (question.toLowerCase().includes('algebra') || question.toLowerCase().includes('solve')) {
+            response += responses.algebra;
+        } else if (question.toLowerCase().includes('geometry') || question.toLowerCase().includes('area') || question.toLowerCase().includes('circle')) {
+            response += responses.geometry;
+        } else {
+            response += "1️⃣ First, let's identify what type of problem this is\n2️⃣ Then we'll break it into smaller steps\n3️⃣ Finally, we'll solve it together!\n\n💡 Tip: Practice makes perfect! Try similar problems to master this concept.";
+        }
+        
+        // Update tutor content with response
+        document.getElementById('tutorContent').innerHTML = `
+            <div style="background: white; border-radius: 10px; padding: 20px; border-left: 4px solid #4a90e2;">
+                <h4 style="color: #4a90e2; margin-bottom: 10px;">🤖 AI Tutor Response:</h4>
+                <p style="white-space: pre-line; color: #333; line-height: 1.6;">${response}</p>
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background: #e8f4fd; border-radius: 10px;">
+                <p style="color: #4a90e2; font-weight: bold; margin-bottom: 5px;">Your Question:</p>
+                <p style="color: #666; font-style: italic;">"${question}"</p>
+            </div>
+        `;
+        
+        input.value = '';
+    }
+
+    function closeAITutorModal() {
+        const modal = document.getElementById('aiTutorModal');
+        if (modal) modal.remove();
+    }
+
+    function openGeniusFeature(featureType) {
+        if (featureType === 'advanced-calc') {
+            // Unlock genius calculator achievement
+            unlockAchievement('genius_calculator');
+            
+            // Open advanced calculator in new window/tab
+            window.open('data:text/html,<html><head><title>Advanced Calculator</title></head><body style="font-family: Arial; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;"><h1>🧮 Advanced Calculator</h1><p>Scientific calculator with advanced functions coming soon!</p><div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-top: 20px;"><h3>Features include:</h3><ul><li>📊 Graphing capabilities</li><li>🔢 Complex number operations</li><li>📐 Trigonometric functions</li><li>🧪 Scientific notation</li><li>📈 Statistical analysis</li></ul></div></body></html>', '_blank');
+        }
+    }
+
+    function showUpgradeModal(planName, features) {
+        const modal = `
+            <div id="upgradeModal" style="
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); z-index: 10000; 
+                display: flex; align-items: center; justify-content: center;
+            ">
+                <div style="
+                    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                    border-radius: 25px; padding: 40px; max-width: 500px; width: 90%;
+                    text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">⭐</div>
+                    <h2 style="color: #9c27b0; margin-bottom: 15px; font-size: 2rem;">Upgrade Required</h2>
+                    <p style="color: #666; font-size: 1.2rem; margin-bottom: 25px;">
+                        This feature requires ${planName} plan!
+                    </p>
+                    <div style="background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 25px;">
+                        <p style="color: #9c27b0; font-weight: bold; margin-bottom: 10px;">${features}</p>
+                    </div>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="window.location.href='subscription.html'" style="
+                            background: linear-gradient(90deg, #9c27b0, #673ab7);
+                            color: white; border: none; padding: 15px 25px;
+                            border-radius: 20px; font-size: 1.1rem; font-weight: bold;
+                            cursor: pointer; box-shadow: 0 4px 15px rgba(156,39,176,0.3);
+                        ">⭐ Upgrade Now</button>
+                        <button onclick="closeUpgradeModal()" style="
+                            background: #e2e8f0; color: #666; border: none;
+                            padding: 15px 25px; border-radius: 20px; font-size: 1.1rem;
+                            cursor: pointer;
+                        ">Maybe Later</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modal);
+    }
+
+    function closeUpgradeModal() {
+        const modal = document.getElementById('upgradeModal');
+        if (modal) modal.remove();
+    }
+
+    function openPremiumFeature(featurePage) {
+        if (isPremiumUser()) {
+            // Unlock achievement when accessing premium features
+            if (featurePage === 'family-dashboard.html' && isFamilyPlanUser()) {
+                unlockAchievement('family_manager');
+            } else if (featurePage === 'analytics.html') {
+                unlockAchievement('analytics_explorer');
+            }
+            window.open(featurePage, '_blank');
+        } else {
+            showPremiumUpgradeModal('feature', featurePage.replace('.html', ''));
+        }
+    }
+
+    function handlePremiumQuiz(quizType) {
+        if (isPremiumUser()) {
+            startQuiz(quizType);
+        } else {
+            showPremiumUpgradeModal('quiz', quizType);
+        }
+    }
+
+    function handlePremiumLesson(lessonType) {
+        if (isPremiumUser()) {
+            showLesson(lessonType);
+        } else {
+            showPremiumUpgradeModal('lesson', lessonType);
+        }
+    }
+
+    function showPremiumUpgradeModal(contentType, itemType) {
+        const contentName = itemType.charAt(0).toUpperCase() + itemType.slice(1);
+        const typeText = contentType === 'quiz' ? 'quiz' : contentType === 'lesson' ? 'lesson' : 'feature';
+        
+        const message = `🔒 Premium Feature!\n\nThe ${contentName} ${typeText} is available for Premium subscribers only!\n\n✨ Upgrade to Premium for:\n• Unlimited access to all ${contentType}s\n• Family Dashboard with parental controls\n• Advanced Analytics with AI insights\n• Ad-free experience\n• Priority support\n\nWould you like to upgrade now?`;
+        
+        if (confirm(message)) {
+            window.location.href = 'subscription.html';
+        }
+    }
+
+    function getTodayString() {
+        return new Date().toDateString();
+    }
+
+    function getDailyQuizCount() {
+        const today = getTodayString();
+        const dailyData = JSON.parse(localStorage.getItem('dailyQuizData') || '{}');
+        
+        if (dailyData.date !== today) {
+            // New day, reset count
+            const newData = { date: today, quizCount: 0 };
+            localStorage.setItem('dailyQuizData', JSON.stringify(newData));
+            return 0;
+        }
+        
+        return dailyData.quizCount || 0;
+    }
+
+    function incrementDailyQuizCount() {
+        const today = getTodayString();
+        const dailyData = JSON.parse(localStorage.getItem('dailyQuizData') || '{}');
+        
+        const newData = {
+            date: today,
+            quizCount: (dailyData.date === today ? dailyData.quizCount || 0 : 0) + 1
+        };
+        
+        localStorage.setItem('dailyQuizData', JSON.stringify(newData));
+        updateQuizCountDisplay();
+    }
+
+    function hasReachedDailyLimit() {
+        const DAILY_LIMIT = 5; // Free users get 5 quizzes per day
+        return getDailyQuizCount() >= DAILY_LIMIT;
+    }
+
+    function getRemainingQuizzes() {
+        const DAILY_LIMIT = 5;
+        return Math.max(0, DAILY_LIMIT - getDailyQuizCount());
+    }
+
+    function updateQuizCountDisplay() {
+        const countElements = document.querySelectorAll('.quiz-count-display');
+        const quizCards = document.querySelectorAll('.quiz-card');
+        
+        if (isPremiumUser()) {
+            countElements.forEach(el => {
+                el.innerHTML = '<span style="color: #10c168; font-weight: bold;">✨ Unlimited Quizzes!</span>';
+            });
+            // Remove locked styling from all quiz cards
+            quizCards.forEach(card => {
+                card.classList.remove('daily-limit-reached');
+            });
+        } else {
+            const remaining = getRemainingQuizzes();
+            countElements.forEach(el => {
+                el.innerHTML = `<span style="color: ${remaining > 0 ? '#4ac6ff' : '#ff6b6b'}; font-weight: bold;">
+                    ${remaining > 0 ? `${remaining} quizzes remaining today` : 'Daily limit reached! Upgrade for unlimited access 🚀'}
+                </span>`;
+            });
+            
+            // Add locked styling to quiz cards when limit is reached
+            if (remaining === 0) {
+                quizCards.forEach(card => {
+                    card.classList.add('daily-limit-reached');
+                });
+            } else {
+                quizCards.forEach(card => {
+                    card.classList.remove('daily-limit-reached');
+                });
+            }
+        }
+    }
+
+    function showPremiumUpgradeModal() {
+        const modal = `
+            <div id="premiumModal" style="
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); z-index: 10000; 
+                display: flex; align-items: center; justify-content: center;
+            ">
+                <div style="
+                    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                    border-radius: 25px; padding: 40px; max-width: 550px; width: 90%;
+                    text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🚀</div>
+                    <h2 style="color: #4a90e2; margin-bottom: 15px; font-size: 2rem;">Daily Limit Reached!</h2>
+                    <p style="color: #666; font-size: 1.2rem; margin-bottom: 25px;">
+                        You've completed your 5 free quizzes for today! 🎉
+                    </p>
+                    <div style="background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 25px;">
+                        <p style="color: #4a90e2; font-weight: bold; margin-bottom: 10px;">🌟 Premium Benefits:</p>
+                        <ul style="text-align: left; color: #666; line-height: 1.6; margin: 0; padding-left: 20px;">
+                            <li>✨ Unlimited quizzes & lessons</li>
+                            <li>📊 Advanced Analytics with AI insights</li>
+                            <li>👨‍👩‍👧‍👦 Family Dashboard with parental controls</li>
+                            <li>🎯 Premium achievements & badges</li>
+                            <li>📈 Detailed progress tracking</li>
+                            <li>🚫 Ad-free experience</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="window.location.href='subscription.html'" style="
+                            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+                            color: white; border: none; padding: 15px 25px;
+                            border-radius: 20px; font-size: 1.1rem; font-weight: bold;
+                            cursor: pointer; box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+                        ">🌟 Upgrade to Premium</button>
+                        <button onclick="closePremiumModal()" style="
+                            background: #e2e8f0; color: #666; border: none;
+                            padding: 15px 25px; border-radius: 20px; font-size: 1.1rem;
+                            cursor: pointer;
+                        ">Maybe Later</button>
+                    </div>
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 20px;">
+                        ⏰ Your free quizzes reset at midnight!
+                    </p>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modal);
+    }
+
+    function closePremiumModal() {
+        const modal = document.getElementById('premiumModal');
+        if (modal) modal.remove();
     }
 
         // --- Progress saving functions ---
@@ -967,6 +1666,11 @@
 
         // Begin quiz
         function beginQuiz() {
+            // Increment daily quiz count for non-premium users
+            if (!isPremiumUser()) {
+                incrementDailyQuizCount();
+            }
+
             generateQuestions();
             quiztate.currentQuestionIndex = 0;
             quiztate.attempts = 0;
@@ -2388,25 +3092,45 @@
         // Call loadProgress on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadProgress();
-            updateAuthButtons();
+            // Wait for userManager to be loaded before updating auth buttons
+            setTimeout(updateAuthButtons, 100);
         });
         // Show/hide login and logout buttons based on login state
         function updateAuthButtons() {
-            const username = localStorage.getItem('username');
+            const isLoggedIn = userManager && userManager.isLoggedIn();
             const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
             const logoutBtn = document.getElementById('logoutBtn');
-            if (username) {
+            const familyBtn = document.getElementById('familyBtn');
+            const analyticsBtn = document.getElementById('analyticsBtn');
+            
+            if (isLoggedIn) {
                 if (loginBtn) loginBtn.style.display = 'none';
+                if (registerBtn) registerBtn.style.display = 'none';
                 if (logoutBtn) logoutBtn.style.display = '';
+                
+                // Show premium feature buttons if user has appropriate subscription
+                if (isFamilyPlanUser()) {
+                    if (familyBtn) familyBtn.style.display = '';
+                }
+                if (isPremiumUser()) {
+                    if (analyticsBtn) analyticsBtn.style.display = '';
+                }
             } else {
                 if (loginBtn) loginBtn.style.display = '';
+                if (registerBtn) registerBtn.style.display = '';
                 if (logoutBtn) logoutBtn.style.display = 'none';
+                if (familyBtn) familyBtn.style.display = 'none';
+                if (analyticsBtn) analyticsBtn.style.display = 'none';
             }
         }
 
         // Logout function
         function logout() {
-            localStorage.removeItem('username');
+            if (userManager) {
+                userManager.logout();
+            }
+            localStorage.removeItem('username'); // Clean up old system too
             updateAuthButtons();
             // Optionally reload or redirect to home
             showPage('home');
@@ -2460,11 +3184,35 @@ function showCelebration(message) {
             
             achievements.forEach(achievement => {
                 const achievementEl = document.createElement('div');
-                achievementEl.className = `achievement ${achievement.unlocked ? '' : 'locked'}`;
+                
+                // Check if user has access to this achievement based on subscription
+                let hasAccess = true;
+                if (achievement.premium && !isPremiumUser()) hasAccess = false;
+                if (achievement.proTutor && !isAITutorUser()) hasAccess = false;
+                if (achievement.genius && !isGeniusUser()) hasAccess = false;
+                
+                let className = 'achievement';
+                let iconDisplay = achievement.unlocked ? achievement.icon : '🔒';
+                let nameDisplay = achievement.name;
+                let descriptionDisplay = achievement.description;
+                
+                if (!hasAccess) {
+                    className += ' premium-locked-achievement';
+                    iconDisplay = '🔒';
+                    if (achievement.premium) nameDisplay += ' (Premium)';
+                    if (achievement.proTutor) nameDisplay += ' (AI Tutor)';
+                    if (achievement.genius) nameDisplay += ' (Genius)';
+                    descriptionDisplay = `Upgrade to unlock this achievement! ${achievement.description}`;
+                } else if (!achievement.unlocked) {
+                    className += ' locked';
+                }
+                
+                achievementEl.className = className;
                 achievementEl.innerHTML = `
-                    <div class="achievement-icon">${achievement.unlocked ? achievement.icon : '🔒'}</div>
-                    <h4>${achievement.name}</h4>
-                    <p>${achievement.description}</p>
+                    <div class="achievement-icon">${iconDisplay}</div>
+                    <h4>${nameDisplay}</h4>
+                    <p>${descriptionDisplay}</p>
+                    ${!hasAccess ? '<div class="upgrade-badge">Upgrade Required</div>' : ''}
                 `;
                 achievementsList.appendChild(achievementEl);
             });
@@ -2820,6 +3568,38 @@ function showCelebration(message) {
             const skipBtn = document.getElementById('skipBtn');
             if (skipBtn && skipBtn.parentNode) skipBtn.parentNode.removeChild(skipBtn);
         }
+    </script>
+    <script src="user-manager.js"></script>
+    <script>
+        // Check authentication before loading main app
+        function checkAuthentication() {
+            const isLoggedIn = localStorage.getItem('username') || 
+                             sessionStorage.getItem('username') ||
+                             (typeof userManager !== 'undefined' && userManager.isLoggedIn());
+            
+            if (!isLoggedIn) {
+                // User is not logged in, redirect to welcome page
+                window.location.href = 'welcome.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Update auth buttons when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            // Check authentication first
+            if (!checkAuthentication()) {
+                return; // Stop execution if not authenticated
+            }
+            
+            // Wait a moment for userManager to load
+            setTimeout(() => {
+                // Update auth buttons after userManager is loaded
+                updateAuthButtons();
+                // Update quiz count display
+                updateQuizCountDisplay();
+            }, 100);
+        });
     </script>
 </body>
 </html>

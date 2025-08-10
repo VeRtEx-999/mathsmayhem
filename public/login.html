@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleBtn.addEventListener('click', function() {
             visible = !visible;
             passwordInput.type = visible ? 'text' : 'password';
-            eyeIcon.innerHTML = visibleß
+            eyeIcon.innerHTML = visible
                 ? '<svg id="eyeSlashSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.07 21.07 0 0 1 5.06-6.06"/><path d="M1 1l22 22"/><path d="M9.53 9.53A3 3 0 0 0 12 15a3 3 0 0 0 2.47-5.47"/><path d="M12 5c7 0 11 7 11 7a21.07 21.07 0 0 1-5.06 6.06"/></svg>'
                 : '<svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
         });
@@ -128,19 +128,16 @@ async function handleLogin(e) {
     e.preventDefault();
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
-    // Send login request to backend
-    const res = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    });
-    if (res.ok) {
-        localStorage.setItem('username', username);
-        window.location.href = "index.HTML";
-    } else {
-        alert('Login failed! Please check your username and password.');
+    
+    try {
+        userManager.login(username, password);
+        alert('Login successful!');
+        window.location.href = "index.html";
+    } catch (error) {
+        alert('Login failed: ' + error.message);
     }
 }
 </script>
+    <script src="user-manager.js"></script>
 </body>
 </html>

@@ -94,32 +94,52 @@
         <div class="login-title">Create Your Account!</div>
         <form onsubmit="return handleRegister(event)">
             <input class="login-input" type="text" id="register-username" placeholder="👦 Username" required><br>
-            <input class="login-input" type="password" id="register-password" placeholder="🔑 Password" required><br>
+            <div style="position:relative; width:100%;">
+                <input class="login-input" type="password" id="register-password" placeholder="🔑 Password" required style="padding-right:44px; width:100%; box-sizing:border-box;">
+                <button type="button" id="togglePassword" style="position:absolute; right:18px; top:50%; transform:translateY(-50%); background:#fff; border:2px solid #4a90e2; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 8px #4a90e222; transition:background 0.2s;" tabindex="-1" aria-label="Show password">
+                    <span id="eyeIcon">
+                        <svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </span>
+                </button>
+            </div><br>
             <button class="login-btn" type="submit">🎉 Register</button>
         </form>
         <a class="register-link" href="login.html">Already have an account? Log in!</a>
         <div class="login-footer">Ready for math adventures? 🚀</div>
     </div>
     <script>
+        // Password visibility toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('register-password');
+            const toggleBtn = document.getElementById('togglePassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (toggleBtn && passwordInput && eyeIcon) {
+                let visible = false;
+                toggleBtn.addEventListener('click', function() {
+                    visible = !visible;
+                    passwordInput.type = visible ? 'text' : 'password';
+                    eyeIcon.innerHTML = visible
+                        ? '<svg id="eyeSlashSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.07 21.07 0 0 1 5.06-6.06"/><path d="M1 1l22 22"/><path d="M9.53 9.53A3 3 0 0 0 12 15a3 3 0 0 0 2.47-5.47"/><path d="M12 5c7 0 11 7 11 7a21.07 21.07 0 0 1-5.06 6.06"/></svg>'
+                        : '<svg id="eyeSvg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+                });
+            }
+        });
+
         async function handleRegister(e) {
             e.preventDefault();
             const username = document.getElementById('register-username').value;
             const password = document.getElementById('register-password').value;
-            // Send registration request to backend
-            const res = await fetch('http://localhost:3000/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            if (res.ok) {
+            
+            try {
+                userManager.register(username, password);
                 alert('Registration successful! Please log in.');
                 window.location.href = "login.html";
-            } else {
-                const data = await res.json();
-                alert(data.message || 'Registration failed.');
+            } catch (error) {
+                alert('Registration failed: ' + error.message);
             }
             return false;
         }
     </script>
+    <script src="user-manager.js"></script>
 </body>
 </html>

@@ -414,18 +414,42 @@
     </div>
 
     <script>
-        // Check if user is already logged in and redirect to main app
+        // Check if user is already logged in and show a button
         document.addEventListener('DOMContentLoaded', function() {
-            // Check various ways user might be logged in
-            const isLoggedIn = localStorage.getItem('username') || 
-                             sessionStorage.getItem('username') ||
-                             document.cookie.includes('logged_in=true');
-            
-            if (isLoggedIn) {
-                // User is already logged in, redirect to main app
-                window.location.href = 'index.html';
-            }
+            setTimeout(() => {
+                const isLoggedIn = localStorage.getItem('currentUser') || 
+                                 localStorage.getItem('username') || 
+                                 sessionStorage.getItem('username') ||
+                                 document.cookie.includes('logged_in=true');
+                
+                console.log('Welcome page - checking login status:', isLoggedIn);
+                
+                if (isLoggedIn) {
+                    // User is already logged in, show a go to dashboard button
+                    const authButtons = document.querySelector('.auth-buttons');
+                    if (authButtons) {
+                        authButtons.innerHTML = `
+                            <a href="index.html" class="auth-btn login" style="background: linear-gradient(90deg, #10c168, #48bb78);">
+                                🚀 Go to Dashboard
+                            </a>
+                            <button onclick="logout()" class="auth-btn register" style="background: linear-gradient(90deg, #ff6b6b, #fcb045);">
+                                🚪 Logout
+                            </button>
+                        `;
+                        console.log('✅ Showing dashboard buttons for logged in user');
+                    }
+                } else {
+                    console.log('🚪 Showing login/register buttons for guest user');
+                }
+            }, 500);
         });
+        
+        function logout() {
+            console.log('🚪 Logging out from welcome page...');
+            localStorage.clear();
+            sessionStorage.clear();
+            location.reload();
+        }
 
         // Add some interactive elements
         document.querySelectorAll('.feature-card').forEach(card => {

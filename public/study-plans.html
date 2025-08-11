@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Plans - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+        }
+        
+        .study-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #4a90e2;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .study-sections {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .section-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .current-plan {
+            background: linear-gradient(145deg, #e6f3ff, #cce7ff);
+            border: 2px solid #4a90e2;
+        }
+        
+        .plan-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .plan-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .plan-progress {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .plan-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .topic-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .topic-item:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .topic-item.completed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .topic-item.in-progress {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        
+        .topic-name {
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        
+        .topic-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .topic-status {
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .status-not-started {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+        
+        .status-in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #667eea, #4a90e2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .ai-recommendations {
+            background: linear-gradient(145deg, #f0f8ff, #e6f3ff);
+            border: 2px solid #4a90e2;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .ai-title {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .premium-notice {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .premium-notice h3 {
+            color: #4a90e2;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+        
+        .premium-notice p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="study-container">
+        <a href="index.html" class="back-btn">⬅️ Back to App</a>
+        
+        <div class="header">
+            <h1>📚 Personalized Study Plans</h1>
+            <p>AI-powered learning paths tailored just for you</p>
+        </div>
+        
+        <div id="premium-notice" class="premium-notice" style="display: none;">
+            <h3>🧑‍🏫 Pro Tutor Feature</h3>
+            <p>Personalized study plans are available for Pro Tutor and Math Genius subscribers. <a href="subscription.html" style="color: #4a90e2;">Upgrade now</a> to unlock AI-powered learning paths!</p>
+        </div>
+        
+        <div class="study-sections">
+            <!-- Current Study Plan -->
+            <div class="section-card current-plan">
+                <div class="section-title">
+                    <span>🎯</span>
+                    Your Current Study Plan
+                </div>
+                
+                <div class="plan-card" id="current-plan">
+                    <div class="plan-header">
+                        <div class="plan-title">Algebra Mastery Path</div>
+                        <div class="plan-progress">Progress: <span id="plan-progress">0%</span></div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <p style="color: #666; margin-bottom: 20px;">Master algebraic concepts step by step with personalized practice and AI tutoring.</p>
+                    
+                    <div class="plan-topics" id="study-topics">
+                        <!-- Topics will be loaded dynamically -->
+                    </div>
+                    
+                    <div style="margin-top: 20px; display: flex; gap: 15px;">
+                        <button class="btn btn-primary" onclick="continueLearning()">📖 Continue Learning</button>
+                        <button class="btn btn-secondary" onclick="generateNewPlan()">🔄 Generate New Plan</button>
+                    </div>
+                </div>
+                
+                <div class="ai-recommendations">
+                    <div class="ai-title">
+                        <span>🤖</span>
+                        AI Tutor Recommendations
+                    </div>
+                    <div id="ai-recommendations">
+                        <!-- AI recommendations will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Study Statistics -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span>📊</span>
+                    Your Learning Analytics
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; color: #4a90e2; font-weight: bold;" id="study-streak">0</div>
+                        <div style="color: #666;">Day Study Streak</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; color: #28a745; font-weight: bold;" id="topics-completed">0</div>
+                        <div style="color: #666;">Topics Completed</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; color: #ffc107; font-weight: bold;" id="study-hours">0</div>
+                        <div style="color: #666;">Hours Studied</div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 2rem; color: #dc3545; font-weight: bold;" id="accuracy-rate">0%</div>
+                        <div style="color: #666;">Accuracy Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Available Study Plans -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span>📋</span>
+                    Available Study Plans
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;" id="available-plans">
+                    <!-- Available plans will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="user-manager.js"></script>
+    <script>
+        // Study plan data
+        const studyPlans = {
+            'algebra': {
+                title: 'Algebra Mastery Path',
+                description: 'Master algebraic concepts step by step',
+                topics: [
+                    { name: 'Basic Operations', description: 'Addition, subtraction, multiplication, division', status: 'completed' },
+                    { name: 'Linear Equations', description: 'Solving one-step and multi-step equations', status: 'completed' },
+                    { name: 'Inequalities', description: 'Understanding and solving inequalities', status: 'in-progress' },
+                    { name: 'Graphing Lines', description: 'Plotting points and graphing linear functions', status: 'not-started' },
+                    { name: 'Systems of Equations', description: 'Solving systems using substitution and elimination', status: 'not-started' },
+                    { name: 'Quadratic Functions', description: 'Working with parabolas and quadratic equations', status: 'not-started' }
+                ]
+            },
+            'geometry': {
+                title: 'Geometry Explorer',
+                description: 'Discover shapes, angles, and spatial relationships',
+                topics: [
+                    { name: 'Points and Lines', description: 'Basic geometric concepts', status: 'not-started' },
+                    { name: 'Angles', description: 'Types of angles and angle relationships', status: 'not-started' },
+                    { name: 'Triangles', description: 'Properties and types of triangles', status: 'not-started' },
+                    { name: 'Circles', description: 'Circumference, area, and circle properties', status: 'not-started' },
+                    { name: 'Area and Perimeter', description: 'Calculating area and perimeter of shapes', status: 'not-started' },
+                    { name: '3D Shapes', description: 'Volume and surface area of solids', status: 'not-started' }
+                ]
+            },
+            'calculus': {
+                title: 'Calculus Journey',
+                description: 'Advanced mathematical concepts and applications',
+                topics: [
+                    { name: 'Limits', description: 'Understanding limits and continuity', status: 'not-started' },
+                    { name: 'Derivatives', description: 'Rates of change and differentiation', status: 'not-started' },
+                    { name: 'Applications of Derivatives', description: 'Optimization and related rates', status: 'not-started' },
+                    { name: 'Integration', description: 'Antiderivatives and definite integrals', status: 'not-started' },
+                    { name: 'Applications of Integration', description: 'Area, volume, and applications', status: 'not-started' },
+                    { name: 'Series and Sequences', description: 'Infinite series and convergence', status: 'not-started' }
+                ]
+            }
+        };
+        
+        let currentPlan = 'algebra';
+        
+        // Check subscription status
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            
+            if (!currentUser) {
+                alert('Please log in to access study plans.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (!['tutor', 'genius'].includes(subscriptionPlan)) {
+                document.getElementById('premium-notice').style.display = 'block';
+                return;
+            }
+            
+            loadStudyPlan();
+            loadStatistics();
+            loadAvailablePlans();
+            generateAIRecommendations();
+        });
+        
+        function loadStudyPlan() {
+            const plan = studyPlans[currentPlan];
+            const topicsContainer = document.getElementById('study-topics');
+            
+            // Calculate progress
+            const completedTopics = plan.topics.filter(t => t.status === 'completed').length;
+            const progressPercent = Math.round((completedTopics / plan.topics.length) * 100);
+            
+            document.getElementById('plan-progress').textContent = progressPercent + '%';
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            
+            // Load topics
+            topicsContainer.innerHTML = '';
+            plan.topics.forEach((topic, index) => {
+                const topicEl = document.createElement('div');
+                topicEl.className = `topic-item ${topic.status}`;
+                topicEl.innerHTML = `
+                    <div class="topic-name">${topic.name}</div>
+                    <div class="topic-description">${topic.description}</div>
+                    <span class="topic-status status-${topic.status}">${formatStatus(topic.status)}</span>
+                `;
+                topicEl.onclick = () => startTopic(index);
+                topicsContainer.appendChild(topicEl);
+            });
+        }
+        
+        function formatStatus(status) {
+            const statusMap = {
+                'not-started': 'Not Started',
+                'in-progress': 'In Progress',
+                'completed': '✓ Completed'
+            };
+            return statusMap[status] || status;
+        }
+        
+        function loadStatistics() {
+            // Simulate user statistics
+            const stats = {
+                streak: Math.floor(Math.random() * 30) + 1,
+                completed: Math.floor(Math.random() * 50) + 10,
+                hours: Math.floor(Math.random() * 100) + 20,
+                accuracy: Math.floor(Math.random() * 30) + 70
+            };
+            
+            document.getElementById('study-streak').textContent = stats.streak;
+            document.getElementById('topics-completed').textContent = stats.completed;
+            document.getElementById('study-hours').textContent = stats.hours;
+            document.getElementById('accuracy-rate').textContent = stats.accuracy + '%';
+        }
+        
+        function loadAvailablePlans() {
+            const container = document.getElementById('available-plans');
+            
+            Object.keys(studyPlans).forEach(key => {
+                const plan = studyPlans[key];
+                const planEl = document.createElement('div');
+                planEl.className = 'plan-card';
+                planEl.innerHTML = `
+                    <div class="plan-header">
+                        <div class="plan-title">${plan.title}</div>
+                        <button class="btn btn-primary" onclick="selectPlan('${key}')" ${key === currentPlan ? 'disabled' : ''}>
+                            ${key === currentPlan ? '✓ Active' : 'Select Plan'}
+                        </button>
+                    </div>
+                    <p style="color: #666;">${plan.description}</p>
+                    <div style="color: #4a90e2; font-weight: bold;">${plan.topics.length} Topics</div>
+                `;
+                container.appendChild(planEl);
+            });
+        }
+        
+        function generateAIRecommendations() {
+            const recommendations = [
+                {
+                    title: "Focus on Inequalities",
+                    description: "You're making great progress! Spend more time on inequality word problems to strengthen your understanding."
+                },
+                {
+                    title: "Practice Mental Math",
+                    description: "Try solving simpler problems without a calculator to improve your speed and confidence."
+                },
+                {
+                    title: "Visual Learning",
+                    description: "Use graphing tools to visualize linear equations. This will help with upcoming graphing topics."
+                },
+                {
+                    title: "Review Session Recommended",
+                    description: "Schedule a 15-minute review of completed topics to reinforce your learning."
+                }
+            ];
+            
+            const container = document.getElementById('ai-recommendations');
+            container.innerHTML = '';
+            
+            recommendations.forEach(rec => {
+                const recEl = document.createElement('div');
+                recEl.className = 'recommendation-item';
+                recEl.innerHTML = `
+                    <div style="font-weight: bold; color: #4a90e2; margin-bottom: 5px;">${rec.title}</div>
+                    <div style="color: #666; font-size: 0.9rem;">${rec.description}</div>
+                `;
+                container.appendChild(recEl);
+            });
+        }
+        
+        function selectPlan(planKey) {
+            currentPlan = planKey;
+            localStorage.setItem('currentStudyPlan', planKey);
+            loadStudyPlan();
+            loadAvailablePlans();
+            generateAIRecommendations();
+            alert(`📚 Study plan "${studyPlans[planKey].title}" activated!\n\nYour personalized learning path is now ready.`);
+        }
+        
+        function startTopic(topicIndex) {
+            const plan = studyPlans[currentPlan];
+            const topic = plan.topics[topicIndex];
+            
+            if (topic.status === 'completed') {
+                alert(`✅ You've already completed "${topic.name}"!\n\nWould you like to review this topic?`);
+            } else {
+                alert(`📖 Starting "${topic.name}"!\n\n${topic.description}\n\nThis would launch the interactive lesson in a real application.`);
+                
+                // Simulate progress
+                if (topic.status === 'not-started') {
+                    topic.status = 'in-progress';
+                    loadStudyPlan();
+                }
+            }
+        }
+        
+        function continueLearning() {
+            const plan = studyPlans[currentPlan];
+            const nextTopic = plan.topics.find(t => t.status === 'in-progress' || t.status === 'not-started');
+            
+            if (nextTopic) {
+                const index = plan.topics.indexOf(nextTopic);
+                startTopic(index);
+            } else {
+                alert('🎉 Congratulations! You\'ve completed this study plan!\n\nTime to start a new learning journey.');
+            }
+        }
+        
+        function generateNewPlan() {
+            const plans = ['algebra', 'geometry', 'calculus'];
+            const availablePlans = plans.filter(p => p !== currentPlan);
+            const newPlan = availablePlans[Math.floor(Math.random() * availablePlans.length)];
+            
+            if (confirm(`🤖 AI Recommendation: Switch to "${studyPlans[newPlan].title}"?\n\nBased on your progress, this plan would be perfect for your next learning phase.`)) {
+                selectPlan(newPlan);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            color: #4a90e2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header p {
+            color: #666;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #4a90e2;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .dashboard-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #667eea, #4a90e2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-success {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(90deg, #e67e22, #f39c12);
+            transform: translateY(-2px);
+        }
+        
+        .student-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .student-item {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.3s ease;
+        }
+        
+        .student-item:hover {
+            background: rgba(74,144,226,0.05);
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #4a90e2, #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .student-details {
+            flex: 1;
+        }
+        
+        .student-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+        
+        .student-progress {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .assignment-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .assignment-item:hover {
+            background: white;
+            border-color: #4a90e2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .assignment-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .assignment-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .status-draft {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .status-completed {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .assignment-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .assignment-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .curriculum-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .topic-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .topic-card:hover {
+            background: white;
+            border-color: #4a90e2;
+            transform: translateY(-2px);
+        }
+        
+        .topic-card.selected {
+            background: #4a90e2;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .topic-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .topic-problems {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .topic-card.selected .topic-problems {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .analytics-chart {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chart-placeholder {
+            background: linear-gradient(45deg, #e9ecef, #f8f9fa);
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .premium-notice {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .premium-notice h3 {
+            color: #4a90e2;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+        
+        .premium-notice p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <a href="index.html" class="back-btn">⬅️ Back to App</a>
+        
+        <div class="header">
+            <h1>🏫 Teacher Dashboard</h1>
+            <p>Manage your classroom, track student progress, and create engaging assignments</p>
+        </div>
+        
+        <div id="premium-notice" class="premium-notice" style="display: none;">
+            <h3>🎓 Schools Feature</h3>
+            <p>Teacher Dashboard is available for Schools subscribers. <a href="subscription.html" style="color: #4a90e2;">Upgrade now</a> to access comprehensive classroom management tools!</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Class Overview -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>📊</span>
+                    Class Overview
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Active Assignments</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Avg Completion</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label">Avg Score</div>
+                    </div>
+                </div>
+                
+                <div class="analytics-chart">
+                    <div class="chart-placeholder">
+                        📈 Class Performance Analytics Chart
+                        <br><small>Visual progress tracking for all students</small>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="generateClassReport()">📋 Generate Report</button>
+                    <button class="btn btn-secondary" onclick="exportData()">📤 Export Data</button>
+                </div>
+            </div>
+            
+            <!-- Student Management -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>👥</span>
+                    Student Management
+                </div>
+                
+                <div class="student-list" id="student-list">
+                    <!-- Students will be loaded here -->
+                </div>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="addStudent()">➕ Add Student</button>
+                    <button class="btn btn-secondary" onclick="importStudents()">📥 Import Class</button>
+                    <button class="btn btn-warning" onclick="bulkEmail()">📧 Send Updates</button>
+                </div>
+            </div>
+            
+            <!-- Assignment Center -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>📚</span>
+                    Assignment Center
+                </div>
+                
+                <div id="assignments-list">
+                    <!-- Assignments will be loaded here -->
+                </div>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="createAssignment()">➕ Create Assignment</button>
+                    <button class="btn btn-secondary" onclick="assignmentLibrary()">📖 Assignment Library</button>
+                </div>
+            </div>
+            
+            <!-- Curriculum Alignment -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>🎯</span>
+                    Curriculum Alignment
+                </div>
+                
+                <div class="curriculum-topics" id="curriculum-topics">
+                    <!-- Topics will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="alignCurriculum()">🎯 Align Standards</button>
+                    <button class="btn btn-secondary" onclick="viewStandards()">📋 View Standards</button>
+                </div>
+            </div>
+            
+            <!-- Parent Communication -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>👨‍👩‍👧‍👦</span>
+                    Parent Communication
+                </div>
+                
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Parent Emails</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Reports Sent</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">Response Rate</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="sendProgressReports()">📊 Send Progress Reports</button>
+                    <button class="btn btn-secondary" onclick="scheduleConferences()">📅 Schedule Conferences</button>
+                    <button class="btn btn-warning" onclick="parentPortal()">🔗 Parent Portal</button>
+                </div>
+            </div>
+            
+            <!-- Differentiated Learning -->
+            <div class="dashboard-card">
+                <div class="card-title">
+                    <span>🎨</span>
+                    Differentiated Learning
+                </div>
+                
+                <p style="color: #666; margin-bottom: 20px;">
+                    Automatically adapt content difficulty and teaching methods based on individual student needs and learning styles.
+                </p>
+                
+                <div class="stats-grid" style="margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Learning Styles</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Difficulty Levels</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Adaptive Paths</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="createAdaptivePath()">🛤️ Create Learning Path</button>
+                    <button class="btn btn-secondary" onclick="viewLearningProfiles()">👤 Student Profiles</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Assignment Modal -->
+    <div class="modal" id="assignment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Create New Assignment</div>
+                <button class="close-btn" onclick="closeModal('assignment-modal')">&times;</button>
+            </div>
+            
+            <form id="assignment-form">
+                <div class="form-group">
+                    <label class="form-label">Assignment Title</label>
+                    <input type="text" class="form-input" id="assignment-title" placeholder="e.g., Quadratic Equations Practice" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input form-textarea" id="assignment-description" placeholder="Describe what students will learn and practice..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Due Date</label>
+                    <input type="date" class="form-input" id="assignment-due-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Topic Area</label>
+                    <select class="form-input" id="assignment-topic">
+                        <option value="algebra">Algebra</option>
+                        <option value="geometry">Geometry</option>
+                        <option value="calculus">Calculus</option>
+                        <option value="statistics">Statistics</option>
+                        <option value="trigonometry">Trigonometry</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Difficulty Level</label>
+                    <select class="form-input" id="assignment-difficulty">
+                        <option value="easy">Easy (Grade 6-7)</option>
+                        <option value="medium">Medium (Grade 8-9)</option>
+                        <option value="hard">Hard (Grade 10-11)</option>
+                        <option value="expert">Expert (Grade 12+)</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button type="submit" class="btn btn-success">✅ Create Assignment</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('assignment-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Student Modal -->
+    <div class="modal" id="student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Student</div>
+                <button class="close-btn" onclick="closeModal('student-modal')">&times;</button>
+            </div>
+            
+            <form id="student-form">
+                <div class="form-group">
+                    <label class="form-label">Student Name</label>
+                    <input type="text" class="form-input" id="student-name" placeholder="e.g., Alex Johnson" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="student-email" placeholder="e.g., alex.johnson@school.edu" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Grade Level</label>
+                    <select class="form-input" id="student-grade">
+                        <option value="6">Grade 6</option>
+                        <option value="7">Grade 7</option>
+                        <option value="8">Grade 8</option>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Parent Email (Optional)</label>
+                    <input type="email" class="form-input" id="parent-email" placeholder="e.g., parent@email.com">
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button type="submit" class="btn btn-success">✅ Add Student</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('student-modal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="user-manager.js"></script>
+    <script>
+        let students = JSON.parse(localStorage.getItem('teacher-students') || '[]');
+        let assignments = JSON.parse(localStorage.getItem('teacher-assignments') || '[]');
+        
+        // Check subscription status
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            
+            if (!currentUser) {
+                alert('Please log in to access the teacher dashboard.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (subscriptionPlan !== 'schools') {
+                document.getElementById('premium-notice').style.display = 'block';
+                return;
+            }
+            
+            loadDashboard();
+        });
+        
+        function loadDashboard() {
+            loadStudents();
+            loadAssignments();
+            loadCurriculumTopics();
+        }
+        
+        function loadStudents() {
+            const container = document.getElementById('student-list');
+            
+            if (students.length === 0) {
+                // Add sample students for demo
+                students = [
+                    { name: 'Emma Watson', email: 'emma.watson@school.edu', grade: 9, progress: 94, parentEmail: 'parent.watson@email.com' },
+                    { name: 'Lucas Miller', email: 'lucas.miller@school.edu', grade: 9, progress: 87, parentEmail: 'parent.miller@email.com' },
+                    { name: 'Sophia Chen', email: 'sophia.chen@school.edu', grade: 9, progress: 98, parentEmail: 'parent.chen@email.com' },
+                    { name: 'James Brown', email: 'james.brown@school.edu', grade: 9, progress: 76, parentEmail: 'parent.brown@email.com' },
+                    { name: 'Olivia Davis', email: 'olivia.davis@school.edu', grade: 9, progress: 91, parentEmail: 'parent.davis@email.com' }
+                ];
+                localStorage.setItem('teacher-students', JSON.stringify(students));
+            }
+            
+            container.innerHTML = '';
+            students.forEach((student, index) => {
+                const studentEl = document.createElement('div');
+                studentEl.className = 'student-item';
+                studentEl.innerHTML = `
+                    <div class="student-info">
+                        <div class="student-avatar">${student.name.split(' ').map(n => n[0]).join('')}</div>
+                        <div class="student-details">
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-progress">Grade ${student.grade} • ${student.progress}% complete</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${student.progress}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" style="padding: 8px 12px; font-size: 0.9rem;" onclick="viewStudentDetail(${index})">View</button>
+                        <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.9rem;" onclick="contactParent(${index})">Contact</button>
+                    </div>
+                `;
+                container.appendChild(studentEl);
+            });
+        }
+        
+        function loadAssignments() {
+            const container = document.getElementById('assignments-list');
+            
+            if (assignments.length === 0) {
+                // Add sample assignments for demo
+                assignments = [
+                    {
+                        title: 'Linear Equations Practice',
+                        description: 'Practice solving linear equations with one variable',
+                        dueDate: '2024-01-20',
+                        topic: 'algebra',
+                        difficulty: 'medium',
+                        status: 'active',
+                        completions: 24,
+                        totalStudents: 28
+                    },
+                    {
+                        title: 'Geometry Area Problems',
+                        description: 'Calculate areas of triangles, rectangles, and circles',
+                        dueDate: '2024-01-25',
+                        topic: 'geometry',
+                        difficulty: 'easy',
+                        status: 'active',
+                        completions: 18,
+                        totalStudents: 28
+                    },
+                    {
+                        title: 'Quadratic Functions Quiz',
+                        description: 'Understanding parabolas and quadratic relationships',
+                        dueDate: '2024-01-15',
+                        topic: 'algebra',
+                        difficulty: 'hard',
+                        status: 'completed',
+                        completions: 28,
+                        totalStudents: 28
+                    }
+                ];
+                localStorage.setItem('teacher-assignments', JSON.stringify(assignments));
+            }
+            
+            container.innerHTML = '';
+            assignments.forEach((assignment, index) => {
+                const completionRate = Math.round((assignment.completions / assignment.totalStudents) * 100);
+                const statusClass = `status-${assignment.status}`;
+                
+                const assignmentEl = document.createElement('div');
+                assignmentEl.className = 'assignment-item';
+                assignmentEl.innerHTML = `
+                    <div class="assignment-header">
+                        <div class="assignment-title">${assignment.title}</div>
+                        <div class="assignment-status ${statusClass}">${assignment.status.toUpperCase()}</div>
+                    </div>
+                    
+                    <div class="assignment-meta">
+                        <span>📅 Due: ${assignment.dueDate}</span>
+                        <span>📚 ${assignment.topic}</span>
+                        <span>📊 ${assignment.completions}/${assignment.totalStudents} completed (${completionRate}%)</span>
+                    </div>
+                    
+                    <p style="color: #666; margin-bottom: 15px;">${assignment.description}</p>
+                    
+                    <div class="assignment-actions">
+                        <button class="btn btn-primary" onclick="viewAssignmentResults(${index})">📊 View Results</button>
+                        <button class="btn btn-secondary" onclick="editAssignment(${index})">✏️ Edit</button>
+                        <button class="btn btn-warning" onclick="sendReminder(${index})">📧 Remind</button>
+                    </div>
+                `;
+                container.appendChild(assignmentEl);
+            });
+        }
+        
+        function loadCurriculumTopics() {
+            const topics = [
+                { title: 'Number & Operations', problems: 45, selected: true },
+                { title: 'Algebra', problems: 52, selected: true },
+                { title: 'Geometry', problems: 38, selected: false },
+                { title: 'Measurement', problems: 29, selected: true },
+                { title: 'Data Analysis', problems: 33, selected: false },
+                { title: 'Problem Solving', problems: 41, selected: true }
+            ];
+            
+            const container = document.getElementById('curriculum-topics');
+            container.innerHTML = '';
+            
+            topics.forEach((topic, index) => {
+                const topicEl = document.createElement('div');
+                topicEl.className = `topic-card ${topic.selected ? 'selected' : ''}`;
+                topicEl.innerHTML = `
+                    <div class="topic-title">${topic.title}</div>
+                    <div class="topic-problems">${topic.problems} problems</div>
+                `;
+                topicEl.onclick = () => toggleTopic(topicEl, index);
+                container.appendChild(topicEl);
+            });
+        }
+        
+        function toggleTopic(element, index) {
+            element.classList.toggle('selected');
+        }
+        
+        function createAssignment() {
+            document.getElementById('assignment-modal').style.display = 'flex';
+            
+            // Set default due date to next week
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('assignment-due-date').value = nextWeek.toISOString().split('T')[0];
+        }
+        
+        function addStudent() {
+            document.getElementById('student-modal').style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Form submissions
+        document.getElementById('assignment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newAssignment = {
+                title: document.getElementById('assignment-title').value,
+                description: document.getElementById('assignment-description').value,
+                dueDate: document.getElementById('assignment-due-date').value,
+                topic: document.getElementById('assignment-topic').value,
+                difficulty: document.getElementById('assignment-difficulty').value,
+                status: 'active',
+                completions: 0,
+                totalStudents: students.length
+            };
+            
+            assignments.unshift(newAssignment);
+            localStorage.setItem('teacher-assignments', JSON.stringify(assignments));
+            loadAssignments();
+            closeModal('assignment-modal');
+            
+            alert('📚 Assignment created successfully!\n\nStudents will be notified and can access it immediately from their dashboard.');
+        });
+        
+        document.getElementById('student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newStudent = {
+                name: document.getElementById('student-name').value,
+                email: document.getElementById('student-email').value,
+                grade: parseInt(document.getElementById('student-grade').value),
+                progress: Math.floor(Math.random() * 30) + 70, // Random progress between 70-100%
+                parentEmail: document.getElementById('parent-email').value
+            };
+            
+            students.push(newStudent);
+            localStorage.setItem('teacher-students', JSON.stringify(students));
+            loadStudents();
+            closeModal('student-modal');
+            
+            alert('👤 Student added successfully!\n\nWelcome email with login credentials has been sent to both student and parent.');
+        });
+        
+        // Dashboard functions
+        function viewStudentDetail(index) {
+            const student = students[index];
+            alert(`📊 Student Profile: ${student.name}\n\nGrade: ${student.grade}\nProgress: ${student.progress}%\nEmail: ${student.email}\nParent: ${student.parentEmail || 'Not provided'}\n\nRecent Activity:\n• Completed Linear Equations (95%)\n• Working on Geometry (Current)\n• Needs help with Word Problems`);
+        }
+        
+        function contactParent(index) {
+            const student = students[index];
+            if (!student.parentEmail) {
+                alert('No parent email on file for this student.');
+                return;
+            }
+            alert(`📧 Composing email to ${student.parentEmail}\n\nSubject: ${student.name}'s Math Progress Update\n\nThis would open your email client with a pre-filled progress report for the parent.`);
+        }
+        
+        function viewAssignmentResults(index) {
+            const assignment = assignments[index];
+            alert(`📊 Assignment Results: ${assignment.title}\n\nCompletion Rate: ${Math.round((assignment.completions/assignment.totalStudents)*100)}%\nAverage Score: ${Math.floor(Math.random()*20)+80}%\n\nTop Performers:\n• Sophia Chen (98%)\n• Emma Watson (95%)\n• Olivia Davis (92%)\n\nNeeds Support:\n• James Brown (76%)\n• 3 other students`);
+        }
+        
+        function editAssignment(index) {
+            alert('✏️ Edit Assignment feature!\n\nThis would allow you to:\n• Modify due dates\n• Update descriptions\n• Add/remove problems\n• Change difficulty settings\n• Set custom grading rubrics');
+        }
+        
+        function sendReminder(index) {
+            const assignment = assignments[index];
+            alert(`📧 Reminder sent!\n\nAll students with incomplete "${assignment.title}" assignments have been notified via email and in-app notifications.`);
+        }
+        
+        function generateClassReport() {
+            alert('📋 Generating comprehensive class report!\n\nReport includes:\n• Individual student progress\n• Assignment completion rates\n• Skill gap analysis\n• Curriculum alignment status\n• Parent communication log\n• Recommended interventions\n\nReport will be ready for download in 2-3 minutes.');
+        }
+        
+        function exportData() {
+            alert('📤 Data Export Options:\n\n• Excel spreadsheet (.xlsx)\n• CSV file (.csv)\n• PDF reports (.pdf)\n• Google Sheets integration\n\nSelect your preferred format and time range for export.');
+        }
+        
+        function importStudents() {
+            alert('📥 Import Students:\n\n• Upload CSV file\n• Google Classroom sync\n• School database integration\n• Manual entry wizard\n\nSupported formats: CSV, Excel, Google Sheets');
+        }
+        
+        function bulkEmail() {
+            alert('📧 Bulk Email Center:\n\n• Progress reports\n• Assignment reminders\n• Parent conferences\n• Achievement celebrations\n• Custom announcements\n\nSelect recipients and customize your message.');
+        }
+        
+        function assignmentLibrary() {
+            alert('📖 Assignment Library:\n\n• 500+ pre-built assignments\n• Curriculum-aligned content\n• Difficulty-adaptive problems\n• Interactive manipulatives\n• Assessment rubrics\n• Common Core standards\n\nBrowse by grade level, topic, or standard.');
+        }
+        
+        function alignCurriculum() {
+            alert('🎯 Curriculum Alignment Tool:\n\n• Map to Common Core Standards\n• State-specific standards\n• International curricula\n• Custom learning objectives\n• Gap analysis reports\n• Pacing guides\n\nEnsure comprehensive coverage of all requirements.');
+        }
+        
+        function viewStandards() {
+            alert('📋 Standards Overview:\n\n• Common Core Mathematics\n• State Standards (if applicable)\n• Grade-level expectations\n• Prerequisite skills\n• Assessment criteria\n• Learning progressions\n\nDetailed alignment for each assignment and activity.');
+        }
+        
+        function sendProgressReports() {
+            alert('📊 Progress Reports:\n\n• Automated weekly summaries\n• Detailed skill assessments\n• Visual progress charts\n• Personalized recommendations\n• Parent-friendly format\n• Multi-language support\n\nReports sent to all parents with active email addresses.');
+        }
+        
+        function scheduleConferences() {
+            alert('📅 Conference Scheduler:\n\n• Online booking system\n• Calendar integration\n• Zoom/Teams integration\n• Automated reminders\n• Follow-up notes\n• Resource sharing\n\nParents can book available time slots directly.');
+        }
+        
+        function parentPortal() {
+            alert('🔗 Parent Portal Features:\n\n• Real-time progress tracking\n• Assignment calendars\n• Direct messaging\n• Resource downloads\n• Conference scheduling\n• Achievement badges\n• Home practice suggestions\n\nSecure login credentials sent to all parents.');
+        }
+        
+        function createAdaptivePath() {
+            alert('🛤️ Adaptive Learning Paths:\n\n• AI-powered difficulty adjustment\n• Multiple learning modalities\n• Prerequisite skill mapping\n• Personalized pacing\n• Intervention triggers\n• Enrichment activities\n\nCreate custom paths for different student needs.');
+        }
+        
+        function viewLearningProfiles() {
+            alert('👤 Student Learning Profiles:\n\n• Learning style assessment\n• Strength/weakness analysis\n• Motivation preferences\n• Optimal challenge level\n• Support requirements\n• Growth tracking\n\nData-driven insights for differentiated instruction.');
+        }
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

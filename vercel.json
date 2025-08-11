@@ -5,9 +5,7 @@
     }
   },
   "routes": [
-    { "src": "/user-auth", "dest": "/api/create-user.js" },
-    { "src": "/user-create", "dest": "/api/new-user.js" },
-    { "src": "/test-hello", "dest": "/api/hello.js" },
+    { "src": "/api/user-data", "dest": "/api/user-data.js" },
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/", "dest": "/public/welcome.html" },
     { "src": "/(.*)", "dest": "/public/$1" }

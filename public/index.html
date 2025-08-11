@@ -132,9 +132,9 @@
         .nav-tab { 
             background: linear-gradient(90deg, #17e3c1 0%, #308695 100%); 
             border: none; 
-            font-size: 0.85em; 
+            font-size: 0.75em; 
             margin: 0; 
-            padding: 8px 12px; 
+            padding: 6px 8px; 
             border-radius: 10px; 
             cursor: pointer; 
             color: #fff; 
@@ -146,18 +146,18 @@
             z-index: 15; 
             pointer-events: auto;
             flex: 1;
-            min-width: 80px;
-            max-width: 120px;
+            min-width: 100px;
+            max-width: 140px;
             text-align: center;
             word-wrap: break-word;
             hyphens: auto;
-            line-height: 1.2;
+            line-height: 1.1;
             display: flex;
             align-items: center;
             justify-content: center;
-            white-space: nowrap;
+            white-space: normal;
             overflow: hidden;
-            text-overflow: ellipsis;
+            height: 40px;
         }
         
         .nav-tab.active, .nav-tab:hover { 
@@ -194,6 +194,32 @@
         .premium-feature-btn:hover {
             background: linear-gradient(90deg, #17e3c1 0%, #10c168 100%) !important;
             box-shadow: 0 6px 15px rgba(16, 193, 104, 0.4) !important;
+        }
+        
+        .ai-tutor-btn {
+            background: linear-gradient(90deg, #6f42c1, #8b5cf6);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-tutor-btn:hover {
+            background: linear-gradient(90deg, #8b5cf6, #6f42c1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(111,66,193,0.3);
+        }
+        
+        .genius-btn {
+            background: linear-gradient(90deg, #dc3545, #e74c3c);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .genius-btn:hover {
+            background: linear-gradient(90deg, #e74c3c, #dc3545);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(220,53,69,0.3);
         }
         
         .premium-shine {
@@ -572,6 +598,12 @@
             <!-- Premium Section -->
             <div class="nav-section premium-nav">
                 <h3 class="nav-section-title">⭐ Premium</h3>
+                
+                <!-- Trial Status Display -->
+                <div id="trial-status" style="display: none; background: linear-gradient(90deg, #10c168, #48bb78); color: white; padding: 10px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-size: 0.9rem; font-weight: bold;">
+                    🎁 Free Trial: <span id="trial-days-left"></span> days left
+                </div>
+                
                 <div class="nav-buttons">
                     <button class="nav-tab premium-btn" onclick="window.location.href='subscription.html'">
                         <span class="premium-shine">✨</span> Upgrade
@@ -579,9 +611,61 @@
                     <button class="nav-tab" onclick="window.location.href='billing.html'" id="billingBtn" style="display:none;">
                         💳 Billing
                     </button>
-                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('family-dashboard.html')" id="familyBtn" style="display:none;">
-                        👨‍👩‍👧‍👦 Family
+                    <button class="nav-tab" onclick="showSubscriptionStatus()" id="statusBtn" style="display:none;">
+                        📋 My Plan
                     </button>
+                    
+                    <!-- Premium+ Features -->
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('themes.html')" id="themesBtn" style="display:none;">
+                        🎨 Custom Themes
+                    </button>
+                    
+                    <!-- Family Features -->
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('family-dashboard.html')" id="familyBtn" style="display:none;">
+                        👨‍👩‍👧‍👦 Family Dashboard
+                    </button>
+                    
+                    <!-- Pro Tutor Features -->
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('study-plans.html')" id="studyPlansBtn" style="display:none;">
+                        📋 Study Plans
+                    </button>
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('homework-helper.html')" id="homeworkBtn" style="display:none;">
+                        🎒 Homework Helper
+                    </button>
+                    
+                    <!-- Math Genius Features -->
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('competition-prep.html')" id="competitionBtn" style="display:none;">
+                        🏆 Competition Prep
+                    </button>
+                    
+                    <!-- Schools Features -->
+                    <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('teacher-dashboard.html')" id="teacherBtn" style="display:none;">
+                        🏫 Teacher Dashboard
+                    </button>
+                    
+                    <!-- Pro Tutor Features -->
+                    <button class="nav-tab ai-tutor-btn" onclick="handleAITutorQuiz('ai-tutoring')" id="aiTutoringBtn" style="display:none;">
+                        🤖 AI Tutoring
+                    </button>
+                    
+                    <!-- Genius Plan Features -->
+                    <button class="nav-tab genius-btn" onclick="handleGeniusFeature('university-content')" id="universityBtn" style="display:none;">
+                        🎓 University Content
+                    </button>
+                    
+                    <button class="nav-tab genius-btn" onclick="handleGeniusFeature('math-olympics')" id="mathOlympicsBtn" style="display:none;">
+                        🥇 Math Olympics
+                    </button>
+                    
+                    <button class="nav-tab genius-btn" onclick="handleGeniusFeature('academic-writing')" id="academicWritingBtn" style="display:none;">
+                        ✍️ Academic Writing
+                    </button>
+                    
+                    <button class="nav-tab genius-btn" onclick="handleGeniusFeature('research-projects')" id="researchBtn" style="display:none;">
+                        🔬 Research Projects
+                    </button>
+                    
+                    <!-- Analytics (All Premium Plans) -->
                     <button class="nav-tab premium-feature-btn" onclick="openPremiumFeature('analytics.html')" id="analyticsBtn" style="display:none;">
                         📊 Analytics
                     </button>
@@ -594,7 +678,7 @@
                 <div class="nav-buttons">
                     <button class="nav-tab" onclick="window.location.href='login.html'" id="loginBtn">🔑 Login</button>
                     <button class="nav-tab" onclick="window.location.href='register.html'" id="registerBtn">📝 Register</button>
-                    <button class="nav-tab" onclick="logout()" id="logoutBtn" style="display:none;">🚪 Logout</button>
+                    <button class="nav-tab" onclick="safeLogout()" id="logoutBtn" style="display:none;">🚪 Logout</button>
                 </div>
             </div>
         </div>
@@ -793,7 +877,7 @@
         <button id="closeCelebration" onclick="hideCelebration()">Close</button>
     </div>
     <!-- Add Logout Button to Navigation (hidden by default) -->
-    <button class="nav-tab" onclick="logout()" id="logoutBtn" style="display:none;position:absolute;top:16px;right:16px;z-index:200;">🚪 Logout</button>
+    <button class="nav-tab" onclick="safeLogout()" id="logoutBtn" style="display:none;position:absolute;top:16px;right:16px;z-index:200;">🚪 Logout</button>
     <script>
         // Make Back button on quiz page work
         document.addEventListener('DOMContentLoaded', function() {
@@ -1082,42 +1166,345 @@
 
     // --- Premium System Functions ---
     function isPremiumUser() {
+        // First check trial status
+        const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+        const trialEndDate = localStorage.getItem('trialEndDate');
+        
+        // If user is on trial, check if it's still valid
+        if (isTrialUser && trialEndDate) {
+            const now = new Date();
+            const trialEnd = new Date(trialEndDate);
+            
+            if (now <= trialEnd) {
+                console.log('✅ User has active trial access');
+                return true;
+            } else {
+                // Trial expired, clean up trial data but keep user logged in
+                console.log('⚠️ Trial expired, reverting to free plan');
+                localStorage.removeItem('isTrialUser');
+                localStorage.removeItem('trialStartDate');
+                localStorage.removeItem('trialEndDate');
+                localStorage.setItem('subscriptionPlan', 'free');
+                
+                // Trigger UI update but DON'T log out the user
+                setTimeout(() => updateAuthButtons(), 100);
+            }
+        }
+        
+        // Check subscription plan
         const subscriptionPlan = localStorage.getItem('subscriptionPlan');
-        return subscriptionPlan && (subscriptionPlan === 'premium' || subscriptionPlan === 'family' || 
-               subscriptionPlan === 'pro-tutor' || subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+        const premiumPlans = ['premium', 'family', 'tutor', 'genius', 'school'];
+        
+        const isPremium = subscriptionPlan && premiumPlans.includes(subscriptionPlan);
+        console.log(`🔐 Premium access check: Plan=${subscriptionPlan}, IsPremium=${isPremium}`);
+        
+        return isPremium;
     }
 
     function isFamilyPlanUser() {
         const subscriptionPlan = localStorage.getItem('subscriptionPlan');
-        return subscriptionPlan && (subscriptionPlan === 'family' || subscriptionPlan === 'pro-tutor' || 
-               subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+        return subscriptionPlan && (subscriptionPlan === 'family' || subscriptionPlan === 'tutor' || 
+               subscriptionPlan === 'genius' || subscriptionPlan === 'school');
     }
 
     function isAITutorUser() {
         const subscriptionPlan = localStorage.getItem('subscriptionPlan');
-        return subscriptionPlan && (subscriptionPlan === 'pro-tutor' || subscriptionPlan === 'math-genius' || 
-               subscriptionPlan === 'schools');
+        return subscriptionPlan && (subscriptionPlan === 'tutor' || subscriptionPlan === 'genius' || 
+               subscriptionPlan === 'school');
     }
 
     function isGeniusUser() {
         const subscriptionPlan = localStorage.getItem('subscriptionPlan');
-        return subscriptionPlan && (subscriptionPlan === 'math-genius' || subscriptionPlan === 'schools');
+        return subscriptionPlan && (subscriptionPlan === 'genius' || subscriptionPlan === 'school');
     }
 
     function handleAITutorQuiz(quizType) {
-        if (isAITutorUser()) {
+        console.log(`🤖 Attempting to access AI tutor: ${quizType}`);
+        
+        // Ensure user is still logged in
+        const currentUser = localStorage.getItem('currentUser');
+        const isLoggedIn = userManager && userManager.isLoggedIn();
+        
+        if (!currentUser && !isLoggedIn) {
+            console.log('❌ User not logged in, redirecting to login');
+            alert('Please log in to access AI tutoring features!');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Check AI tutor access without clearing authentication
+        const hasAIAccess = isAITutorUser();
+        console.log(`🧠 AI tutor access status: ${hasAIAccess}`);
+        
+        if (hasAIAccess) {
+            console.log(`✅ Starting AI tutor session: ${quizType}`);
             startAITutorSession(quizType);
         } else {
-            showUpgradeModal('Pro Tutor', 'AI Tutoring features with step-by-step explanations');
+            console.log(`🔒 No AI tutor access for: ${quizType}`);
+            showUpgradeModal('Pro Tutor', 'AI Tutoring features with ChatGPT-powered step-by-step explanations and personalized learning');
+        }
+    }
+
+    function handlePremiumQuiz(quizType) {
+        if (isPremiumUser()) {
+            console.log('🎯 Starting premium quiz:', quizType);
+            startQuiz(quizType);
+        } else {
+            showUpgradeModal('Premium', `${quizType.charAt(0).toUpperCase() + quizType.slice(1)} quizzes with advanced problem types and detailed explanations`);
         }
     }
 
     function handleGeniusFeature(featureType) {
         if (isGeniusUser()) {
+            console.log('🧠 Opening genius feature:', featureType);
             openGeniusFeature(featureType);
+        } else {
+            showUpgradeModal('Math Genius', 'Advanced mathematical features for competition prep and university-level content');
+        }
+    }
+
+    function handleGeniusFeature(featureType) {
+        if (isGeniusUser()) {
+            switch(featureType) {
+                case 'university-content':
+                    showUniversityContent();
+                    break;
+                case 'math-olympics':
+                    showMathOlympics();
+                    break;
+                case 'academic-writing':
+                    showAcademicWriting();
+                    break;
+                case 'research-projects':
+                    showResearchProjects();
+                    break;
+                default:
+                    openGeniusFeature(featureType);
+            }
         } else {
             showUpgradeModal('Math Genius', 'Advanced mathematical tools and features');
         }
+    }
+    
+    function showUniversityContent() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center;
+        `;
+        
+        modal.innerHTML = `
+            <div style="
+                background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                border-radius: 25px; padding: 40px; max-width: 800px; width: 90%;
+                text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                max-height: 80vh; overflow-y: auto;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🎓</div>
+                <h2 style="color: #dc3545; margin-bottom: 15px;">University-Level Mathematics</h2>
+                <div style="text-align: left; margin: 20px 0;">
+                    <h3 style="color: #4a90e2;">Advanced Topics Available:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div onclick="startAdvancedTopic('calculus')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>📈 Advanced Calculus</strong><br>
+                            <small>Multivariable calculus, differential equations</small>
+                        </div>
+                        <div onclick="startAdvancedTopic('linear-algebra')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>🔢 Linear Algebra</strong><br>
+                            <small>Vector spaces, matrices, eigenvalues</small>
+                        </div>
+                        <div onclick="startAdvancedTopic('abstract-algebra')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>🎯 Abstract Algebra</strong><br>
+                            <small>Groups, rings, fields</small>
+                        </div>
+                        <div onclick="startAdvancedTopic('real-analysis')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>📊 Real Analysis</strong><br>
+                            <small>Limits, continuity, convergence</small>
+                        </div>
+                        <div onclick="startAdvancedTopic('topology')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>🌐 Topology</strong><br>
+                            <small>Point-set topology, metric spaces</small>
+                        </div>
+                        <div onclick="startAdvancedTopic('number-theory')" style="background: #f8f9fa; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #e9ecef;">
+                            <strong>🔐 Number Theory</strong><br>
+                            <small>Prime numbers, modular arithmetic</small>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove();" style="
+                    background: #dc3545; color: white; border: none; padding: 12px 25px;
+                    border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+                ">Close</button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    function showMathOlympics() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center;
+        `;
+        
+        modal.innerHTML = `
+            <div style="
+                background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                border-radius: 25px; padding: 40px; max-width: 700px; width: 90%;
+                text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            ">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🥇</div>
+                <h2 style="color: #dc3545; margin-bottom: 15px;">Math Olympiad Training</h2>
+                <div style="text-align: left; margin: 20px 0;">
+                    <h3 style="color: #4a90e2;">Competition Categories:</h3>
+                    <div style="display: grid; gap: 15px; margin: 20px 0;">
+                        <div onclick="startOlympiadTraining('imo')" style="background: #fff3cd; padding: 15px; border-radius: 10px; cursor: pointer; border-left: 4px solid #ffc107;">
+                            <strong>🌍 International Mathematical Olympiad (IMO)</strong><br>
+                            <small>The most prestigious mathematics competition for high school students</small>
+                        </div>
+                        <div onclick="startOlympiadTraining('usamo')" style="background: #d4edda; padding: 15px; border-radius: 10px; cursor: pointer; border-left: 4px solid #28a745;">
+                            <strong>🇺🇸 USA Mathematical Olympiad (USAMO)</strong><br>
+                            <small>Advanced problem-solving techniques and proofs</small>
+                        </div>
+                        <div onclick="startOlympiadTraining('aime')" style="background: #cce7ff; padding: 15px; border-radius: 10px; cursor: pointer; border-left: 4px solid #4a90e2;">
+                            <strong>🎯 American Invitational Mathematics Examination (AIME)</strong><br>
+                            <small>Intermediate-level competition problems</small>
+                        </div>
+                        <div onclick="startOlympiadTraining('amc')" style="background: #f8d7da; padding: 15px; border-radius: 10px; cursor: pointer; border-left: 4px solid #dc3545;">
+                            <strong>📚 AMC 8/10/12 Preparation</strong><br>
+                            <small>Foundation building for competition mathematics</small>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove();" style="
+                    background: #dc3545; color: white; border: none; padding: 12px 25px;
+                    border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+                ">Close</button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    function showAcademicWriting() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center;
+        `;
+        
+        modal.innerHTML = `
+            <div style="
+                background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                border-radius: 25px; padding: 40px; max-width: 700px; width: 90%;
+                text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                max-height: 80vh; overflow-y: auto;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 20px;">✍️</div>
+                <h2 style="color: #dc3545; margin-bottom: 15px;">Academic Writing Support</h2>
+                <div style="text-align: left; margin: 20px 0;">
+                    <h3 style="color: #4a90e2;">Writing Assistance Available:</h3>
+                    <div style="display: grid; gap: 12px; margin: 20px 0;">
+                        <div onclick="openWritingTool('research-papers')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>📄 Research Paper Writing</strong><br>
+                            <small>Structure, methodology, citations, and formatting</small>
+                        </div>
+                        <div onclick="openWritingTool('thesis-support')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>🎓 Thesis & Dissertation Support</strong><br>
+                            <small>Advanced academic writing for graduate students</small>
+                        </div>
+                        <div onclick="openWritingTool('proof-writing')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>🔍 Mathematical Proof Writing</strong><br>
+                            <small>Logic, structure, and formal mathematical writing</small>
+                        </div>
+                        <div onclick="openWritingTool('academic-proposals')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>💡 Grant & Research Proposals</strong><br>
+                            <small>Funding applications and project proposals</small>
+                        </div>
+                        <div onclick="openWritingTool('college-applications')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>🎯 College Application Essays</strong><br>
+                            <small>Personal statements and application support</small>
+                        </div>
+                        <div onclick="openWritingTool('latex-support')" style="background: #e8f5e8; padding: 12px; border-radius: 8px; cursor: pointer;">
+                            <strong>📝 LaTeX & Mathematical Typography</strong><br>
+                            <small>Professional mathematical document preparation</small>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove();" style="
+                    background: #dc3545; color: white; border: none; padding: 12px 25px;
+                    border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+                ">Close</button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    function showResearchProjects() {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center;
+        `;
+        
+        modal.innerHTML = `
+            <div style="
+                background: linear-gradient(145deg, #ffffff, #f0f4f8);
+                border-radius: 25px; padding: 40px; max-width: 800px; width: 90%;
+                text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                max-height: 80vh; overflow-y: auto;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 20px;">🔬</div>
+                <h2 style="color: #dc3545; margin-bottom: 15px;">Research Project Guidance</h2>
+                <div style="text-align: left; margin: 20px 0;">
+                    <h3 style="color: #4a90e2;">Research Areas & Support:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div onclick="startResearchProject('pure-math')" style="background: #f0f8ff; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #4a90e2;">
+                            <strong>🧮 Pure Mathematics Research</strong><br>
+                            <small>Number theory, algebra, analysis, topology</small>
+                        </div>
+                        <div onclick="startResearchProject('applied-math')" style="background: #f0fff0; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #28a745;">
+                            <strong>⚙️ Applied Mathematics</strong><br>
+                            <small>Mathematical modeling, optimization, statistics</small>
+                        </div>
+                        <div onclick="startResearchProject('computational')" style="background: #fff8f0; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #ffc107;">
+                            <strong>💻 Computational Mathematics</strong><br>
+                            <small>Algorithms, numerical analysis, machine learning</small>
+                        </div>
+                        <div onclick="startResearchProject('interdisciplinary')" style="background: #f8f0ff; padding: 15px; border-radius: 10px; cursor: pointer; border: 2px solid #9b59b6;">
+                            <strong>🌐 Interdisciplinary Research</strong><br>
+                            <small>Math + Physics, Biology, Economics, etc.</small>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #4a90e2; margin-top: 30px;">Research Support Services:</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                            <li>📋 Research proposal development</li>
+                            <li>📚 Literature review assistance</li>
+                            <li>🔍 Methodology design</li>
+                            <li>📊 Data analysis support</li>
+                            <li>✍️ Academic writing guidance</li>
+                            <li>🎯 Publication preparation</li>
+                            <li>🤝 Collaboration opportunities</li>
+                            <li>🏆 Conference presentation support</li>
+                        </ul>
+                    </div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove();" style="
+                    background: #dc3545; color: white; border: none; padding: 12px 25px;
+                    border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+                ">Close</button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
     }
 
     function startAITutorSession(quizType) {
@@ -1130,30 +1517,41 @@
             ">
                 <div style="
                     background: linear-gradient(145deg, #ffffff, #f0f4f8);
-                    border-radius: 25px; padding: 40px; max-width: 600px; width: 90%;
+                    border-radius: 25px; padding: 40px; max-width: 700px; width: 90%;
                     text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
                     max-height: 80vh; overflow-y: auto;
                 ">
                     <div style="font-size: 3rem; margin-bottom: 20px;">🤖</div>
                     <h2 style="color: #4a90e2; margin-bottom: 15px; font-size: 2rem;">AI Math Tutor</h2>
                     <p style="color: #666; font-size: 1.1rem; margin-bottom: 25px;">
-                        Hello! I'm your personal AI math tutor. I'll help you solve problems step-by-step!
+                        Hello! I'm your personal AI math tutor powered by ChatGPT. I'll help you solve problems step-by-step!
                     </p>
-                    <div id="tutorContent" style="background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: left;">
+                    <div id="tutorContent" style="background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 25px; text-align: left; max-height: 300px; overflow-y: auto;">
                         <p><strong>🎯 What I can help with:</strong></p>
                         <ul style="color: #666; line-height: 1.6; margin: 10px 0; padding-left: 20px;">
                             <li>📝 Step-by-step problem solving</li>
-                            <li>💡 Explain mathematical concepts</li>
+                            <li>💡 Explain mathematical concepts clearly</li>
                             <li>🔍 Break down complex problems</li>
                             <li>📊 Visual explanations with examples</li>
                             <li>🎨 Interactive learning activities</li>
+                            <li>🧠 Advanced algebra and geometry</li>
+                            <li>📐 Competition math preparation</li>
                         </ul>
                         <div style="background: white; border-radius: 10px; padding: 15px; margin-top: 15px;">
                             <p style="color: #4a90e2; font-weight: bold; margin-bottom: 10px;">Try asking me:</p>
                             <p style="color: #666; margin: 5px 0;">"How do I solve 2x + 5 = 13?"</p>
-                            <p style="color: #666; margin: 5px 0;">"Explain fractions to me"</p>
-                            <p style="color: #666; margin: 5px 0;">"What's the area of a circle?"</p>
+                            <p style="color: #666; margin: 5px 0;">"Explain fractions to me step by step"</p>
+                            <p style="color: #666; margin: 5px 0;">"What's the area of a circle with radius 5?"</p>
+                            <p style="color: #666; margin: 5px 0;">"Help me with quadratic equations"</p>
                         </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; text-align: left; margin-bottom: 5px; font-weight: bold; color: #4a90e2;">Difficulty Level:</label>
+                        <select id="difficultySelect" style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid #e0e0e0; margin-bottom: 15px;">
+                            <option value="easy">Easy (Ages 6-9)</option>
+                            <option value="medium" selected>Medium (Ages 10-13)</option>
+                            <option value="hard">Hard (Ages 14+)</option>
+                        </select>
                     </div>
                     <textarea id="tutorInput" placeholder="Ask me any math question..." style="
                         width: 100%; height: 80px; padding: 15px; border-radius: 15px;
@@ -1161,12 +1559,18 @@
                         margin-bottom: 20px; box-sizing: border-box;
                     "></textarea>
                     <div style="display: flex; gap: 15px; justify-content: center;">
-                        <button onclick="askAITutor()" style="
+                        <button id="askButton" onclick="askAITutor()" style="
                             background: linear-gradient(90deg, #4a90e2, #357abd);
                             color: white; border: none; padding: 15px 25px;
                             border-radius: 20px; font-size: 1.1rem; font-weight: bold;
                             cursor: pointer; box-shadow: 0 4px 15px rgba(74,144,226,0.3);
-                        ">🤖 Ask Tutor</button>
+                        ">🤖 Ask ChatGPT</button>
+                        <button onclick="generatePracticeProblems()" style="
+                            background: linear-gradient(90deg, #10c168, #48bb78);
+                            color: white; border: none; padding: 15px 25px;
+                            border-radius: 20px; font-size: 1.1rem; font-weight: bold;
+                            cursor: pointer; box-shadow: 0 4px 15px rgba(16,193,104,0.3);
+                        ">🎯 Practice Problems</button>
                         <button onclick="closeAITutorModal()" style="
                             background: #e2e8f0; color: #666; border: none;
                             padding: 15px 25px; border-radius: 20px; font-size: 1.1rem;
@@ -1178,58 +1582,277 @@
         `;
         
         document.body.insertAdjacentHTML('beforeend', modal);
+        
+        // Set focus on input
+        setTimeout(() => {
+            document.getElementById('tutorInput').focus();
+        }, 100);
+        
+        // Add enter key listener
+        document.getElementById('tutorInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                askAITutor();
+            }
+        });
     }
 
-    function askAITutor() {
+    async function askAITutor() {
         const input = document.getElementById('tutorInput');
-        const question = input.value.trim();
+        const difficulty = document.getElementById('difficultySelect').value;
+        const askButton = document.getElementById('askButton');
+        const tutorContent = document.getElementById('tutorContent');
         
+        const question = input.value.trim();
         if (!question) {
-            alert('Please enter a question for the AI tutor!');
+            showNotification('Please type a math question first!', 'warning');
             return;
         }
         
         // Unlock AI student achievement on first question
         unlockAchievement('ai_student');
         
-        // Simulate AI response with educational content
-        const responses = {
-            'fraction': "🍕 Great question about fractions! Let me break this down:\n\n1️⃣ A fraction shows parts of a whole\n2️⃣ The top number (numerator) = parts you have\n3️⃣ The bottom number (denominator) = total parts\n\nExample: 3/4 means you have 3 out of 4 equal parts! 🎯",
-            'algebra': "🔢 Algebra is like solving puzzles! Here's how:\n\n1️⃣ Find what 'x' equals\n2️⃣ Do the same thing to both sides\n3️⃣ Get 'x' by itself\n\nExample: 2x + 5 = 13\n→ 2x = 13 - 5 = 8\n→ x = 8 ÷ 2 = 4 ✨",
-            'geometry': "📐 Geometry is about shapes and space! Key concepts:\n\n🔺 Triangles: 3 sides, angles add to 180°\n⭕ Circles: Area = πr², Circumference = 2πr\n🔲 Rectangles: Area = length × width\n\nRemember: Draw it out to visualize! 🎨"
-        };
+        // Show loading state
+        askButton.disabled = true;
+        askButton.innerHTML = '🔄 ChatGPT is thinking...';
         
-        // Simple keyword matching for demo
-        let response = "🤔 Interesting question! Let me help you understand this concept step by step:\n\n";
-        
-        if (question.toLowerCase().includes('fraction')) {
-            response += responses.fraction;
-        } else if (question.toLowerCase().includes('algebra') || question.toLowerCase().includes('solve')) {
-            response += responses.algebra;
-        } else if (question.toLowerCase().includes('geometry') || question.toLowerCase().includes('area') || question.toLowerCase().includes('circle')) {
-            response += responses.geometry;
-        } else {
-            response += "1️⃣ First, let's identify what type of problem this is\n2️⃣ Then we'll break it into smaller steps\n3️⃣ Finally, we'll solve it together!\n\n💡 Tip: Practice makes perfect! Try similar problems to master this concept.";
-        }
-        
-        // Update tutor content with response
-        document.getElementById('tutorContent').innerHTML = `
-            <div style="background: white; border-radius: 10px; padding: 20px; border-left: 4px solid #4a90e2;">
-                <h4 style="color: #4a90e2; margin-bottom: 10px;">🤖 AI Tutor Response:</h4>
-                <p style="white-space: pre-line; color: #333; line-height: 1.6;">${response}</p>
-            </div>
-            <div style="margin-top: 15px; padding: 10px; background: #e8f4fd; border-radius: 10px;">
-                <p style="color: #4a90e2; font-weight: bold; margin-bottom: 5px;">Your Question:</p>
-                <p style="color: #666; font-style: italic;">"${question}"</p>
+        // Add user question to chat
+        const userMessageHtml = `
+            <div style="background: #e3f2fd; border-radius: 10px; padding: 15px; margin: 10px 0; border-left: 4px solid #2196f3;">
+                <strong>🧑‍🎓 You:</strong> ${escapeHtml(question)}
             </div>
         `;
+        tutorContent.insertAdjacentHTML('beforeend', userMessageHtml);
+        tutorContent.scrollTop = tutorContent.scrollHeight;
         
+        try {
+            const response = await fetch('/api/openai-chat.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: question,
+                    difficulty: difficulty
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('ChatGPT service temporarily unavailable');
+            }
+            
+            const data = await response.json();
+            
+            // Add AI response to chat
+            const aiMessageHtml = `
+                <div style="background: #f0f8ff; border-radius: 10px; padding: 15px; margin: 10px 0; border-left: 4px solid #4a90e2;">
+                    <strong>🤖 ChatGPT:</strong><br>
+                    <div style="margin-top: 10px; line-height: 1.6;">${formatMathResponse(data.response)}</div>
+                </div>
+            `;
+            tutorContent.insertAdjacentHTML('beforeend', aiMessageHtml);
+            
+        } catch (error) {
+            console.error('AI Tutor error:', error);
+            
+            // Fallback response based on question content
+            const fallbackResponse = generateFallbackResponse(question, difficulty);
+            const errorMessageHtml = `
+                <div style="background: #fff3e0; border-radius: 10px; padding: 15px; margin: 10px 0; border-left: 4px solid #ff9800;">
+                    <strong>🤖 AI Tutor (Offline Mode):</strong><br>
+                    <div style="margin-top: 10px; line-height: 1.6;">${formatMathResponse(fallbackResponse)}</div>
+                    <small style="color: #666; display: block; margin-top: 10px;">
+                        <em>Note: Using offline mode. ChatGPT will be back online soon!</em>
+                    </small>
+                </div>
+            `;
+            tutorContent.insertAdjacentHTML('beforeend', errorMessageHtml);
+        }
+        
+        // Reset input and button
         input.value = '';
+        askButton.disabled = false;
+        askButton.innerHTML = '🤖 Ask ChatGPT';
+        
+        // Scroll to bottom
+        tutorContent.scrollTop = tutorContent.scrollHeight;
     }
 
     function closeAITutorModal() {
         const modal = document.getElementById('aiTutorModal');
         if (modal) modal.remove();
+    }
+    
+    function formatMathResponse(response) {
+        // Format mathematical expressions and make them more readable
+        return response
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`(.*?)`/g, '<code style="background: #f0f0f0; padding: 2px 4px; border-radius: 3px;">$1</code>')
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>')
+            .replace(/(\d+)\s*([+\-*/=])\s*(\d+)/g, '<span style="font-family: monospace; background: #f8f9fa; padding: 2px 4px; border-radius: 3px;">$1 $2 $3</span>');
+    }
+    
+    function generateFallbackResponse(question, difficulty) {
+        const lowerQuestion = question.toLowerCase();
+        
+        // Pattern matching for common math topics
+        if (lowerQuestion.includes('fraction') || lowerQuestion.includes('½') || lowerQuestion.includes('1/')) {
+            return `**Understanding Fractions** 🍕
+
+Fractions represent parts of a whole! Think of it like pizza slices:
+
+**Step-by-step approach:**
+1. **Numerator** (top number) = how many pieces you have
+2. **Denominator** (bottom number) = total pieces in the whole
+
+**Example:** 3/4 means you have 3 out of 4 equal pieces.
+
+**Quick tip:** To add fractions, make sure the denominators are the same first!
+
+Try practicing with: 1/2 + 1/4 = ?`;
+        }
+        
+        if (lowerQuestion.includes('algebra') || lowerQuestion.includes('solve') || lowerQuestion.includes('x')) {
+            return `**Solving Algebra Problems** 🧮
+
+Let's solve equations step by step!
+
+**Golden Rule:** Whatever you do to one side, do to the other side.
+
+**Example:** 2x + 5 = 13
+1. Subtract 5 from both sides: 2x = 8
+2. Divide both sides by 2: x = 4
+3. Check: 2(4) + 5 = 13 ✓
+
+**Remember:** 
+- Isolate the variable (x)
+- Work backwards from order of operations
+- Always check your answer!`;
+        }
+        
+        if (lowerQuestion.includes('area') || lowerQuestion.includes('circle') || lowerQuestion.includes('rectangle')) {
+            return `**Area Formulas** 📐
+
+Here are the essential area formulas:
+
+**Rectangle:** Area = length × width
+**Circle:** Area = π × radius²  (π ≈ 3.14)
+**Triangle:** Area = ½ × base × height
+**Square:** Area = side × side
+
+**Pro tip:** Always include units! If measuring in centimeters, your area will be in cm².
+
+Need help with a specific shape? Just ask!`;
+        }
+        
+        if (lowerQuestion.includes('percent') || lowerQuestion.includes('%')) {
+            return `**Working with Percentages** 💯
+
+Percent means "out of 100"!
+
+**Key conversions:**
+- 50% = 50/100 = 0.5 = ½
+- 25% = 25/100 = 0.25 = ¼
+- 10% = 10/100 = 0.1
+
+**To find percentage of a number:**
+Example: 20% of 150
+Step 1: Convert to decimal: 20% = 0.20
+Step 2: Multiply: 0.20 × 150 = 30
+
+**Quick tricks:**
+- 10% = move decimal one place left
+- 50% = divide by 2
+- 25% = divide by 4`;
+        }
+        
+        // Generic helpful response
+        return `**Let me help you with that math problem! 🤓**
+
+I'd love to give you a detailed explanation. Here's my approach:
+
+**Step 1:** Break down the problem into smaller parts
+**Step 2:** Identify what mathematical concept we're working with  
+**Step 3:** Apply the appropriate method or formula
+**Step 4:** Check our work
+
+Could you share more details about what specific part you're stuck on? I can provide:
+- Step-by-step solutions
+- Visual examples  
+- Practice problems
+- Memory tricks
+
+**Common topics I excel at:**
+✓ Basic arithmetic and word problems
+✓ Fractions, decimals, and percentages  
+✓ Algebra and equation solving
+✓ Geometry and area calculations
+✓ Pre-calculus concepts
+
+Ask me anything specific and I'll break it down for you! 🎯`;
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function generatePracticeProblems() {
+        const difficulty = document.getElementById('difficultySelect').value;
+        const tutorContent = document.getElementById('tutorContent');
+        
+        let problems = [];
+        
+        switch(difficulty) {
+            case 'easy':
+                problems = [
+                    "What is 7 + 5?",
+                    "If you have 12 apples and eat 4, how many are left?",
+                    "What is half of 16?",
+                    "Count by 5s: 5, 10, 15, __, __",
+                    "Which is bigger: 3/4 or 1/2?"
+                ];
+                break;
+            case 'medium':
+                problems = [
+                    "Solve: 3x + 7 = 22",
+                    "What is 15% of 80?",
+                    "Find the area of a rectangle: length=8, width=5",
+                    "Simplify: 2/6 + 1/3",
+                    "If a triangle has angles 60° and 70°, what's the third angle?"
+                ];
+                break;
+            case 'hard':
+                problems = [
+                    "Solve the quadratic: x² - 5x + 6 = 0",
+                    "Find the derivative of: f(x) = 3x² + 2x - 1",
+                    "A circle has circumference 18π. What's its area?",
+                    "Solve the system: 2x + y = 7, x - y = 2",
+                    "What's the sum of interior angles in a hexagon?"
+                ];
+                break;
+        }
+        
+        const practiceHtml = `
+            <div style="background: #f0f8ff; border-radius: 10px; padding: 20px; margin: 15px 0; border-left: 4px solid #4a90e2;">
+                <strong>🎯 Practice Problems (${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Level):</strong><br><br>
+                ${problems.map((problem, index) => 
+                    `<div style="background: white; border-radius: 8px; padding: 12px; margin: 8px 0; cursor: pointer;" 
+                     onclick="document.getElementById('tutorInput').value='${problem.replace(/'/g, "\\'")}'; document.getElementById('tutorInput').focus();">
+                        <strong>${index + 1}.</strong> ${problem}
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            <em>Click to ask me about this problem!</em>
+                        </small>
+                    </div>`
+                ).join('')}
+            </div>
+        `;
+        
+        tutorContent.insertAdjacentHTML('beforeend', practiceHtml);
+        tutorContent.scrollTop = tutorContent.scrollHeight;
     }
 
     function openGeniusFeature(featureType) {
@@ -1288,23 +1911,64 @@
     }
 
     function openPremiumFeature(featurePage) {
-        if (isPremiumUser()) {
+        console.log(`🎯 Attempting to access premium feature: ${featurePage}`);
+        
+        // Ensure user is still logged in
+        const currentUser = localStorage.getItem('currentUser');
+        const isLoggedIn = userManager && userManager.isLoggedIn();
+        
+        if (!currentUser && !isLoggedIn) {
+            console.log('❌ User not logged in, redirecting to login');
+            alert('Please log in to access premium features!');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Check premium status without clearing authentication
+        const hasPremiumAccess = isPremiumUser();
+        console.log(`🔑 Premium access status: ${hasPremiumAccess}`);
+        
+        if (hasPremiumAccess) {
+            console.log(`✅ Opening premium feature: ${featurePage}`);
+            
             // Unlock achievement when accessing premium features
             if (featurePage === 'family-dashboard.html' && isFamilyPlanUser()) {
                 unlockAchievement('family_manager');
             } else if (featurePage === 'analytics.html') {
                 unlockAchievement('analytics_explorer');
             }
+            
+            // Open feature in new tab
             window.open(featurePage, '_blank');
         } else {
+            console.log(`🔒 No premium access for: ${featurePage}`);
             showPremiumUpgradeModal('feature', featurePage.replace('.html', ''));
         }
     }
 
     function handlePremiumQuiz(quizType) {
-        if (isPremiumUser()) {
+        console.log(`🎯 Attempting to access premium quiz: ${quizType}`);
+        
+        // Ensure user is still logged in
+        const currentUser = localStorage.getItem('currentUser');
+        const isLoggedIn = userManager && userManager.isLoggedIn();
+        
+        if (!currentUser && !isLoggedIn) {
+            console.log('❌ User not logged in, redirecting to login');
+            alert('Please log in to access premium quizzes!');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Check premium status without clearing authentication
+        const hasPremiumAccess = isPremiumUser();
+        console.log(`🔑 Premium quiz access status: ${hasPremiumAccess}`);
+        
+        if (hasPremiumAccess) {
+            console.log(`✅ Starting premium quiz: ${quizType}`);
             startQuiz(quizType);
         } else {
+            console.log(`🔒 No premium access for quiz: ${quizType}`);
             showPremiumUpgradeModal('quiz', quizType);
         }
     }
@@ -3067,6 +3731,10 @@
         // Handle Enter key in answer input and initialize page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM Content Loaded');
+            
+            // Apply saved theme
+            loadSavedTheme();
+            
             // Initialize stats safely
             const totalScoreEl = document.getElementById('totalScore');
             const currentStreakEl = document.getElementById('currentStreak');
@@ -3076,6 +3744,7 @@
             if (currentStreakEl) currentStreakEl.textContent = '0';
             if (questionsAnsweredEl) questionsAnsweredEl.textContent = '0';
             if (achievementsCountEl) achievementsCountEl.textContent = '0';
+            
             // Set up answer input event listener
             const answerInput = document.getElementById('answerInput');
             if (answerInput) {
@@ -3085,21 +3754,196 @@
                     }
                 });
             }
+            
             // Initialize achievements display
             displayAchievements();
+            
             // Update auth buttons on load
             updateAuthButtons();
+            
+            // Listen for authentication state changes
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'currentUser' || e.key === 'username' || e.key === 'subscriptionPlan' || e.key === 'subscriptionJustCompleted') {
+                    console.log('🔄 Authentication/subscription state changed:', e.key, 'from', e.oldValue, 'to', e.newValue);
+                    updateAuthButtons();
+                    
+                    // If subscription just completed, show success message
+                    if (e.key === 'subscriptionJustCompleted' && e.newValue === 'true') {
+                        setTimeout(() => {
+                            const currentPlan = localStorage.getItem('subscriptionPlan');
+                            if (currentPlan && currentPlan !== 'free') {
+                                console.log('🎉 Showing subscription success notification');
+                                // Optional: Show a brief success notification
+                            }
+                        }, 1000);
+                    }
+                }
+            });
+            
+            // Listen for focus events to update auth state when user returns to tab
+            window.addEventListener('focus', function() {
+                console.log('🔍 Tab focused, refreshing auth state');
+                updateAuthButtons();
+            });
         });
+
+        // Load and apply saved theme
+        function loadSavedTheme() {
+            const savedThemeCSS = localStorage.getItem('themeCSS');
+            if (savedThemeCSS) {
+                let existingStyle = document.getElementById('theme-style');
+                if (existingStyle) {
+                    existingStyle.remove();
+                }
+                
+                const style = document.createElement('style');
+                style.id = 'theme-style';
+                style.textContent = savedThemeCSS;
+                document.head.appendChild(style);
+            }
+        }
 
         // (Removed duplicate updateStats)
         // Call loadProgress on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadProgress();
+            
+            // Check if user just completed a subscription
+            if (localStorage.getItem('subscriptionJustCompleted') === 'true') {
+                localStorage.removeItem('subscriptionJustCompleted');
+                console.log('🎉 User just completed subscription, refreshing auth state');
+                
+                // Force immediate auth button update
+                setTimeout(updateAuthButtons, 100);
+                setTimeout(updateAuthButtons, 500); // Double check after 500ms
+                setTimeout(updateAuthButtons, 1000); // Triple check after 1s
+            }
+            
             // Wait for userManager to be loaded before updating auth buttons
             setTimeout(updateAuthButtons, 100);
+            
+            // Set up periodic refresh of auth buttons for real-time updates
+            setInterval(() => {
+                updateAuthButtons();
+            }, 2000); // Check every 2 seconds for auth state changes
         });
+        
+        // Check if trial has expired
+        function checkTrialStatus() {
+            const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+            const trialEndDate = localStorage.getItem('trialEndDate');
+            
+            if (isTrialUser && trialEndDate) {
+                const now = new Date();
+                const trialEnd = new Date(trialEndDate);
+                
+                if (now > trialEnd) {
+                    // Trial expired
+                    localStorage.removeItem('isTrialUser');
+                    localStorage.removeItem('trialStartDate');
+                    localStorage.removeItem('trialEndDate');
+                    localStorage.setItem('subscriptionPlan', 'free');
+                    localStorage.setItem('hasUsedTrial', 'true');
+                    
+                    // Show trial expired notification
+                    showTrialExpiredNotification();
+                }
+            }
+        }
+        
+        // Show trial expired notification
+        function showTrialExpiredNotification() {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(90deg, #ff6b6b, #fcb045);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 15px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-family: inherit;
+                font-weight: bold;
+                text-align: center;
+                max-width: 400px;
+                animation: slideDown 0.5s ease;
+            `;
+            notification.innerHTML = `
+                <div style="font-size: 1.2rem; margin-bottom: 10px;">⏰ Trial Expired!</div>
+                <div style="margin-bottom: 15px;">Your 7-day free trial has ended. Want to keep enjoying premium features?</div>
+                <button onclick="window.location.href='subscription.html'" style="background: white; color: #ff6b6b; border: none; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-right: 10px;">Upgrade Now</button>
+                <button onclick="this.parentElement.remove()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">Continue Free</button>
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideDown {
+                    from { transform: translateX(-50%) translateY(-100%); }
+                    to { transform: translateX(-50%) translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 10000);
+        }
+        
+        // Update premium cards display based on subscription status
+        function updatePremiumCards() {
+            const premiumCards = document.querySelectorAll('.quiz-card.premium-locked');
+            const isPremium = isPremiumUser();
+            
+            premiumCards.forEach(card => {
+                if (isPremium) {
+                    card.classList.remove('premium-locked');
+                    // Update onclick handlers to regular quiz functions
+                    const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+                    if (cardTitle.includes('fraction')) {
+                        card.onclick = () => startQuiz('fractions');
+                    } else if (cardTitle.includes('pattern')) {
+                        card.onclick = () => startQuiz('patterns');
+                    } else if (cardTitle.includes('word')) {
+                        card.onclick = () => startQuiz('wordproblems');
+                    } else if (cardTitle.includes('multiplication')) {
+                        card.onclick = () => startLesson('multiplication');
+                    }
+                } else {
+                    if (!card.classList.contains('premium-locked')) {
+                        card.classList.add('premium-locked');
+                        // Reset onclick handlers to premium handlers
+                        const cardTitle = card.querySelector('h3').textContent.toLowerCase();
+                        if (cardTitle.includes('fraction')) {
+                            card.onclick = () => handlePremiumQuiz('fractions');
+                        } else if (cardTitle.includes('pattern')) {
+                            card.onclick = () => handlePremiumQuiz('patterns');
+                        } else if (cardTitle.includes('word')) {
+                            card.onclick = () => handlePremiumQuiz('wordproblems');
+                        } else if (cardTitle.includes('multiplication')) {
+                            card.onclick = () => handlePremiumLesson('multiplication');
+                        }
+                    }
+                }
+            });
+        }
+        
         // Show/hide login and logout buttons based on login state
         function updateAuthButtons() {
+            console.log('🔄 Updating authentication buttons...');
+            
+            // Check trial status first
+            checkTrialStatus();
+            
+            // Update quiz and lesson card display
+            updatePremiumCards();
+            
             const isLoggedIn = userManager && userManager.isLoggedIn();
             const loginBtn = document.getElementById('loginBtn');
             const registerBtn = document.getElementById('registerBtn');
@@ -3107,48 +3951,336 @@
             const familyBtn = document.getElementById('familyBtn');
             const analyticsBtn = document.getElementById('analyticsBtn');
             const billingBtn = document.getElementById('billingBtn');
+            const statusBtn = document.getElementById('statusBtn');
+            
+            console.log('👤 User logged in:', isLoggedIn);
             
             if (isLoggedIn) {
-                if (loginBtn) loginBtn.style.display = 'none';
-                if (registerBtn) registerBtn.style.display = 'none';
-                if (logoutBtn) logoutBtn.style.display = '';
+                console.log('✅ Showing authenticated user interface');
+                
+                // Hide login/register, show logout
+                if (loginBtn) {
+                    loginBtn.style.display = 'none';
+                    console.log('Hidden login button');
+                }
+                if (registerBtn) {
+                    registerBtn.style.display = 'none';
+                    console.log('Hidden register button');
+                }
+                if (logoutBtn) {
+                    logoutBtn.style.display = '';
+                    console.log('Shown logout button');
+                }
+                
+                // Show trial status if user is on trial
+                const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+                const trialEndDate = localStorage.getItem('trialEndDate');
+                const trialStatus = document.getElementById('trial-status');
+                const trialDaysLeft = document.getElementById('trial-days-left');
+                
+                if (isTrialUser && trialEndDate && trialStatus && trialDaysLeft) {
+                    const daysLeft = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+                    if (daysLeft > 0) {
+                        trialStatus.style.display = 'block';
+                        trialDaysLeft.textContent = daysLeft;
+                        
+                        // Change color based on days left
+                        if (daysLeft <= 1) {
+                            trialStatus.style.background = 'linear-gradient(90deg, #ff6b6b, #fcb045)';
+                        } else if (daysLeft <= 3) {
+                            trialStatus.style.background = 'linear-gradient(90deg, #f39c12, #e67e22)';
+                        }
+                    }
+                } else if (trialStatus) {
+                    trialStatus.style.display = 'none';
+                }
                 
                 // Show billing button for any subscribed user (not free)
                 const currentPlan = localStorage.getItem('subscriptionPlan') || 'free';
+                console.log('📋 Current plan:', currentPlan);
+                
                 if (currentPlan !== 'free' && billingBtn) {
                     billingBtn.style.display = '';
                 }
                 
-                // Show premium feature buttons if user has appropriate subscription
-                if (isFamilyPlanUser()) {
+                // Show status button for all logged-in users
+                if (statusBtn) {
+                    statusBtn.style.display = '';
+                }
+                
+                // Show premium feature buttons based on subscription tier
+                const themesBtn = document.getElementById('themesBtn');
+                const studyPlansBtn = document.getElementById('studyPlansBtn');
+                const homeworkBtn = document.getElementById('homeworkBtn');
+                const competitionBtn = document.getElementById('competitionBtn');
+                const teacherBtn = document.getElementById('teacherBtn');
+                
+                // Advanced feature buttons
+                const aiTutorBtn = document.getElementById('aiTutorBtn');
+                const universityBtn = document.getElementById('universityBtn');
+                const olympicsBtn = document.getElementById('olympicsBtn');
+                const writingBtn = document.getElementById('writingBtn');
+                const researchBtn = document.getElementById('researchBtn');
+                
+                // Premium+ features (themes)
+                if (currentPlan === 'premium' || currentPlan === 'family' || currentPlan === 'tutor' || currentPlan === 'genius' || currentPlan === 'school') {
+                    if (themesBtn) themesBtn.style.display = '';
+                }
+                
+                // Family features
+                if (currentPlan === 'family') {
                     if (familyBtn) familyBtn.style.display = '';
                 }
+                
+                // Pro Tutor+ features (study plans, homework helper)
+                if (currentPlan === 'tutor' || currentPlan === 'genius' || currentPlan === 'school') {
+                    if (studyPlansBtn) studyPlansBtn.style.display = '';
+                    if (homeworkBtn) homeworkBtn.style.display = '';
+                }
+                
+                // Math Genius features (competition prep)
+                if (currentPlan === 'genius' || currentPlan === 'school') {
+                    if (competitionBtn) competitionBtn.style.display = '';
+                }
+                
+                // Schools features (teacher dashboard)
+                if (currentPlan === 'school') {
+                    if (teacherBtn) teacherBtn.style.display = '';
+                }
+                
+                // Pro Tutor+ features (AI Tutoring)
+                if (currentPlan === 'tutor' || currentPlan === 'genius' || currentPlan === 'school') {
+                    if (aiTutorBtn) aiTutorBtn.style.display = '';
+                }
+                
+                // Math Genius+ features (University, Olympics, Writing, Research)
+                if (currentPlan === 'genius' || currentPlan === 'school') {
+                    if (universityBtn) universityBtn.style.display = '';
+                    if (olympicsBtn) olympicsBtn.style.display = '';
+                    if (writingBtn) writingBtn.style.display = '';
+                    if (researchBtn) researchBtn.style.display = '';
+                }
+                
+                // Analytics available for all premium plans
                 if (isPremiumUser()) {
                     if (analyticsBtn) analyticsBtn.style.display = '';
                 }
+                
+                console.log('✅ Authentication UI updated for logged in user');
             } else {
-                if (loginBtn) loginBtn.style.display = '';
-                if (registerBtn) registerBtn.style.display = '';
-                if (logoutBtn) logoutBtn.style.display = 'none';
+                console.log('🚪 Showing guest user interface');
+                
+                // Show login/register, hide logout
+                if (loginBtn) {
+                    loginBtn.style.display = '';
+                    console.log('Shown login button');
+                }
+                if (registerBtn) {
+                    registerBtn.style.display = '';
+                    console.log('Shown register button');
+                }
+                if (logoutBtn) {
+                    logoutBtn.style.display = 'none';
+                    console.log('Hidden logout button');
+                }
+                
+                // Hide all premium features when logged out
                 if (familyBtn) familyBtn.style.display = 'none';
                 if (analyticsBtn) analyticsBtn.style.display = 'none';
                 if (billingBtn) billingBtn.style.display = 'none';
+                if (statusBtn) statusBtn.style.display = 'none';
+                
+                const themesBtn = document.getElementById('themesBtn');
+                const studyPlansBtn = document.getElementById('studyPlansBtn');
+                const homeworkBtn = document.getElementById('homeworkBtn');
+                const competitionBtn = document.getElementById('competitionBtn');
+                const teacherBtn = document.getElementById('teacherBtn');
+                
+                // Advanced feature buttons
+                const aiTutorBtn = document.getElementById('aiTutorBtn');
+                const universityBtn = document.getElementById('universityBtn');
+                const olympicsBtn = document.getElementById('olympicsBtn');
+                const writingBtn = document.getElementById('writingBtn');
+                const researchBtn = document.getElementById('researchBtn');
+                
+                if (themesBtn) themesBtn.style.display = 'none';
+                if (studyPlansBtn) studyPlansBtn.style.display = 'none';
+                if (homeworkBtn) homeworkBtn.style.display = 'none';
+                if (competitionBtn) competitionBtn.style.display = 'none';
+                if (teacherBtn) teacherBtn.style.display = 'none';
+                
+                // Hide advanced features
+                if (aiTutorBtn) aiTutorBtn.style.display = 'none';
+                if (universityBtn) universityBtn.style.display = 'none';
+                if (olympicsBtn) olympicsBtn.style.display = 'none';
+                if (writingBtn) writingBtn.style.display = 'none';
+                if (researchBtn) researchBtn.style.display = 'none';
+                
+                console.log('✅ Authentication UI updated for guest user');
             }
         }
 
-        // Logout function
-        function logout() {
+        // Enhanced logout function that preserves subscription data unless explicitly requested
+        function logout(clearSubscription = false) {
+            console.log('🚪 Logging out user...', clearSubscription ? 'with subscription cleanup' : 'preserving subscription');
+            
             if (userManager) {
                 userManager.logout();
             }
+            
+            // Clear authentication data but preserve subscription unless requested
+            localStorage.removeItem('currentUser');
             localStorage.removeItem('username'); // Clean up old system too
-            localStorage.removeItem('subscriptionPlan'); // Clear subscription
             localStorage.removeItem('hasPaymentMethod'); // Clear payment info
             localStorage.removeItem('selectedPlan'); // Clear any pending selections
             
+            // Only clear subscription data if explicitly requested (like when canceling subscription)
+            if (clearSubscription) {
+                localStorage.removeItem('subscriptionPlan');
+                localStorage.removeItem('isTrialUser');
+                localStorage.removeItem('trialStartDate');
+                localStorage.removeItem('trialEndDate');
+                localStorage.removeItem('hasUsedTrial');
+                console.log('🗑️ Subscription data cleared');
+            } else {
+                console.log('💾 Subscription data preserved');
+            }
+            
+            console.log('✅ User data cleared');
+            
+            // Immediately update auth buttons
+            updateAuthButtons();
+            
             // Redirect to welcome page
-            alert('👋 You have been logged out successfully!\n\nRedirecting to welcome page...');
-            window.location.href = 'welcome.html';
+            alert('👋 You have been logged out successfully!\n\n' + 
+                  (clearSubscription ? 'Your subscription has been cancelled.' : 'Your subscription is preserved for when you log back in.') +
+                  '\n\nRedirecting to welcome page...');
+            setTimeout(() => {
+                window.location.href = 'welcome.html';
+            }, 500);
+        }
+        
+        // Safe logout that preserves subscription (default behavior)
+        function safeLogout() {
+            logout(false);
+        }
+        
+        // Complete logout that clears everything (for subscription cancellation)
+        function completeLogout() {
+            logout(true);
+        }
+        
+        // Function to restore user session after login
+        function restoreUserSession(username) {
+            console.log('🔄 Restoring user session for:', username);
+            
+            // Set the current user
+            localStorage.setItem('currentUser', username);
+            
+            // Check if user has existing subscription data
+            const existingPlan = localStorage.getItem('subscriptionPlan');
+            const existingTrial = localStorage.getItem('isTrialUser');
+            
+            console.log('Existing subscription data:', {
+                plan: existingPlan,
+                trial: existingTrial
+            });
+            
+            // If no subscription plan exists, default to free
+            if (!existingPlan && !existingTrial) {
+                localStorage.setItem('subscriptionPlan', 'free');
+                console.log('🆓 Set default plan to free');
+            }
+            
+            // Preserve and validate subscription state
+            preserveAuthenticationState();
+            
+            // Update the UI
+            updateAuthButtons();
+            updatePremiumState();
+            
+            // Show welcome back message with subscription status
+            const currentPlan = localStorage.getItem('subscriptionPlan');
+            const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+            
+            let statusMessage = '';
+            if (isTrialUser) {
+                const trialEndDate = localStorage.getItem('trialEndDate');
+                if (trialEndDate) {
+                    const daysLeft = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+                    statusMessage = `🎉 Welcome back! Your free trial has ${daysLeft} days remaining.`;
+                }
+            } else if (currentPlan && currentPlan !== 'free') {
+                statusMessage = `🎉 Welcome back! Your ${currentPlan} subscription is active.`;
+            } else {
+                statusMessage = '🎉 Welcome back! You\'re on the free plan.';
+            }
+            
+            setTimeout(() => {
+                showNotification(statusMessage, 'success');
+            }, 1000);
+            
+            console.log('✅ User session restored successfully');
+        }
+        
+        // Function to show current subscription status
+        function showSubscriptionStatus() {
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+            const trialEndDate = localStorage.getItem('trialEndDate');
+            
+            if (!currentUser) {
+                showNotification('Please log in to view your subscription status.', 'warning');
+                return;
+            }
+            
+            let statusMessage = '';
+            let statusType = 'info';
+            
+            if (isTrialUser && trialEndDate) {
+                const now = new Date();
+                const trialEnd = new Date(trialEndDate);
+                const daysLeft = Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24));
+                
+                if (daysLeft > 0) {
+                    statusMessage = `🎁 Free Trial Active: ${daysLeft} days remaining\nEnjoy all premium features!`;
+                    statusType = 'success';
+                } else {
+                    statusMessage = '⏰ Free trial has ended.\nUpgrade to continue premium features!';
+                    statusType = 'warning';
+                }
+            } else {
+                switch(subscriptionPlan) {
+                    case 'premium':
+                        statusMessage = '⭐ Premium Plan Active\nUnlimited quizzes and premium features!';
+                        statusType = 'success';
+                        break;
+                    case 'family':
+                        statusMessage = '👨‍👩‍👧‍👦 Family Plan Active\nUp to 6 family accounts with full features!';
+                        statusType = 'success';
+                        break;
+                    case 'tutor':
+                        statusMessage = '🧑‍🏫 Pro Tutor Plan Active\nAI tutoring with ChatGPT included!';
+                        statusType = 'success';
+                        break;
+                    case 'genius':
+                        statusMessage = '🧠 Math Genius Plan Active\nAll features including competition prep!';
+                        statusType = 'success';
+                        break;
+                    case 'school':
+                        statusMessage = '🏫 Schools Plan Active\nFull classroom management features!';
+                        statusType = 'success';
+                        break;
+                    case 'free':
+                    default:
+                        statusMessage = '🆓 Free Plan Active\n5 quizzes per day. Upgrade for unlimited access!';
+                        statusType = 'info';
+                        break;
+                }
+            }
+            
+            showNotification(statusMessage, statusType);
         }
 
         // Safe update achievements count
@@ -3588,33 +4720,424 @@ function showCelebration(message) {
     <script>
         // Check authentication before loading main app
         function checkAuthentication() {
+            // Wait for userManager to load before checking
+            if (typeof userManager === 'undefined') {
+                return true; // Allow page to load, userManager might still be loading
+            }
+            
             const isLoggedIn = localStorage.getItem('username') || 
                              sessionStorage.getItem('username') ||
-                             (typeof userManager !== 'undefined' && userManager.isLoggedIn());
+                             userManager.isLoggedIn();
             
             if (!isLoggedIn) {
-                // User is not logged in, redirect to welcome page
-                window.location.href = 'welcome.html';
+                // Only redirect if we're sure the user is not logged in
+                setTimeout(() => {
+                    window.location.href = 'welcome.html';
+                }, 1000); // Give time for the page to stabilize
                 return false;
             }
             return true;
         }
         
+        // Function to update premium state of all locked elements
+        function updatePremiumState() {
+            const isPremium = isPremiumUser();
+            const isFamilyPlan = isFamilyPlanUser();
+            const isAITutor = isAITutorUser();
+            const isGenius = isGeniusUser();
+            
+            // Get all premium-locked quiz cards
+            const premiumLockedCards = document.querySelectorAll('.quiz-card.premium-locked');
+            
+            premiumLockedCards.forEach(card => {
+                if (isPremium) {
+                    // Remove premium-locked class and update onclick
+                    card.classList.remove('premium-locked');
+                    
+                    // Get the quiz/lesson type from the onclick attribute
+                    const onclickAttr = card.getAttribute('onclick');
+                    if (onclickAttr) {
+                        if (onclickAttr.includes('handlePremiumQuiz')) {
+                            // Extract quiz type and update to regular quiz handler
+                            const match = onclickAttr.match(/handlePremiumQuiz\('(\w+)'\)/);
+                            if (match) {
+                                const quizType = match[1];
+                                card.setAttribute('onclick', `startQuiz('${quizType}')`);
+                            }
+                        } else if (onclickAttr.includes('handlePremiumLesson')) {
+                            // Extract lesson type and update to regular lesson handler
+                            const match = onclickAttr.match(/handlePremiumLesson\('(\w+)'\)/);
+                            if (match) {
+                                const lessonType = match[1];
+                                card.setAttribute('onclick', `showLesson('${lessonType}')`);
+                            }
+                        }
+                    }
+                    
+                    // Add unlocked styling
+                    card.style.cursor = 'pointer';
+                    card.style.opacity = '1';
+                    
+                    // Add premium user indicator
+                    if (!card.querySelector('.premium-unlocked-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'premium-unlocked-badge';
+                        badge.innerHTML = '✨ UNLOCKED';
+                        badge.style.cssText = `
+                            position: absolute;
+                            top: 10px;
+                            right: 10px;
+                            background: linear-gradient(90deg, #28a745, #20c997);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.7rem;
+                            font-weight: bold;
+                            z-index: 5;
+                        `;
+                        card.style.position = 'relative';
+                        card.appendChild(badge);
+                    }
+                }
+            });
+            
+            // Handle AI Tutor locked cards
+            const aiTutorCards = document.querySelectorAll('.quiz-card.ai-tutor-locked');
+            aiTutorCards.forEach(card => {
+                if (isAITutor) {
+                    card.classList.remove('ai-tutor-locked');
+                    card.style.cursor = 'pointer';
+                    card.style.opacity = '1';
+                    
+                    // Add AI Tutor unlocked badge
+                    if (!card.querySelector('.ai-tutor-unlocked-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'ai-tutor-unlocked-badge';
+                        badge.innerHTML = '🤖 AI TUTOR';
+                        badge.style.cssText = `
+                            position: absolute;
+                            top: 10px;
+                            right: 10px;
+                            background: linear-gradient(90deg, #6f42c1, #8b5cf6);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.7rem;
+                            font-weight: bold;
+                            z-index: 5;
+                        `;
+                        card.style.position = 'relative';
+                        card.appendChild(badge);
+                    }
+                }
+            });
+            
+            // Handle Genius locked cards
+            const geniusCards = document.querySelectorAll('.quiz-card.genius-locked');
+            geniusCards.forEach(card => {
+                if (isGenius) {
+                    card.classList.remove('genius-locked');
+                    card.style.cursor = 'pointer';
+                    card.style.opacity = '1';
+                    
+                    // Add Genius unlocked badge
+                    if (!card.querySelector('.genius-unlocked-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'genius-unlocked-badge';
+                        badge.innerHTML = '🧠 GENIUS';
+                        badge.style.cssText = `
+                            position: absolute;
+                            top: 10px;
+                            right: 10px;
+                            background: linear-gradient(90deg, #dc3545, #e74c3c);
+                            color: white;
+                            padding: 4px 8px;
+                            border-radius: 12px;
+                            font-size: 0.7rem;
+                            font-weight: bold;
+                            z-index: 5;
+                        `;
+                        card.style.position = 'relative';
+                        card.appendChild(badge);
+                    }
+                }
+            });
+            
+            // Update navigation menu premium buttons
+            const premiumNavButtons = document.querySelectorAll('.nav-tab.premium-feature-btn');
+            premiumNavButtons.forEach(btn => {
+                if (isPremium) {
+                    btn.classList.remove('premium-feature-btn');
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    
+                    // Re-enable click functionality
+                    const btnText = btn.textContent.toLowerCase();
+                    if (btnText.includes('themes')) {
+                        btn.onclick = () => showPage('themes');
+                    } else if (btnText.includes('analytics')) {
+                        btn.onclick = () => showPage('analytics');
+                    } else if (btnText.includes('family')) {
+                        if (isFamilyPlan) {
+                            btn.onclick = () => showPage('family-dashboard');
+                        }
+                    }
+                }
+            });
+            
+            // Show success message for newly upgraded users
+            const justUpgraded = localStorage.getItem('justUpgraded');
+            if (justUpgraded === 'true' && isPremium) {
+                localStorage.removeItem('justUpgraded');
+                showUpgradeSuccessMessage();
+            }
+        }
+        
+        function showUpgradeSuccessMessage() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                font-family: 'Comic Sans MS', Arial, sans-serif;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+                    border-radius: 25px;
+                    padding: 40px;
+                    max-width: 500px;
+                    text-align: center;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    border: 3px solid #28a745;
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: #28a745; margin: 0 0 15px 0; font-size: 2rem;">Welcome to Premium!</h2>
+                    <p style="color: #666; margin: 15px 0; font-size: 1.1rem;">
+                        All premium features are now unlocked! Look for the ✨ badges on previously locked content.
+                    </p>
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 15px; margin: 20px 0;">
+                        <p style="color: #155724; margin: 0; font-weight: bold;">
+                            🚀 Your premium features include:
+                        </p>
+                        <ul style="color: #155724; text-align: left; margin: 10px 0; padding-left: 20px;">
+                            <li>✨ All quiz topics unlocked</li>
+                            <li>🎨 Custom themes & colors</li>
+                            <li>📊 Detailed analytics</li>
+                            <li>📖 Premium lessons</li>
+                            <li>🏆 Advanced achievements</li>
+                        </ul>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove();" style="
+                        background: linear-gradient(90deg, #28a745, #20c997);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 25px;
+                        font-size: 1.1rem;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-family: inherit;
+                    ">
+                        🚀 Start Learning!
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Auto-close after 10 seconds
+            setTimeout(() => {
+                if (document.body.contains(modal)) {
+                    document.body.removeChild(modal);
+                }
+            }, 10000);
+        }
+        
+        // Manual function to update premium state (can be called from other pages)
+        function refreshPremiumState() {
+            updatePremiumState();
+        }
+        
+        // Make it globally available
+        window.refreshPremiumState = refreshPremiumState;
+        
         // Update auth buttons when page loads
         window.addEventListener('DOMContentLoaded', function() {
-            // Check authentication first
-            if (!checkAuthentication()) {
-                return; // Stop execution if not authenticated
-            }
+            console.log('🚀 Initializing MathsMayhem with enhanced authentication...');
             
-            // Wait a moment for userManager to load
+            // Wait a moment for userManager to load, then check auth
             setTimeout(() => {
-                // Update auth buttons after userManager is loaded
+                // Enhanced authentication check that preserves subscription data
+                const currentUser = localStorage.getItem('currentUser');
+                const legacyUsername = localStorage.getItem('username') || sessionStorage.getItem('username');
+                const isManagerLoggedIn = typeof userManager !== 'undefined' && userManager.isLoggedIn();
+                
+                const isLoggedIn = currentUser || legacyUsername || isManagerLoggedIn;
+                
+                console.log('🔐 Authentication check:', {
+                    currentUser: !!currentUser,
+                    legacyUsername: !!legacyUsername,
+                    userManager: isManagerLoggedIn,
+                    finalResult: isLoggedIn
+                });
+                
+                if (!isLoggedIn) {
+                    console.log('👤 No user detected, redirecting to welcome');
+                    // Only redirect if no user data exists at all
+                    const hasAnySubscription = localStorage.getItem('subscriptionPlan') || localStorage.getItem('isTrialUser');
+                    
+                    if (!hasAnySubscription) {
+                        window.location.href = 'welcome.html';
+                        return;
+                    } else {
+                        // User has subscription data but no login - this is the bug!
+                        console.log('⚠️ Found subscription data without login - preserving user session');
+                        // Don't redirect, just update the UI
+                    }
+                }
+                
+                // Preserve authentication and subscription state
+                preserveAuthenticationState();
+                
+                // User is logged in or has subscription data, proceed with normal setup
                 updateAuthButtons();
-                // Update quiz count display
                 updateQuizCountDisplay();
+                // Update premium state
+                updatePremiumState();
+                
+                // Load achievements
+                loadAchievements();
+                
+                console.log('✅ MathsMayhem fully initialized');
             }, 100);
         });
+        
+        // Function to preserve authentication state and subscription data
+        function preserveAuthenticationState() {
+            console.log('🔐 Preserving authentication state...');
+            
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+            const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+            const trialEndDate = localStorage.getItem('trialEndDate');
+            
+            console.log('Current auth state:', {
+                user: currentUser,
+                plan: subscriptionPlan,
+                trial: isTrialUser,
+                trialEnd: trialEndDate
+            });
+            
+            // If user exists but no subscription plan, set to free
+            if (currentUser && !subscriptionPlan && !isTrialUser) {
+                console.log('🆓 Setting default plan to free');
+                localStorage.setItem('subscriptionPlan', 'free');
+            }
+            
+            // Validate trial status
+            if (isTrialUser && trialEndDate) {
+                const now = new Date();
+                const trialEnd = new Date(trialEndDate);
+                
+                if (now > trialEnd) {
+                    console.log('⏰ Trial expired, converting to free plan');
+                    localStorage.removeItem('isTrialUser');
+                    localStorage.removeItem('trialStartDate');
+                    localStorage.removeItem('trialEndDate');
+                    localStorage.setItem('subscriptionPlan', 'free');
+                    
+                    // Show trial expiration notification
+                    setTimeout(() => {
+                        showNotification('Your 7-day free trial has ended. Upgrade to continue enjoying premium features!', 'info');
+                    }, 2000);
+                }
+            }
+            
+            // Ensure user manager is synchronized
+            if (typeof userManager !== 'undefined' && currentUser) {
+                console.log('✅ User manager synchronized with localStorage');
+            }
+        }
+
+        // Listen for storage changes to update premium state when subscription changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'subscriptionPlan' || e.key === 'isTrialUser') {
+                updatePremiumState();
+            }
+        });
+        
+        // Also check for premium state updates when the page becomes visible again
+        // (useful when returning from billing page)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                setTimeout(() => {
+                    updatePremiumState();
+                }, 500);
+            }
+        });
+        
+        // Supporting functions for advanced features
+        window.startAdvancedTopic = function(topic) {
+            const topics = {
+                'calculus': { title: 'Advanced Calculus', content: 'Multivariable calculus, vector analysis, and differential equations' },
+                'linear-algebra': { title: 'Linear Algebra', content: 'Vector spaces, eigenvalues, and matrix transformations' },
+                'abstract-algebra': { title: 'Abstract Algebra', content: 'Group theory, ring theory, and field extensions' },
+                'real-analysis': { title: 'Real Analysis', content: 'Limits, continuity, and convergence theorems' },
+                'topology': { title: 'Topology', content: 'Open sets, continuous functions, and topological spaces' },
+                'number-theory': { title: 'Number Theory', content: 'Prime numbers, modular arithmetic, and Diophantine equations' }
+            };
+            const selectedTopic = topics[topic];
+            if (selectedTopic) {
+                alert(`🎓 ${selectedTopic.title}\n\n${selectedTopic.content}\n\nThis would open a full interactive university-level lesson!`);
+            }
+        };
+        
+        window.startOlympiadTraining = function(competition) {
+            const competitions = {
+                'imo': 'International Mathematical Olympiad - Advanced proof-based problems',
+                'usamo': 'USA Mathematical Olympiad - Complex geometric and algebraic proofs',
+                'aime': 'American Invitational Mathematics Examination - Intermediate problem solving',
+                'amc': 'AMC Preparation - Foundation building for competition mathematics'
+            };
+            if (competitions[competition]) {
+                alert(`🥇 ${competitions[competition]}\n\nThis would provide comprehensive olympiad training!`);
+            }
+        };
+        
+        window.openWritingTool = function(toolType) {
+            const tools = {
+                'research-papers': 'Research Paper Writing Assistant',
+                'thesis-support': 'Thesis & Dissertation Support',
+                'proof-writing': 'Mathematical Proof Writing',
+                'academic-proposals': 'Grant & Research Proposals',
+                'college-applications': 'College Application Essays',
+                'latex-support': 'LaTeX & Mathematical Typography'
+            };
+            if (tools[toolType]) {
+                alert(`✍️ ${tools[toolType]}\n\nAdvanced academic writing support would be available here!`);
+            }
+        };
+        
+        window.startResearchProject = function(area) {
+            const areas = {
+                'pure-math': 'Pure Mathematics Research',
+                'applied-math': 'Applied Mathematics',
+                'computational': 'Computational Mathematics',
+                'interdisciplinary': 'Interdisciplinary Research'
+            };
+            if (areas[area]) {
+                alert(`🔬 ${areas[area]}\n\nAdvanced research project support would be available here!`);
+            }
+        };
     </script>
 </body>
 </html>

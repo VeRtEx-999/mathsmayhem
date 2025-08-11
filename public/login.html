@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - MathQuest</title>
+    <title>Login - MathsMayhem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -90,7 +90,7 @@
 <body>
     <div class="login-container">
         <div class="login-icon">🔒</div>
-        <div class="login-title">Welcome to MathQuest!</div>
+        <div class="login-title">Welcome to MathsMayhem!</div>
         <form onsubmit="return handleLogin(event)">
             <input class="login-input" type="text" id="login-username" placeholder="📝 Username" required><br>
             <div style="position:relative; width:100%;">
@@ -130,9 +130,22 @@ async function handleLogin(e) {
     const password = document.getElementById('login-password').value;
     
     try {
-        userManager.login(username, password);
-        alert('Login successful!');
-        window.location.href = "index.html";
+        await userManager.login(username, password);
+        
+        // Check if user came from welcome page or needs to go to index
+        const referrer = document.referrer;
+        const shouldGoToIndex = referrer.includes('welcome.html') || 
+                               referrer === '' || 
+                               !referrer.includes('index.html');
+        
+        if (shouldGoToIndex) {
+            alert('Welcome back! Taking you to your dashboard...');
+            window.location.href = "index.html";
+        } else {
+            // If came from index.html, go back there
+            alert('Login successful!');
+            window.location.href = "index.html";
+        }
     } catch (error) {
         alert('Login failed: ' + error.message);
     }

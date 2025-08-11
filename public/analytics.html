@@ -696,7 +696,26 @@
     
     <script>
         // Initialize analytics dashboard
-        document.addEventListener('DOMContentLoaded', function() {
+        // Utility functions
+        function isPremiumUser() {
+            const plan = localStorage.getItem('subscriptionPlan') || 'free';
+            const trialStart = localStorage.getItem('trialStartDate');
+            
+            // Check if user has premium plan or active trial
+            if (plan !== 'free') return true;
+            
+            // Check trial status
+            if (trialStart) {
+                const trialStartDate = new Date(trialStart);
+                const now = new Date();
+                const daysSinceStart = (now - trialStartDate) / (1000 * 60 * 60 * 24);
+                return daysSinceStart <= 7; // 7-day trial
+            }
+            
+            return false;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
             // Check if user has premium access for detailed analytics
             const subscriptionPlan = localStorage.getItem('subscriptionPlan');
             if (!subscriptionPlan || subscriptionPlan === 'free') {
@@ -714,48 +733,345 @@
         function loadUserAnalytics() {
             // Load user's quiz data from localStorage
             const username = localStorage.getItem('username');
-            const userQuizData = localStorage.getItem(`quizData_${username}`) || '[]';
-            const quizzes = JSON.parse(userQuizData);
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
             
-            if (quizzes.length > 0) {
-                updateStatsFromData(quizzes);
+            // Load comprehensive user activity data
+            const userQuizData = localStorage.getItem(`quizData_${currentUser}`) || '[]';
+            const userActivityData = localStorage.getItem(`userActivity_${currentUser}`) || '[]';
+            const userProgressData = localStorage.getItem(`userProgress_${currentUser}`) || '{}';
+            
+            const quizzes = JSON.parse(userQuizData);
+            const activities = JSON.parse(userActivityData);
+            const progress = JSON.parse(userProgressData);
+            
+            if (quizzes.length > 0 || activities.length > 0) {
+                updateStatsFromRealData(quizzes, activities, progress);
+                updateProgressCharts(quizzes, activities);
+                generatePersonalizedInsights(quizzes, activities, progress);
+            } else {
+                showFirstTimeUserStats();
             }
         }
         
-        function updateStatsFromData(quizzes) {
-            // Calculate real stats from quiz data
+        function updateStatsFromRealData(quizzes, activities, progress) {
+            // Calculate comprehensive stats from real user data
             const totalQuizzes = quizzes.length;
             const totalCorrect = quizzes.reduce((sum, quiz) => sum + (quiz.correct || 0), 0);
             const totalQuestions = quizzes.reduce((sum, quiz) => sum + (quiz.total || 10), 0);
             
             const overallAccuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
             
-            // Calculate streak (simplified)
-            const currentStreak = calculateStreak(quizzes);
+            // Calculate real streak based on daily activity
+            const currentStreak = calculateRealStreak(quizzes, activities);
             
-            // Calculate study time (3 minutes average per quiz)
-            const studyTimeHours = (totalQuizzes * 3 / 60).toFixed(1);
+            // Calculate actual study time from session data
+            const studyTimeHours = calculateStudyTime(quizzes, activities);
             
-            // Update UI
+            // Calculate topics mastered
+            const topicsMastered = calculateTopicsMastery(progress);
+            
+            // Update UI with real data
             document.getElementById('total-quizzes').textContent = totalQuizzes;
             document.getElementById('overall-accuracy').textContent = overallAccuracy + '%';
-            document.getElementById('current-streak').textContent = currentStreak;
+            document.getElementById('current-streak').textContent = currentStreak + ' days';
             document.getElementById('study-time').textContent = studyTimeHours;
+            
+            // Update additional stats if elements exist
+            const topicsMasteredEl = document.getElementById('topics-mastered');
+            if (topicsMasteredEl) topicsMasteredEl.textContent = topicsMastered;
+            
+            const averageScoreEl = document.getElementById('average-score');
+            if (averageScoreEl) {
+                const avgScore = quizzes.length > 0 ? 
+                    Math.round(quizzes.reduce((sum, q) => sum + (q.score || (q.correct/q.total * 100) || 0), 0) / quizzes.length) : 0;
+                averageScoreEl.textContent = avgScore + '%';
+            }
         }
         
-        function calculateStreak(quizzes) {
-            if (quizzes.length === 0) return 0;
+        function calculateRealStreak(quizzes, activities) {
+            const allActivity = [...quizzes, ...activities];
+            if (allActivity.length === 0) return 0;
             
-            // Simple streak calculation based on recent activity
-            const recent = quizzes.slice(-14); // Last 14 quizzes
-            const datesPlayed = [...new Set(recent.map(quiz => {
-                if (quiz.timestamp) {
-                    return new Date(quiz.timestamp).toDateString();
+            // Get unique days of activity
+            const activityDates = allActivity
+                .filter(item => item.timestamp)
+                .map(item => {
+                    const date = new Date(item.timestamp);
+                    return date.toDateString();
+                })
+                .filter((date, index, arr) => arr.indexOf(date) === index)
+                .sort((a, b) => new Date(b) - new Date(a));
+            
+            if (activityDates.length === 0) return 0;
+            
+            // Calculate consecutive days from most recent
+            let streak = 0;
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
+            
+            // Check if user was active today or yesterday
+            if (activityDates.includes(today) || activityDates.includes(yesterday)) {
+                streak = 1;
+                
+                // Count consecutive days backwards
+                for (let i = 1; i < activityDates.length; i++) {
+                    const currentDate = new Date(activityDates[i]);
+                    const previousDate = new Date(activityDates[i-1]);
+                    const dayDifference = Math.abs(previousDate - currentDate) / (1000 * 60 * 60 * 24);
+                    
+                    if (dayDifference <= 1) {
+                        streak++;
+                    } else {
+                        break;
+                    }
                 }
-                return new Date().toDateString();
-            }))];
+            }
             
-            return Math.min(datesPlayed.length, 14);
+            return streak;
+        }
+        
+        function calculateStudyTime(quizzes, activities) {
+            let totalMinutes = 0;
+            
+            // Add time from quizzes (estimate 2-4 minutes per quiz)
+            totalMinutes += quizzes.length * 3;
+            
+            // Add time from other activities
+            activities.forEach(activity => {
+                if (activity.type === 'theme_selection') totalMinutes += 1;
+                if (activity.type === 'study_plan_view') totalMinutes += 5;
+                if (activity.type === 'homework_helper') totalMinutes += 8;
+                if (activity.type === 'competition_prep') totalMinutes += 15;
+            });
+            
+            return (totalMinutes / 60).toFixed(1);
+        }
+        
+        function calculateTopicsMastery(progress) {
+            if (!progress || typeof progress !== 'object') return 0;
+            
+            let masteredTopics = 0;
+            Object.keys(progress).forEach(topic => {
+                if (progress[topic] && progress[topic].accuracy >= 85 && progress[topic].attempts >= 5) {
+                    masteredTopics++;
+                }
+            });
+            
+            return masteredTopics;
+        }
+        
+        function showFirstTimeUserStats() {
+            // Show encouraging stats for new users
+            document.getElementById('total-quizzes').textContent = '0';
+            document.getElementById('overall-accuracy').textContent = '0%';
+            document.getElementById('current-streak').textContent = '0 days';
+            document.getElementById('study-time').textContent = '0.0';
+            
+            // Add welcome message
+            const statsOverview = document.querySelector('.stats-overview');
+            if (statsOverview) {
+                const welcomeCard = document.createElement('div');
+                welcomeCard.className = 'stat-card';
+                welcomeCard.innerHTML = `
+                    <h3>🌟 Welcome to MathsMayhem!</h3>
+                    <p>Complete your first quiz to start building your analytics dashboard!</p>
+                    <button onclick="location.href='index.html'" style="
+                        background: linear-gradient(90deg, #4a90e2, #667eea);
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 15px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 10px;
+                    ">Start First Quiz 🚀</button>
+                `;
+                statsOverview.appendChild(welcomeCard);
+            }
+        }
+        
+        function updateProgressCharts(quizzes, activities) {
+            // Update progress visualization with real data
+            const progressRing = document.querySelector('.ring-progress');
+            if (progressRing && quizzes.length > 0) {
+                const avgAccuracy = quizzes.reduce((sum, q) => sum + (q.correct/q.total * 100 || 0), 0) / quizzes.length;
+                const circumference = 2 * Math.PI * 40; // assuming radius of 40
+                const offset = circumference - (avgAccuracy / 100) * circumference;
+                progressRing.style.strokeDashoffset = offset;
+            }
+        }
+        
+        function generatePersonalizedInsights(quizzes, activities, progress) {
+            const isPremium = isPremiumUser();
+            
+            if (!isPremium) {
+                showLimitedAnalytics();
+                return;
+            }
+            
+            // Generate AI-powered insights for premium users
+            const insights = [];
+            
+            // Performance trend analysis
+            if (quizzes.length >= 5) {
+                const recent5 = quizzes.slice(-5);
+                const older5 = quizzes.slice(-10, -5);
+                
+                if (older5.length > 0) {
+                    const recentAvg = recent5.reduce((sum, q) => sum + (q.correct/q.total * 100), 0) / recent5.length;
+                    const olderAvg = older5.reduce((sum, q) => sum + (q.correct/q.total * 100), 0) / older5.length;
+                    
+                    if (recentAvg > olderAvg + 5) {
+                        insights.push({
+                            type: 'improvement',
+                            title: '📈 Great Progress!',
+                            message: `Your accuracy has improved by ${Math.round(recentAvg - olderAvg)}% in recent quizzes!`
+                        });
+                    } else if (recentAvg < olderAvg - 5) {
+                        insights.push({
+                            type: 'concern',
+                            title: '🎯 Focus Needed',
+                            message: `Consider reviewing topics where accuracy has declined. Practice makes perfect!`
+                        });
+                    }
+                }
+            }
+            
+            // Time-based insights
+            const studyHours = parseFloat(calculateStudyTime(quizzes, activities));
+            if (studyHours > 10) {
+                insights.push({
+                    type: 'achievement',
+                    title: '⏰ Study Champion!',
+                    message: `You've dedicated ${studyHours} hours to learning. Fantastic commitment!`
+                });
+            }
+            
+            // Streak insights
+            const streak = calculateRealStreak(quizzes, activities);
+            if (streak >= 7) {
+                insights.push({
+                    type: 'streak',
+                    title: '🔥 Amazing Streak!',
+                    message: `${streak} days in a row! You're building excellent study habits.`
+                });
+            } else if (streak === 0 && quizzes.length > 0) {
+                insights.push({
+                    type: 'motivation',
+                    title: '🌟 Come Back Strong!',
+                    message: `Ready to restart your learning journey? Every expert was once a beginner!`
+                });
+            }
+            
+            // Topic mastery insights
+            const masteredTopics = calculateTopicsMastery(progress);
+            if (masteredTopics > 0) {
+                insights.push({
+                    type: 'mastery',
+                    title: '🏆 Topic Master!',
+                    message: `You've mastered ${masteredTopics} topics. Consider exploring more challenging areas!`
+                });
+            }
+            
+            displayInsights(insights);
+        }
+        
+        function displayInsights(insights) {
+            const insightsSection = document.querySelector('.insights-section');
+            if (!insightsSection || insights.length === 0) return;
+            
+            const insightsHTML = insights.map(insight => `
+                <div class="insight-card ${insight.type}" style="
+                    background: rgba(255,255,255,0.95);
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                    border-left: 4px solid ${getInsightColor(insight.type)};
+                ">
+                    <h4 style="margin: 0 0 10px 0; color: #333;">${insight.title}</h4>
+                    <p style="margin: 0; color: #666;">${insight.message}</p>
+                </div>
+            `).join('');
+            
+            insightsSection.innerHTML = `
+                <div class="insights-title" style="
+                    color: white;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                    text-align: center;
+                ">🤖 AI-Powered Insights</div>
+                ${insightsHTML}
+            `;
+        }
+        
+        function getInsightColor(type) {
+            const colors = {
+                'improvement': '#2ed573',
+                'concern': '#ffa726',
+                'achievement': '#4a90e2',
+                'streak': '#ff6b6b',
+                'motivation': '#ab47bc',
+                'mastery': '#ffd700'
+            };
+            return colors[type] || '#4a90e2';
+        }
+        
+        // Enhanced tracking functions for better analytics
+        function trackQuizActivity(quizType, score, correct, total, timeSpent) {
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
+            
+            // Store quiz data
+            const quizData = JSON.parse(localStorage.getItem(`quizData_${currentUser}`) || '[]');
+            quizData.push({
+                type: quizType,
+                score: score,
+                correct: correct,
+                total: total,
+                timeSpent: timeSpent,
+                timestamp: new Date().toISOString(),
+                date: new Date().toDateString()
+            });
+            localStorage.setItem(`quizData_${currentUser}`, JSON.stringify(quizData));
+            
+            // Update topic progress
+            updateTopicProgress(currentUser, quizType, correct, total);
+        }
+        
+        function trackActivity(activityType, details = {}) {
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
+            
+            const activities = JSON.parse(localStorage.getItem(`userActivity_${currentUser}`) || '[]');
+            activities.push({
+                type: activityType,
+                details: details,
+                timestamp: new Date().toISOString(),
+                date: new Date().toDateString()
+            });
+            
+            // Keep only last 100 activities to prevent localStorage bloat
+            if (activities.length > 100) {
+                activities.splice(0, activities.length - 100);
+            }
+            
+            localStorage.setItem(`userActivity_${currentUser}`, JSON.stringify(activities));
+        }
+        
+        function updateTopicProgress(user, topic, correct, total) {
+            const progress = JSON.parse(localStorage.getItem(`userProgress_${user}`) || '{}');
+            
+            if (!progress[topic]) {
+                progress[topic] = { attempts: 0, totalCorrect: 0, totalQuestions: 0 };
+            }
+            
+            progress[topic].attempts++;
+            progress[topic].totalCorrect += correct;
+            progress[topic].totalQuestions += total;
+            progress[topic].accuracy = Math.round((progress[topic].totalCorrect / progress[topic].totalQuestions) * 100);
+            progress[topic].lastAttempt = new Date().toISOString();
+            
+            localStorage.setItem(`userProgress_${user}`, JSON.stringify(progress));
         }
         
         function updateDynamicStats() {

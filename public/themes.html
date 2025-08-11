@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Themes - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+        }
+        
+        .themes-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #4a90e2;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .theme-card.active {
+            border: 3px solid #4a90e2;
+            background: linear-gradient(145deg, #e6f3ff, #cce7ff);
+        }
+        
+        .theme-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ocean-theme { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .forest-theme { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .sunset-theme { background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%); }
+        .space-theme { background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%); }
+        .candy-theme { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%); }
+        .arctic-theme { background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); }
+        
+        .theme-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        
+        .theme-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .theme-colors {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+        
+        .select-btn {
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .select-btn:hover {
+            background: linear-gradient(90deg, #667eea, #4a90e2);
+            transform: translateY(-2px);
+        }
+        
+        .select-btn.active {
+            background: linear-gradient(90deg, #10c168, #48bb78);
+        }
+        
+        .premium-notice {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .premium-notice h3 {
+            color: #4a90e2;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+        
+        .premium-notice p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="themes-container">
+        <a href="index.html" class="back-btn">⬅️ Back to App</a>
+        
+        <div class="header">
+            <h1>🎨 Custom Themes</h1>
+            <p>Personalize your MathsMayhem experience</p>
+        </div>
+        
+        <div id="premium-notice" class="premium-notice" style="display: none;">
+            <h3>🌟 Premium Feature</h3>
+            <p>Custom themes are available for Premium subscribers and above. <a href="subscription.html" style="color: #4a90e2;">Upgrade now</a> to unlock beautiful themes!</p>
+        </div>
+        
+        <div class="themes-grid">
+            <!-- Ocean Theme (Default) -->
+            <div class="theme-card active" data-theme="ocean">
+                <div class="theme-preview ocean-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #4a90e2;">2 + 3 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: white;">✨</div>
+                </div>
+                <div class="theme-name">Ocean Depths</div>
+                <div class="theme-description">Calming blue gradients for focused learning</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #667eea;"></div>
+                    <div class="color-dot" style="background: #764ba2;"></div>
+                    <div class="color-dot" style="background: #4a90e2;"></div>
+                </div>
+                <button class="select-btn active" onclick="selectTheme('ocean')">✓ Active</button>
+            </div>
+            
+            <!-- Forest Theme -->
+            <div class="theme-card" data-theme="forest">
+                <div class="theme-preview forest-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #11998e;">5 × 4 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: white;">🌿</div>
+                </div>
+                <div class="theme-name">Emerald Forest</div>
+                <div class="theme-description">Fresh green tones for natural learning</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #11998e;"></div>
+                    <div class="color-dot" style="background: #38ef7d;"></div>
+                    <div class="color-dot" style="background: #2dd4bf;"></div>
+                </div>
+                <button class="select-btn" onclick="selectTheme('forest')">Select Theme</button>
+            </div>
+            
+            <!-- Sunset Theme -->
+            <div class="theme-card" data-theme="sunset">
+                <div class="theme-preview sunset-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #fc466b;">8 ÷ 2 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: white;">🌅</div>
+                </div>
+                <div class="theme-name">Magical Sunset</div>
+                <div class="theme-description">Warm colors for creative problem solving</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #fc466b;"></div>
+                    <div class="color-dot" style="background: #3f5efb;"></div>
+                    <div class="color-dot" style="background: #ff6b9d;"></div>
+                </div>
+                <button class="select-btn" onclick="selectTheme('sunset')">Select Theme</button>
+            </div>
+            
+            <!-- Space Theme -->
+            <div class="theme-card" data-theme="space">
+                <div class="theme-preview space-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #1a1a2e;">12 - 7 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: white;">🚀</div>
+                </div>
+                <div class="theme-name">Cosmic Space</div>
+                <div class="theme-description">Dark elegance for deep concentration</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #0c0c0c;"></div>
+                    <div class="color-dot" style="background: #1a1a2e;"></div>
+                    <div class="color-dot" style="background: #16213e;"></div>
+                </div>
+                <button class="select-btn" onclick="selectTheme('space')">Select Theme</button>
+            </div>
+            
+            <!-- Candy Theme -->
+            <div class="theme-card" data-theme="candy">
+                <div class="theme-preview candy-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #ff9a9e;">6 + 9 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: white;">🍭</div>
+                </div>
+                <div class="theme-name">Sweet Candy</div>
+                <div class="theme-description">Playful pink hues for fun learning</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #ff9a9e;"></div>
+                    <div class="color-dot" style="background: #fecfef;"></div>
+                    <div class="color-dot" style="background: #ff6b9d;"></div>
+                </div>
+                <button class="select-btn" onclick="selectTheme('candy')">Select Theme</button>
+            </div>
+            
+            <!-- Arctic Theme -->
+            <div class="theme-card" data-theme="arctic">
+                <div class="theme-preview arctic-theme">
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; font-size: 0.8rem; color: #4a90e2;">15 ÷ 3 = ?</div>
+                    <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 8px; border-radius: 50%; color: #4a90e2;">❄️</div>
+                </div>
+                <div class="theme-name">Arctic Ice</div>
+                <div class="theme-description">Cool blues and whites for clear thinking</div>
+                <div class="theme-colors">
+                    <div class="color-dot" style="background: #e0eafc;"></div>
+                    <div class="color-dot" style="background: #cfdef3;"></div>
+                    <div class="color-dot" style="background: #a8c8ec;"></div>
+                </div>
+                <button class="select-btn" onclick="selectTheme('arctic')">Select Theme</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="user-manager.js"></script>
+    <script>
+        // Check subscription status
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            
+            if (!currentUser) {
+                alert('Please log in to access custom themes.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (subscriptionPlan === 'free') {
+                document.getElementById('premium-notice').style.display = 'block';
+                // Disable theme selection for free users
+                const themeCards = document.querySelectorAll('.theme-card');
+                themeCards.forEach(card => {
+                    if (!card.classList.contains('active')) {
+                        card.style.opacity = '0.5';
+                        card.style.cursor = 'not-allowed';
+                        const btn = card.querySelector('.select-btn');
+                        btn.disabled = true;
+                        btn.style.cursor = 'not-allowed';
+                    }
+                });
+            }
+            
+            // Load current theme
+            const currentTheme = localStorage.getItem('selectedTheme') || 'ocean';
+            loadTheme(currentTheme);
+        });
+        
+        function selectTheme(themeName) {
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            
+            if (subscriptionPlan === 'free' && themeName !== 'ocean') {
+                alert('🌟 Custom themes are a premium feature!\n\nUpgrade to Premium to unlock all themes.');
+                return;
+            }
+            
+            // Update UI
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.classList.remove('active');
+                const btn = card.querySelector('.select-btn');
+                btn.textContent = 'Select Theme';
+                btn.classList.remove('active');
+            });
+            
+            const selectedCard = document.querySelector(`[data-theme="${themeName}"]`);
+            selectedCard.classList.add('active');
+            const selectedBtn = selectedCard.querySelector('.select-btn');
+            selectedBtn.textContent = '✓ Active';
+            selectedBtn.classList.add('active');
+            
+            // Save and apply theme
+            localStorage.setItem('selectedTheme', themeName);
+            applyTheme(themeName);
+            
+            alert(`✨ Theme "${getThemeName(themeName)}" activated!\n\nYour new theme will be applied across MathsMayhem.`);
+        }
+        
+        function getThemeName(theme) {
+            const names = {
+                'ocean': 'Ocean Depths',
+                'forest': 'Emerald Forest',
+                'sunset': 'Magical Sunset',
+                'space': 'Cosmic Space',
+                'candy': 'Sweet Candy',
+                'arctic': 'Arctic Ice'
+            };
+            return names[theme] || 'Ocean Depths';
+        }
+        
+        function loadTheme(themeName) {
+            const selectedCard = document.querySelector(`[data-theme="${themeName}"]`);
+            if (selectedCard) {
+                document.querySelectorAll('.theme-card').forEach(card => {
+                    card.classList.remove('active');
+                    const btn = card.querySelector('.select-btn');
+                    btn.textContent = 'Select Theme';
+                    btn.classList.remove('active');
+                });
+                
+                selectedCard.classList.add('active');
+                const selectedBtn = selectedCard.querySelector('.select-btn');
+                selectedBtn.textContent = '✓ Active';
+                selectedBtn.classList.add('active');
+            }
+            
+            applyTheme(themeName);
+        }
+        
+        function applyTheme(themeName) {
+            const themes = {
+                'ocean': {
+                    primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    secondary: '#4a90e2',
+                    accent: '#667eea'
+                },
+                'forest': {
+                    primary: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                    secondary: '#11998e',
+                    accent: '#38ef7d'
+                },
+                'sunset': {
+                    primary: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)',
+                    secondary: '#fc466b',
+                    accent: '#3f5efb'
+                },
+                'space': {
+                    primary: 'linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%)',
+                    secondary: '#1a1a2e',
+                    accent: '#16213e'
+                },
+                'candy': {
+                    primary: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)',
+                    secondary: '#ff9a9e',
+                    accent: '#fecfef'
+                },
+                'arctic': {
+                    primary: 'linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)',
+                    secondary: '#4a90e2',
+                    accent: '#cfdef3'
+                }
+            };
+            
+            // Apply theme to current page
+            const theme = themes[themeName] || themes['ocean'];
+            document.body.style.background = theme.primary;
+            
+            // Save theme CSS variables to localStorage for global application
+            const themeCSS = `
+                :root {
+                    --theme-primary: ${theme.primary};
+                    --theme-secondary: ${theme.secondary};
+                    --theme-accent: ${theme.accent};
+                }
+                body {
+                    background: ${theme.primary} !important;
+                }
+            `;
+            localStorage.setItem('themeCSS', themeCSS);
+            
+            // Apply theme immediately to current page
+            let existingStyle = document.getElementById('theme-style');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            
+            const style = document.createElement('style');
+            style.id = 'theme-style';
+            style.textContent = themeCSS;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>

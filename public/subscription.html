@@ -324,6 +324,28 @@
         </div>
         
         <div class="plans-container">
+            <!-- 7-Day Free Trial -->
+            <div class="plan-card" style="border: 3px solid #10c168; background: linear-gradient(145deg, #f0fff4, #e6fffa);">
+                <div class="plan-icon">🎁</div>
+                <div class="plan-title" style="color: #10c168;">7-Day Free Trial</div>
+                <div class="plan-price" style="color: #10c168;">
+                    £0
+                    <div class="plan-period" style="color: #059669;">7 days of premium features</div>
+                </div>
+                <ul class="plan-features">
+                    <li>All premium features unlocked</li>
+                    <li>Unlimited quizzes</li>
+                    <li>Custom themes</li>
+                    <li>Detailed analytics</li>
+                    <li>All achievements</li>
+                    <li>Ad-free experience</li>
+                    <li>Priority support</li>
+                    <li>Credit card required (no charge for 7 days)</li>
+                    <li>Cancel anytime before trial ends</li>
+                </ul>
+                <button class="subscribe-btn" style="background: linear-gradient(90deg, #10c168, #48bb78);" onclick="selectPlan('trial')">Start Free Trial 🎉</button>
+            </div>
+            
             <!-- Free Plan -->
             <div class="plan-card">
                 <div class="plan-icon">🆓</div>
@@ -407,7 +429,7 @@
                     <li>White-label branding</li>
                     <li>Dedicated support manager</li>
                 </ul>
-                <button class="subscribe-btn school-btn" onclick="selectPlan('school')">Contact for Schools</button>
+                <button class="subscribe-btn school-btn" onclick="selectPlan('school')">Get Schools Plan</button>
             </div>
             
             <!-- Pro Tutor Plan -->
@@ -426,7 +448,6 @@
                     <li>Video explanations</li>
                     <li>Homework helper</li>
                     <li>Practice problem generator</li>
-                    <li>Weekly 1-on-1 sessions</li>
                     <li>Advanced performance tracking</li>
                 </ul>
                 <button class="subscribe-btn" onclick="selectPlan('tutor')">Get Pro Tutor</button>
@@ -504,12 +525,15 @@
         </div>
     </div>
     
+    <script src="data-migration.js"></script>
     <script src="user-manager.js"></script>
     <script>
         function selectPlan(planType) {
             // Check if user is logged in
             const currentUser = localStorage.getItem('currentUser');
             const isLoggedIn = currentUser || (typeof userManager !== 'undefined' && userManager.isLoggedIn());
+            
+            console.log('🎯 User selecting plan:', planType, 'Logged in:', isLoggedIn, 'Current user:', currentUser);
             
             if (!isLoggedIn) {
                 alert('Please log in first to select a subscription plan!');
@@ -518,6 +542,12 @@
             }
             
             switch(planType) {
+                case 'trial':
+                    // Require payment details for trial - redirect to billing
+                    localStorage.setItem('selectedPlan', 'trial');
+                    window.location.href = 'billing.html';
+                    break;
+                    
                 case 'free':
                     alert('🎉 You\'re already enjoying our free plan! Keep exploring and learning!');
                     window.location.href = 'index.html';
@@ -534,7 +564,8 @@
                     break;
                     
                 case 'school':
-                    alert('🏫 Interested in Schools & Education Plan?\n\nThank you for your interest! This plan includes:\n• Up to 35 student accounts per classroom\n• Teacher dashboard and management tools\n• Advanced reporting and analytics\n• Curriculum alignment features\n• Dedicated support\n\nPlease contact us at schools@mathsmayhem.com or call +44 123 456 789 for a custom quote and demo!\n\nWe\'ll get back to you within 24 hours.');
+                    localStorage.setItem('selectedPlan', 'school');
+                    window.location.href = 'billing.html';
                     break;
                     
                 case 'tutor':
@@ -552,13 +583,46 @@
         // Check user's current plan and update UI accordingly
         document.addEventListener('DOMContentLoaded', function() {
             const currentPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            const isTrialUser = localStorage.getItem('isTrialUser') === 'true';
+            const trialEndDate = localStorage.getItem('trialEndDate');
             const planCards = document.querySelectorAll('.plan-card');
+            
+            // Check if trial has expired
+            if (isTrialUser && trialEndDate) {
+                const now = new Date();
+                const trialEnd = new Date(trialEndDate);
+                
+                if (now > trialEnd) {
+                    // Trial expired, revert to free
+                    localStorage.removeItem('isTrialUser');
+                    localStorage.removeItem('trialStartDate');
+                    localStorage.removeItem('trialEndDate');
+                    localStorage.setItem('subscriptionPlan', 'free');
+                    
+                    alert('⏰ Your 7-day free trial has expired!\n\n🎯 Ready to continue with premium features? Choose a subscription plan to keep all the amazing benefits you\'ve been enjoying!');
+                }
+            }
             
             planCards.forEach(card => {
                 const planTitle = card.querySelector('.plan-title').textContent.toLowerCase();
                 const button = card.querySelector('.subscribe-btn');
                 
-                if ((currentPlan === 'premium' && planTitle.includes('champion')) ||
+                // Handle trial user
+                if (isTrialUser && trialEndDate && planTitle.includes('trial')) {
+                    const daysLeft = Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24));
+                    if (daysLeft > 0) {
+                        button.textContent = `✅ Trial Active (${daysLeft} days left)`;
+                        button.style.background = 'linear-gradient(90deg, #10c168, #48bb78)';
+                        button.disabled = true;
+                        button.style.cursor = 'default';
+                    }
+                } else if (isTrialUser && currentPlan === 'premium' && !planTitle.includes('trial')) {
+                    // Show "Upgrade after trial" for other plans during trial
+                    if (!planTitle.includes('explorer')) {
+                        button.textContent = '🚀 Upgrade After Trial';
+                        button.style.opacity = '0.7';
+                    }
+                } else if ((currentPlan === 'premium' && planTitle.includes('champion') && !isTrialUser) ||
                     (currentPlan === 'family' && planTitle.includes('family')) ||
                     (currentPlan === 'school' && planTitle.includes('schools')) ||
                     (currentPlan === 'tutor' && planTitle.includes('tutor')) ||
@@ -568,6 +632,16 @@
                     button.style.background = 'linear-gradient(90deg, #10c168, #48bb78)';
                     button.disabled = true;
                     button.style.cursor = 'default';
+                }
+                
+                // Hide trial card if user already used trial or has active subscription
+                if (planTitle.includes('trial')) {
+                    const hasUsedTrial = localStorage.getItem('hasUsedTrial') === 'true';
+                    const hasActiveSubscription = currentPlan !== 'free' && !isTrialUser;
+                    
+                    if (hasUsedTrial || hasActiveSubscription) {
+                        card.style.display = 'none';
+                    }
                 }
             });
         });

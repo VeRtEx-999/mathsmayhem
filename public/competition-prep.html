@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Competition Prep - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+        }
+        
+        .competition-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .competition-sections {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .section-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .competitions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .competition-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .competition-card:hover {
+            background: white;
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52,152,219,0.15);
+        }
+        
+        .competition-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .competition-level {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #3498db;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .competition-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .competition-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .stat {
+            flex: 1;
+            text-align: center;
+            background: rgba(52,152,219,0.1);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .practice-session {
+            background: linear-gradient(145deg, #fff5f5, #ffe6e6);
+            border: 2px solid #e74c3c;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .session-title {
+            color: #c0392b;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .problem-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .problem-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .problem-number {
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .time-left {
+            background: #f39c12;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .problem-text {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .answer-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .answer-option {
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .answer-option:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+        
+        .answer-option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        
+        .answer-option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #229954;
+        }
+        
+        .answer-option.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+        
+        .progress-bar {
+            background: #f8f9fa;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .leaderboard-header {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .leaderboard-entry {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.3s ease;
+        }
+        
+        .leaderboard-entry:hover {
+            background: rgba(52,152,219,0.05);
+        }
+        
+        .rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f39c12;
+            width: 30px;
+        }
+        
+        .rank.first { color: #f1c40f; }
+        .rank.second { color: #95a5a6; }
+        .rank.third { color: #d35400; }
+        
+        .player-name {
+            flex: 1;
+            margin-left: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .score {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .premium-notice {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .premium-notice h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+        
+        .premium-notice p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        .mentor-section {
+            background: linear-gradient(145deg, #f0f8ff, #e6f3ff);
+            border: 2px solid #3498db;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .mentor-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .mentor-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .mentor-info {
+            flex: 1;
+        }
+        
+        .mentor-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .mentor-specialty {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .mentor-rating {
+            color: #f39c12;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="competition-container">
+        <a href="index.html" class="back-btn">⬅️ Back to App</a>
+        
+        <div class="header">
+            <h1>🏆 Competition Prep</h1>
+            <p>Advanced training for mathematical competitions and olympiads</p>
+        </div>
+        
+        <div id="premium-notice" class="premium-notice" style="display: none;">
+            <h3>🧮 Math Genius Feature</h3>
+            <p>Competition Prep is available for Math Genius subscribers. <a href="subscription.html" style="color: #3498db;">Upgrade now</a> to access advanced competition training!</p>
+        </div>
+        
+        <div class="competition-sections">
+            <!-- Competition Selection -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span>🎯</span>
+                    Choose Your Competition
+                </div>
+                
+                <div class="competitions-grid">
+                    <div class="competition-card" onclick="selectCompetition('amc8')">
+                        <div class="competition-name">AMC 8</div>
+                        <div class="competition-level">Middle School</div>
+                        <div class="competition-description">
+                            American Mathematics Competitions 8 - For students in grades 8 and below
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">25</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">40min</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">150+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                    
+                    <div class="competition-card" onclick="selectCompetition('amc10')">
+                        <div class="competition-name">AMC 10</div>
+                        <div class="competition-level">High School</div>
+                        <div class="competition-description">
+                            American Mathematics Competitions 10 - For students in grades 10 and below
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">25</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">75min</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">200+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                    
+                    <div class="competition-card" onclick="selectCompetition('amc12')">
+                        <div class="competition-name">AMC 12</div>
+                        <div class="competition-level">Advanced</div>
+                        <div class="competition-description">
+                            American Mathematics Competitions 12 - For high school students
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">25</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">75min</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">250+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                    
+                    <div class="competition-card" onclick="selectCompetition('aime')">
+                        <div class="competition-name">AIME</div>
+                        <div class="competition-level">Expert</div>
+                        <div class="competition-description">
+                            American Invitational Mathematics Examination - For top AMC qualifiers
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">15</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">3hr</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">180+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                    
+                    <div class="competition-card" onclick="selectCompetition('usamo')">
+                        <div class="competition-name">USAMO</div>
+                        <div class="competition-level">Elite</div>
+                        <div class="competition-description">
+                            United States of America Mathematical Olympiad - Proof-based problems
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">9hr</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">120+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                    
+                    <div class="competition-card" onclick="selectCompetition('imo')">
+                        <div class="competition-name">IMO</div>
+                        <div class="competition-level">World Class</div>
+                        <div class="competition-description">
+                            International Mathematical Olympiad - The ultimate mathematics competition
+                        </div>
+                        <div class="competition-stats">
+                            <div class="stat">
+                                <div class="stat-value">6</div>
+                                <div class="stat-label">Problems</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">9hr</div>
+                                <div class="stat-label">Duration</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">100+</div>
+                                <div class="stat-label">Practice</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Start Training</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice Session -->
+            <div class="practice-session" id="practice-session">
+                <div class="session-title">
+                    <span>🔥</span>
+                    <span id="session-competition">AMC 10</span> Practice Session
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+                </div>
+                
+                <div class="problem-container">
+                    <div class="problem-header">
+                        <div class="problem-number">1</div>
+                        <div class="time-left" id="time-left">75:00</div>
+                    </div>
+                    
+                    <div class="problem-text" id="problem-text">
+                        Loading practice problem...
+                    </div>
+                    
+                    <div class="answer-options" id="answer-options">
+                        <!-- Options will be generated here -->
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button class="btn btn-primary" onclick="submitAnswer()" id="submit-btn">Submit Answer</button>
+                        <button class="btn btn-secondary" onclick="skipProblem()">Skip Problem</button>
+                        <button class="btn btn-secondary" onclick="getHint()">💡 Hint</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Leaderboard -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span>🏅</span>
+                    Global Leaderboard
+                </div>
+                
+                <div class="leaderboard">
+                    <div class="leaderboard-header">
+                        🌟 Top Competition Preparers 🌟
+                    </div>
+                    
+                    <div class="leaderboard-entry">
+                        <div class="rank first">1</div>
+                        <div class="player-name">MathGenie2024</div>
+                        <div class="score">2,847 points</div>
+                    </div>
+                    
+                    <div class="leaderboard-entry">
+                        <div class="rank second">2</div>
+                        <div class="player-name">OlympiadMaster</div>
+                        <div class="score">2,691 points</div>
+                    </div>
+                    
+                    <div class="leaderboard-entry">
+                        <div class="rank third">3</div>
+                        <div class="player-name">CompMathPro</div>
+                        <div class="score">2,543 points</div>
+                    </div>
+                    
+                    <div class="leaderboard-entry">
+                        <div class="rank">4</div>
+                        <div class="player-name">NumberNinja</div>
+                        <div class="score">2,388 points</div>
+                    </div>
+                    
+                    <div class="leaderboard-entry">
+                        <div class="rank">5</div>
+                        <div class="player-name">AlgebraAce</div>
+                        <div class="score">2,201 points</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expert Mentorship -->
+            <div class="section-card">
+                <div class="section-title">
+                    <span>🎓</span>
+                    Expert Mentorship Program
+                </div>
+                
+                <div class="mentor-section">
+                    <p style="color: #666; margin-bottom: 20px; text-align: center;">
+                        Get personalized guidance from competition mathematics experts and former Olympians.
+                    </p>
+                    
+                    <div class="mentor-card">
+                        <div class="mentor-avatar">Dr. S</div>
+                        <div class="mentor-info">
+                            <div class="mentor-name">Dr. Sarah Chen</div>
+                            <div class="mentor-specialty">Former IMO Gold Medalist, MIT Professor</div>
+                            <div class="mentor-rating">⭐⭐⭐⭐⭐ (4.9/5) • 250+ students mentored</div>
+                        </div>
+                        <button class="btn btn-primary">Schedule Session</button>
+                    </div>
+                    
+                    <div class="mentor-card">
+                        <div class="mentor-avatar">Dr. R</div>
+                        <div class="mentor-info">
+                            <div class="mentor-name">Dr. Robert Kim</div>
+                            <div class="mentor-specialty">USAMO Winner, Stanford PhD, Contest Coach</div>
+                            <div class="mentor-rating">⭐⭐⭐⭐⭐ (4.8/5) • 180+ students mentored</div>
+                        </div>
+                        <button class="btn btn-primary">Schedule Session</button>
+                    </div>
+                    
+                    <div class="mentor-card">
+                        <div class="mentor-avatar">Dr. M</div>
+                        <div class="mentor-info">
+                            <div class="mentor-name">Dr. Maria Rodriguez</div>
+                            <div class="mentor-specialty">AIME Perfect Score, Harvard PhD, Math Team Coach</div>
+                            <div class="mentor-rating">⭐⭐⭐⭐⭐ (4.9/5) • 320+ students mentored</div>
+                        </div>
+                        <button class="btn btn-primary">Schedule Session</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="user-manager.js"></script>
+    <script>
+        let currentCompetition = null;
+        let currentProblem = 0;
+        let score = 0;
+        let timeLeft = 4500; // 75 minutes in seconds
+        let timerInterval = null;
+        let selectedAnswer = null;
+        
+        // Sample problems for different competitions
+        const problems = {
+            amc10: [
+                {
+                    text: "If 3x + 7 = 22, then x equals:",
+                    options: ["A) 3", "B) 4", "C) 5", "D) 6", "E) 7"],
+                    correct: 2,
+                    explanation: "Subtract 7 from both sides: 3x = 15, then divide by 3: x = 5"
+                },
+                {
+                    text: "The area of a circle with radius 6 is:",
+                    options: ["A) 12π", "B) 24π", "C) 36π", "D) 48π", "E) 72π"],
+                    correct: 2,
+                    explanation: "Area = πr² = π(6)² = 36π"
+                },
+                {
+                    text: "If f(x) = 2x² - 3x + 1, what is f(2)?",
+                    options: ["A) 1", "B) 2", "C) 3", "D) 4", "E) 5"],
+                    correct: 2,
+                    explanation: "f(2) = 2(2)² - 3(2) + 1 = 2(4) - 6 + 1 = 8 - 6 + 1 = 3"
+                }
+            ]
+        };
+        
+        // Check subscription status
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+            
+            if (!currentUser) {
+                alert('Please log in to access competition prep.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            if (subscriptionPlan !== 'genius') {
+                document.getElementById('premium-notice').style.display = 'block';
+                return;
+            }
+        });
+        
+        function selectCompetition(competition) {
+            currentCompetition = competition;
+            currentProblem = 0;
+            score = 0;
+            selectedAnswer = null;
+            
+            // Update session title
+            const competitionNames = {
+                'amc8': 'AMC 8',
+                'amc10': 'AMC 10',
+                'amc12': 'AMC 12',
+                'aime': 'AIME',
+                'usamo': 'USAMO',
+                'imo': 'IMO'
+            };
+            
+            document.getElementById('session-competition').textContent = competitionNames[competition];
+            
+            // Set timer based on competition
+            const timeSettings = {
+                'amc8': 2400,  // 40 minutes
+                'amc10': 4500, // 75 minutes
+                'amc12': 4500, // 75 minutes
+                'aime': 10800, // 3 hours
+                'usamo': 32400, // 9 hours
+                'imo': 32400   // 9 hours
+            };
+            
+            timeLeft = timeSettings[competition] || 4500;
+            
+            // Show practice session
+            document.getElementById('practice-session').style.display = 'block';
+            document.getElementById('practice-session').scrollIntoView({ behavior: 'smooth' });
+            
+            // Load first problem
+            loadProblem();
+            startTimer();
+        }
+        
+        function loadProblem() {
+            const problemSet = problems[currentCompetition] || problems['amc10'];
+            const problem = problemSet[currentProblem % problemSet.length];
+            
+            document.getElementById('problem-text').textContent = problem.text;
+            
+            // Generate answer options
+            const optionsContainer = document.getElementById('answer-options');
+            optionsContainer.innerHTML = '';
+            
+            problem.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'answer-option';
+                optionEl.textContent = option;
+                optionEl.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            // Update progress
+            const progress = ((currentProblem + 1) / problemSet.length) * 100;
+            document.getElementById('progress-fill').style.width = Math.min(progress, 100) + '%';
+            
+            // Reset selection
+            selectedAnswer = null;
+            document.getElementById('submit-btn').disabled = false;
+        }
+        
+        function selectAnswer(index) {
+            selectedAnswer = index;
+            
+            // Update UI
+            document.querySelectorAll('.answer-option').forEach((option, i) => {
+                option.classList.remove('selected');
+                if (i === index) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+        
+        function submitAnswer() {
+            if (selectedAnswer === null) {
+                alert('Please select an answer first.');
+                return;
+            }
+            
+            const problemSet = problems[currentCompetition] || problems['amc10'];
+            const problem = problemSet[currentProblem % problemSet.length];
+            
+            // Show correct/incorrect
+            document.querySelectorAll('.answer-option').forEach((option, i) => {
+                if (i === problem.correct) {
+                    option.classList.add('correct');
+                } else if (i === selectedAnswer && i !== problem.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Update score
+            if (selectedAnswer === problem.correct) {
+                score += 10;
+                setTimeout(() => {
+                    alert(`Correct! 🎉\n\nExplanation: ${problem.explanation}\n\nScore: ${score} points`);
+                    nextProblem();
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    alert(`Incorrect. 😞\n\nCorrect answer: ${problem.options[problem.correct]}\n\nExplanation: ${problem.explanation}\n\nScore: ${score} points`);
+                    nextProblem();
+                }, 1000);
+            }
+            
+            document.getElementById('submit-btn').disabled = true;
+        }
+        
+        function nextProblem() {
+            currentProblem++;
+            const problemSet = problems[currentCompetition] || problems['amc10'];
+            
+            if (currentProblem >= problemSet.length) {
+                finishSession();
+            } else {
+                setTimeout(loadProblem, 1500);
+            }
+        }
+        
+        function skipProblem() {
+            if (confirm('Are you sure you want to skip this problem? You won\'t get points for it.')) {
+                nextProblem();
+            }
+        }
+        
+        function getHint() {
+            const hints = [
+                "Try to identify what type of problem this is first.",
+                "Look for key words that might indicate the approach to use.",
+                "Consider drawing a diagram if it's a geometry problem.",
+                "Try working backwards from the answer choices.",
+                "Break the problem into smaller, more manageable parts."
+            ];
+            
+            const randomHint = hints[Math.floor(Math.random() * hints.length)];
+            alert(`💡 Hint: ${randomHint}`);
+        }
+        
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('time-left').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    finishSession();
+                }
+            }, 1000);
+        }
+        
+        function finishSession() {
+            clearInterval(timerInterval);
+            
+            const problemSet = problems[currentCompetition] || problems['amc10'];
+            const totalProblems = Math.min(currentProblem + 1, problemSet.length);
+            const accuracy = totalProblems > 0 ? (score / (totalProblems * 10) * 100).toFixed(1) : 0;
+            
+            alert(`🏆 Session Complete!\n\nProblems attempted: ${totalProblems}\nScore: ${score} points\nAccuracy: ${accuracy}%\n\nGreat work! Keep practicing to improve your competition skills.`);
+            
+            // Reset session
+            document.getElementById('practice-session').style.display = 'none';
+            currentCompetition = null;
+        }
+    </script>
+</body>
+</html>

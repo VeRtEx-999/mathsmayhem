@@ -4,24 +4,31 @@
     <meta charset="UTF-8">
     <title>Competition Prep - MathsMayhem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            min-height: 100vh;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+        * {
             margin: 0;
-            padding: 20px 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
         }
         
         .competition-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             color: white;
         }
         
@@ -31,10 +38,15 @@
             text-shadow: 0 3px 15px rgba(0,0,0,0.3);
         }
         
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
         .back-btn {
             display: inline-block;
             background: rgba(255,255,255,0.9);
-            color: #2c3e50;
+            color: #667eea;
             padding: 12px 25px;
             border-radius: 20px;
             text-decoration: none;

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Mathematics - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        
+        .uni-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #1e3c72;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .course-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .course-header {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .course-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .course-subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .course-body {
+            padding: 25px;
+        }
+        
+        .course-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        .course-topics {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .course-topics li {
+            padding: 8px 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+        
+        .course-topics li i {
+            color: #4caf50;
+            margin-right: 10px;
+            width: 16px;
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .course-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #1e3c72;
+            border: 2px solid #1e3c72;
+        }
+        
+        .btn-secondary:hover {
+            background: #1e3c72;
+            color: white;
+        }
+        
+        .live-lecture {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 15px;
+            color: #1e3c72;
+        }
+        
+        .lecture-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1e3c72;
+            position: relative;
+        }
+        
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4444;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        .lecture-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .lecture-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .lecture-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .lecture-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .join-lecture-btn {
+            background: linear-gradient(45deg, #4caf50, #45a049);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .join-lecture-btn:hover {
+            background: linear-gradient(45deg, #45a049, #4caf50);
+            transform: translateY(-2px);
+        }
+        
+        .math-tools {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tool-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            background: #e2e8f0;
+            transform: scale(1.05);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #1e3c72;
+        }
+        
+        .tool-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .tool-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .formula-showcase {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .formula-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .formula-card:hover {
+            background: #e2e8f0;
+        }
+        
+        .formula-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .formula-content {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .formula-explanation {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .progress-dashboard {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .progress-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .progress-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-title i {
+            margin-right: 10px;
+            color: #1e3c72;
+        }
+        
+        .progress-chart {
+            height: 200px;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .course-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="uni-container">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        
+        <div class="header">
+            <h1>🎓 University Mathematics</h1>
+            <p>Advanced mathematical concepts for university-level students</p>
+        </div>
+        
+        <!-- Course Grid -->
+        <div class="course-grid">
+            <!-- Calculus III -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-infinity"></i></div>
+                    <div class="course-title">Multivariable Calculus</div>
+                    <div class="course-subtitle">MATH 2210 • 4 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Advanced calculus in multiple dimensions covering partial derivatives, multiple integrals, vector fields, and applications to physics and engineering.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">89%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">A-</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-check"></i>Partial derivatives and gradients</li>
+                        <li><i class="fas fa-check"></i>Multiple integrals</li>
+                        <li><i class="fas fa-check"></i>Vector fields and line integrals</li>
+                        <li><i class="fas fa-check"></i>Green's and Stokes' theorems</li>
+                        <li><i class="fas fa-hourglass-half"></i>Divergence theorem</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('calculus3')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Continue
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewProgress('calculus3')">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp;Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Linear Algebra -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-project-diagram"></i></div>
+                    <div class="course-title">Linear Algebra</div>
+                    <div class="course-subtitle">MATH 2270 • 4 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Comprehensive study of vector spaces, linear transformations, eigenvalues, and applications to computer graphics and data science.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">72%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">B+</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-check"></i>Vector spaces and subspaces</li>
+                        <li><i class="fas fa-check"></i>Matrix operations and determinants</li>
+                        <li><i class="fas fa-check"></i>Linear transformations</li>
+                        <li><i class="fas fa-hourglass-half"></i>Eigenvalues and eigenvectors</li>
+                        <li><i class="fas fa-hourglass-half"></i>Diagonalization</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('linear')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Continue
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewProgress('linear')">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp;Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Real Analysis -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-microscope"></i></div>
+                    <div class="course-title">Real Analysis</div>
+                    <div class="course-subtitle">MATH 3210 • 3 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Rigorous treatment of limits, continuity, differentiation, and integration. Foundation for advanced mathematical analysis.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">34%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">A</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-check"></i>Properties of real numbers</li>
+                        <li><i class="fas fa-check"></i>Sequences and series</li>
+                        <li><i class="fas fa-hourglass-half"></i>Continuity and limits</li>
+                        <li><i class="fas fa-clock"></i>Uniform convergence</li>
+                        <li><i class="fas fa-clock"></i>Riemann integration theory</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('analysis')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Continue
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewProgress('analysis')">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp;Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Abstract Algebra -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-shapes"></i></div>
+                    <div class="course-title">Abstract Algebra</div>
+                    <div class="course-subtitle">MATH 3350 • 3 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Study of algebraic structures including groups, rings, and fields. Applications to number theory and cryptography.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">0%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">--</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-clock"></i>Group theory fundamentals</li>
+                        <li><i class="fas fa-clock"></i>Subgroups and cosets</li>
+                        <li><i class="fas fa-clock"></i>Ring theory</li>
+                        <li><i class="fas fa-clock"></i>Field theory</li>
+                        <li><i class="fas fa-clock"></i>Galois theory introduction</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('algebra')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Start Course
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewSyllabus('algebra')">
+                            <i class="fas fa-file-alt"></i>&nbsp;&nbsp;Syllabus
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Differential Equations -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-wave-square"></i></div>
+                    <div class="course-title">Differential Equations</div>
+                    <div class="course-subtitle">MATH 2280 • 4 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Methods for solving ordinary and partial differential equations with applications to physics, engineering, and biology.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">58%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">B</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">10</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-check"></i>First-order ODEs</li>
+                        <li><i class="fas fa-check"></i>Second-order linear ODEs</li>
+                        <li><i class="fas fa-hourglass-half"></i>Laplace transforms</li>
+                        <li><i class="fas fa-clock"></i>Systems of ODEs</li>
+                        <li><i class="fas fa-clock"></i>Partial differential equations</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('diffeq')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Continue
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewProgress('diffeq')">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp;Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mathematical Statistics -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon"><i class="fas fa-chart-bar"></i></div>
+                    <div class="course-title">Mathematical Statistics</div>
+                    <div class="course-subtitle">STAT 3100 • 3 Credits</div>
+                </div>
+                <div class="course-body">
+                    <div class="course-description">
+                        Theoretical foundation of statistics including probability distributions, estimation theory, and hypothesis testing.
+                    </div>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">45%</div>
+                            <div class="stat-label">Complete</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">A-</div>
+                            <div class="stat-label">Current Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">9</div>
+                            <div class="stat-label">Assignments</div>
+                        </div>
+                    </div>
+                    <ul class="course-topics">
+                        <li><i class="fas fa-check"></i>Probability theory</li>
+                        <li><i class="fas fa-check"></i>Random variables and distributions</li>
+                        <li><i class="fas fa-hourglass-half"></i>Maximum likelihood estimation</li>
+                        <li><i class="fas fa-clock"></i>Confidence intervals</li>
+                        <li><i class="fas fa-clock"></i>Hypothesis testing theory</li>
+                    </ul>
+                    <div class="course-actions">
+                        <button class="course-btn btn-primary" onclick="openCourse('stats')">
+                            <i class="fas fa-play"></i>&nbsp;&nbsp;Continue
+                        </button>
+                        <button class="course-btn btn-secondary" onclick="viewProgress('stats')">
+                            <i class="fas fa-chart-line"></i>&nbsp;&nbsp;Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Lectures -->
+        <div class="live-lecture">
+            <div class="section-title">
+                <i class="fas fa-video"></i>
+                Live Lectures & Office Hours
+            </div>
+            
+            <div class="lecture-card">
+                <div class="live-indicator">LIVE NOW</div>
+                <div class="lecture-info">
+                    <div class="lecture-title">Real Analysis: Uniform Convergence</div>
+                    <div class="lecture-time">2:00 PM - 3:15 PM</div>
+                </div>
+                <div class="lecture-description">
+                    Dr. Martinez is covering uniform convergence of function sequences with applications to power series. Join now for the interactive proof construction!
+                </div>
+                <button class="join-lecture-btn" onclick="joinLecture('analysis')">
+                    <i class="fas fa-video"></i>&nbsp;&nbsp;Join Live Lecture (47 students online)
+                </button>
+            </div>
+            
+            <div class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-title">Linear Algebra: Eigenvalue Applications</div>
+                    <div class="lecture-time">Tomorrow 10:00 AM - 11:15 AM</div>
+                </div>
+                <div class="lecture-description">
+                    Explore applications of eigenvalues in Google's PageRank algorithm, population dynamics, and quantum mechanics. Bring your questions!
+                </div>
+                <button class="join-lecture-btn" style="background: #667eea;" onclick="scheduleLecture('linear')">
+                    <i class="fas fa-calendar-plus"></i>&nbsp;&nbsp;Add to Calendar
+                </button>
+            </div>
+            
+            <div class="lecture-card">
+                <div class="lecture-info">
+                    <div class="lecture-title">Office Hours - Calculus Help</div>
+                    <div class="lecture-time">Wednesday 3:00 PM - 4:00 PM</div>
+                </div>
+                <div class="lecture-description">
+                    One-on-one help with multivariable calculus problems. Perfect for preparing for the upcoming midterm exam.
+                </div>
+                <button class="join-lecture-btn" style="background: #ff9800;" onclick="bookOfficeHours()">
+                    <i class="fas fa-user-graduate"></i>&nbsp;&nbsp;Book Office Hours
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mathematical Tools -->
+        <div class="math-tools">
+            <div class="section-title">
+                <i class="fas fa-calculator"></i>
+                Advanced Mathematical Tools
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card" onclick="openTool('wolfram')">
+                    <div class="tool-icon"><i class="fas fa-square-root-alt"></i></div>
+                    <div class="tool-name">Wolfram Alpha Pro</div>
+                    <div class="tool-description">Step-by-step solutions and advanced computations</div>
+                </div>
+                
+                <div class="tool-card" onclick="openTool('matlab')">
+                    <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="tool-name">MATLAB Online</div>
+                    <div class="tool-description">Numerical computing and visualization</div>
+                </div>
+                
+                <div class="tool-card" onclick="openTool('maple')">
+                    <div class="tool-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="tool-name">Maple</div>
+                    <div class="tool-description">Symbolic mathematics and modeling</div>
+                </div>
+                
+                <div class="tool-card" onclick="openTool('geogebra')">
+                    <div class="tool-icon"><i class="fas fa-shapes"></i></div>
+                    <div class="tool-name">GeoGebra 3D</div>
+                    <div class="tool-description">Interactive geometry and calculus</div>
+                </div>
+                
+                <div class="tool-card" onclick="openTool('sage')">
+                    <div class="tool-icon"><i class="fab fa-python"></i></div>
+                    <div class="tool-name">SageMath</div>
+                    <div class="tool-description">Open-source mathematical computing</div>
+                </div>
+                
+                <div class="tool-card" onclick="openTool('latex')">
+                    <div class="tool-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="tool-name">LaTeX Editor</div>
+                    <div class="tool-description">Mathematical typesetting and documentation</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formula Showcase -->
+        <div class="formula-showcase">
+            <div class="section-title">
+                <i class="fas fa-infinity"></i>
+                Beautiful Mathematical Formulas
+            </div>
+            
+            <div class="formula-grid">
+                <div class="formula-card">
+                    <div class="formula-title">Euler's Identity</div>
+                    <div class="formula-content">$$e^{i\pi} + 1 = 0$$</div>
+                    <div class="formula-explanation">
+                        Called "the most beautiful theorem in mathematics," connecting five fundamental mathematical constants.
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Cauchy-Riemann Equations</div>
+                    <div class="formula-content">$$\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}$$</div>
+                    <div class="formula-explanation">
+                        Fundamental conditions for complex differentiability in complex analysis.
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Stokes' Theorem</div>
+                    <div class="formula-content">$$\iint_S (\nabla \times \vec{F}) \cdot d\vec{S} = \oint_C \vec{F} \cdot d\vec{r}$$</div>
+                    <div class="formula-explanation">
+                        Relates surface integrals of curl to line integrals around the boundary.
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Fundamental Theorem of Algebra</div>
+                    <div class="formula-content">$$p(z) = a_n z^n + a_{n-1} z^{n-1} + \cdots + a_1 z + a_0$$</div>
+                    <div class="formula-explanation">
+                        Every non-constant polynomial has at least one complex root.
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Riemann Zeta Function</div>
+                    <div class="formula-content">$$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_p \frac{1}{1-p^{-s}}$$</div>
+                    <div class="formula-explanation">
+                        Central to number theory and the distribution of prime numbers.
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Maxwell's Equations</div>
+                    <div class="formula-content">$$\nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}, \quad \nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$</div>
+                    <div class="formula-explanation">
+                        Fundamental equations of electromagnetism and field theory.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Dashboard -->
+        <div class="progress-dashboard">
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                Academic Progress Dashboard
+            </div>
+            
+            <div class="progress-grid">
+                <div class="progress-card">
+                    <div class="progress-title">
+                        <i class="fas fa-chart-area"></i>
+                        Overall GPA Trend
+                    </div>
+                    <div class="progress-chart">
+                        <canvas id="gpaChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <div class="progress-title">
+                        <i class="fas fa-tasks"></i>
+                        Course Completion
+                    </div>
+                    <div class="progress-chart">
+                        <canvas id="completionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="progress-card">
+                    <div class="progress-title">
+                        <i class="fas fa-clock"></i>
+                        Study Time Distribution
+                    </div>
+                    <div class="progress-chart">
+                        <canvas id="studyTimeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="data-migration.js"></script>
+    <script src="user-manager.js"></script>
+    <script>
+        // Course management functions
+        function openCourse(courseType) {
+            const courses = {
+                calculus3: 'Multivariable Calculus',
+                linear: 'Linear Algebra',
+                analysis: 'Real Analysis',
+                algebra: 'Abstract Algebra',
+                diffeq: 'Differential Equations',
+                stats: 'Mathematical Statistics'
+            };
+            
+            alert(`📚 Opening ${courses[courseType]}\n\nThis would open your course workspace with:\n• Interactive lectures and notes\n• Problem sets and solutions\n• Virtual office hours\n• Peer study groups\n• Assignment submissions\n• Grade tracking`);
+        }
+        
+        function viewProgress(courseType) {
+            const progress = {
+                calculus3: { percent: 89, grade: 'A-', next: 'Divergence Theorem' },
+                linear: { percent: 72, grade: 'B+', next: 'Eigenvalue Computations' },
+                analysis: { percent: 34, grade: 'A', next: 'Uniform Continuity' },
+                diffeq: { percent: 58, grade: 'B', next: 'Laplace Transform Applications' },
+                stats: { percent: 45, grade: 'A-', next: 'Confidence Intervals' }
+            };
+            
+            const course = progress[courseType];
+            if (course) {
+                alert(`📊 Course Progress\n\nCompletion: ${course.percent}%\nCurrent Grade: ${course.grade}\nNext Topic: ${course.next}\n\nUpcoming:\n• Midterm exam in 2 weeks\n• Problem set due Friday\n• Office hours available`);
+            }
+        }
+        
+        function viewSyllabus(courseType) {
+            alert(`📋 Course Syllabus - Abstract Algebra\n\nWeek 1-2: Group Theory Fundamentals\nWeek 3-4: Subgroups and Cosets\nWeek 5-6: Normal Subgroups and Quotients\nWeek 7-8: Ring Theory\nWeek 9-10: Integral Domains and Fields\nWeek 11-12: Field Extensions\nWeek 13-14: Galois Theory Introduction\nWeek 15-16: Applications and Review\n\nGrading:\n• Homework: 40%\n• Midterm: 25%\n• Final: 35%`);
+        }
+        
+        // Live lecture functions
+        function joinLecture(subject) {
+            alert(`🎥 Joining Live Lecture!\n\nConnecting to Real Analysis...\n\nFeatures available:\n• HD video and audio\n• Interactive whiteboard\n• Chat with classmates\n• Ask questions live\n• Recording available later\n\n47 students currently online!`);
+        }
+        
+        function scheduleLecture(subject) {
+            alert(`📅 Added to Calendar!\n\nLinear Algebra: Eigenvalue Applications\nTomorrow 10:00 AM - 11:15 AM\n\n✅ Calendar event created\n📧 Reminder set for 15 minutes before\n🔗 Meeting link will be sent via email\n\nWould you like to invite study partners?`);
+        }
+        
+        function bookOfficeHours() {
+            alert(`👨‍🏫 Book Office Hours\n\nAvailable slots this week:\n\n📅 Wed 3:00-4:00 PM - Available\n📅 Fri 2:00-3:00 PM - Available\n📅 Sat 10:00-11:00 AM - Available\n\nSelect a time slot to book your session with the instructor.`);
+        }
+        
+        // Tool functions
+        function openTool(toolType) {
+            const tools = {
+                wolfram: 'Wolfram Alpha Pro - Advanced computational mathematics',
+                matlab: 'MATLAB Online - Numerical computing environment',
+                maple: 'Maple - Symbolic mathematics software',
+                geogebra: 'GeoGebra 3D - Interactive mathematics',
+                sage: 'SageMath - Open-source mathematical computing',
+                latex: 'LaTeX Editor - Mathematical typesetting'
+            };
+            
+            alert(`🛠️ Launching ${tools[toolType]}\n\nThis would open the tool with:\n• Full university license access\n• Cloud storage integration\n• Collaboration features\n• Assignment templates\n• Seamless export options`);
+        }
+        
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // GPA Trend Chart
+            const gpaCtx = document.getElementById('gpaChart').getContext('2d');
+            new Chart(gpaCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+                    datasets: [{
+                        label: 'Cumulative GPA',
+                        data: [3.2, 3.4, 3.6, 3.5, 3.7, 3.8, 3.75, 3.82],
+                        borderColor: '#1e3c72',
+                        backgroundColor: 'rgba(30, 60, 114, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 3.0,
+                            max: 4.0
+                        }
+                    }
+                }
+            });
+            
+            // Course Completion Chart
+            const completionCtx = document.getElementById('completionChart').getContext('2d');
+            new Chart(completionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Calculus III', 'Linear Algebra', 'Real Analysis', 'Diff Eq', 'Statistics'],
+                    datasets: [{
+                        data: [89, 72, 34, 58, 45],
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#2196F3',
+                            '#FF9800',
+                            '#9C27B0',
+                            '#F44336'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Study Time Chart
+            const studyCtx = document.getElementById('studyTimeChart').getContext('2d');
+            new Chart(studyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Study Hours',
+                        data: [4, 3, 5, 6, 4, 8, 2],
+                        backgroundColor: 'rgba(30, 60, 114, 0.8)',
+                        borderColor: '#1e3c72',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

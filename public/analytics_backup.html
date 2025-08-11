@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics Dashboard - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-date-fns/2.0.0/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        
+        .analytics-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .stat-change {
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        
+        .stat-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .stat-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .chart-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chart-area {
+            height: 300px;
+            background: #f8fafc;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+            color: #666;
+        }
+        
+        .progress-ring {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .ring-background {
+            width: 100%;
+            height: 100%;
+            border: 15px solid #e2e8f0;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .ring-progress {
+            width: 100%;
+            height: 100%;
+            border: 15px solid transparent;
+            border-top: 15px solid #4a90e2;
+            border-right: 15px solid #4a90e2;
+            border-radius: 50%;
+            position: absolute;
+            transform: rotate(-90deg);
+            transition: all 0.3s ease;
+        }
+        
+        .ring-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .ring-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .ring-label {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .achievements-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .achievements-title {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .achievement-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .achievement-card.unlocked {
+            border-color: #4a90e2;
+            background: linear-gradient(145deg, #f0f9ff, #dbeafe);
+        }
+        
+        .achievement-card.premium {
+            border-color: #ff6b6b;
+            background: linear-gradient(145deg, #fff5f5, #fed7d7);
+        }
+        
+        .achievement-card.premium::before {
+            content: "PREMIUM";
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .achievement-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .achievement-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .achievement-progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-progress-fill {
+            background: linear-gradient(90deg, #4a90e2, #667eea);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .achievement-progress.premium .achievement-progress-fill {
+            background: linear-gradient(90deg, #ff6b6b, #fcb045);
+        }
+        
+        .achievement-status {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .detailed-analytics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .analytics-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .analytics-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .topic-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .topic-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .topic-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .topic-stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .topic-accuracy {
+            background: #4a90e2;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .topic-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .time-analysis {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .time-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .time-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .time-value {
+            color: #4a90e2;
+            font-weight: bold;
+        }
+        
+        .insights-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .insights-title {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .insight-card {
+            background: linear-gradient(145deg, #f0f9ff, #dbeafe);
+            border-left: 5px solid #4a90e2;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .insight-type {
+            font-size: 0.9rem;
+            color: #4a90e2;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .insight-text {
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #4a90e2;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .detailed-analytics {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="analytics-container">
+        <a href="index.html" class="back-btn">🏠 Back to Home</a>
+        
+        <div class="header">
+            <h1>📊 Your Learning Analytics</h1>
+            <p style="font-size: 1.2rem; margin-top: 10px;">Track your progress and discover insights!</p>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value" id="total-quizzes">156</div>
+                <div class="stat-label">Total Quizzes</div>
+                <div class="stat-change positive">+12 this week</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value" id="overall-accuracy">87%</div>
+                <div class="stat-label">Overall Accuracy</div>
+                <div class="stat-change positive">+3% this month</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="current-streak">12</div>
+                <div class="stat-label">Day Streak</div>
+                <div class="stat-change positive">Personal best!</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="study-time">24.5</div>
+                <div class="stat-label">Hours Studied</div>
+                <div class="stat-change positive">+2.3h this week</div>
+            </div>
+        </div>
+        
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <div class="chart-title">📈 Progress Over Time</div>
+                <div class="chart-area">
+                    <div class="chart-placeholder">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">📊 Interactive Chart Coming Soon!</div>
+                        <div>Track your daily quiz completion and accuracy trends</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-title">🎯 Weekly Accuracy</div>
+                <div class="progress-ring">
+                    <div class="ring-background"></div>
+                    <div class="ring-progress" style="clip-path: polygon(50% 50%, 50% 0%, 87% 13%, 87% 87%, 50% 50%);"></div>
+                    <div class="ring-center">
+                        <div class="ring-value">87%</div>
+                        <div class="ring-label">This Week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Achievements Section -->
+        <div class="achievements-section">
+            <div class="achievements-title">🏆 Achievements & Badges</div>
+            <div class="achievements-grid">
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-name">Sharp Shooter</div>
+                    <div class="achievement-desc">Score 90% or higher on 10 quizzes</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <div class="achievement-status">✅ Unlocked!</div>
+                </div>
+                
+                <div class="achievement-card unlocked">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-name">Hot Streak</div>
+                    <div class="achievement-desc">Maintain a 7-day learning streak</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <div class="achievement-status">✅ Unlocked!</div>
+                </div>
+                
+                <div class="achievement-card premium">
+                    <div class="achievement-icon">💎</div>
+                    <div class="achievement-name">Diamond Mind</div>
+                    <div class="achievement-desc">Complete 100 premium quizzes with 95% accuracy</div>
+                    <div class="achievement-progress premium">
+                        <div class="achievement-progress-fill" style="width: 73%;"></div>
+                    </div>
+                    <div class="achievement-status">73/100 Premium Quizzes</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🌟</div>
+                    <div class="achievement-name">Century Club</div>
+                    <div class="achievement-desc">Complete 100 total quizzes</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <div class="achievement-status">✅ Unlocked!</div>
+                </div>
+                
+                <div class="achievement-card premium">
+                    <div class="achievement-icon">🧠</div>
+                    <div class="achievement-name">Math Genius</div>
+                    <div class="achievement-desc">Master all advanced topics</div>
+                    <div class="achievement-progress premium">
+                        <div class="achievement-progress-fill" style="width: 45%;"></div>
+                    </div>
+                    <div class="achievement-status">6/13 Advanced Topics</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-name">Speed Demon</div>
+                    <div class="achievement-desc">Complete 50 quizzes in under 2 minutes each</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-fill" style="width: 68%;"></div>
+                    </div>
+                    <div class="achievement-status">34/50 Speed Quizzes</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Analytics -->
+        <div class="detailed-analytics">
+            <div class="analytics-card">
+                <div class="analytics-title">📚 Topic Breakdown</div>
+                <div class="topic-breakdown">
+                    <div class="topic-item">
+                        <div class="topic-name">Addition & Subtraction</div>
+                        <div class="topic-stats">
+                            <div class="topic-accuracy">94%</div>
+                            <div class="topic-count">28 quizzes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item">
+                        <div class="topic-name">Multiplication</div>
+                        <div class="topic-stats">
+                            <div class="topic-accuracy">89%</div>
+                            <div class="topic-count">35 quizzes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item">
+                        <div class="topic-name">Fractions</div>
+                        <div class="topic-stats">
+                            <div class="topic-accuracy" style="background: #ff6b6b;">76%</div>
+                            <div class="topic-count">22 quizzes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item">
+                        <div class="topic-name">Word Problems</div>
+                        <div class="topic-stats">
+                            <div class="topic-accuracy">85%</div>
+                            <div class="topic-count">19 quizzes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-item">
+                        <div class="topic-name">Geometry</div>
+                        <div class="topic-stats">
+                            <div class="topic-accuracy">91%</div>
+                            <div class="topic-count">16 quizzes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analytics-card">
+                <div class="analytics-title">⏰ Time Analysis</div>
+                <div class="time-analysis">
+                    <div class="time-item">
+                        <div class="time-label">Average Quiz Time</div>
+                        <div class="time-value">2m 34s</div>
+                    </div>
+                    
+                    <div class="time-item">
+                        <div class="time-label">Fastest Quiz</div>
+                        <div class="time-value">1m 12s</div>
+                    </div>
+                    
+                    <div class="time-item">
+                        <div class="time-label">Most Active Time</div>
+                        <div class="time-value">4:00 PM</div>
+                    </div>
+                    
+                    <div class="time-item">
+                        <div class="time-label">Total Study Time</div>
+                        <div class="time-value">24h 32m</div>
+                    </div>
+                    
+                    <div class="time-item">
+                        <div class="time-label">Daily Average</div>
+                        <div class="time-value">18m</div>
+                    </div>
+                    
+                    <div class="time-item">
+                        <div class="time-label">Longest Session</div>
+                        <div class="time-value">47 minutes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Insights -->
+        <div class="insights-section">
+            <div class="insights-title">🤖 AI-Powered Insights</div>
+            
+            <div class="insight-card">
+                <div class="insight-type">📈 IMPROVEMENT OPPORTUNITY</div>
+                <div class="insight-text">
+                    Your fraction accuracy has improved by 8% this week! Focus on mixed numbers and decimal conversions to reach your 85% target faster.
+                </div>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-type">🎯 STRENGTH IDENTIFIED</div>
+                <div class="insight-text">
+                    You excel at geometry problems! Your 91% accuracy is above average. Consider helping friends with similar problems or taking on advanced geometry challenges.
+                </div>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-type">⏰ OPTIMAL TIMING</div>
+                <div class="insight-text">
+                    Your best performance is between 3-5 PM (94% average accuracy). Schedule challenging topics during this peak focus time.
+                </div>
+            </div>
+            
+            <div class="insight-card">
+                <div class="insight-type">🔥 STREAK POWER</div>
+                <div class="insight-text">
+                    Your 12-day streak is fantastic! Students with 10+ day streaks typically improve accuracy by 15% over the next month. Keep it up!
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize analytics dashboard
+        // Utility functions
+        function isPremiumUser() {
+            const plan = localStorage.getItem('subscriptionPlan') || 'free';
+            const trialStart = localStorage.getItem('trialStartDate');
+            
+            // Check if user has premium plan or active trial
+            if (plan !== 'free') return true;
+            
+            // Check trial status
+            if (trialStart) {
+                const trialStartDate = new Date(trialStart);
+                const now = new Date();
+                const daysSinceStart = (now - trialStartDate) / (1000 * 60 * 60 * 24);
+                return daysSinceStart <= 7; // 7-day trial
+            }
+            
+            return false;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user has premium access for detailed analytics
+            const subscriptionPlan = localStorage.getItem('subscriptionPlan');
+            if (!subscriptionPlan || subscriptionPlan === 'free') {
+                alert('📊 Detailed Analytics is a Premium feature!\n\nFree users can see basic progress. Upgrade to Premium for:\n• Detailed topic breakdowns\n• AI-powered insights\n• Achievement tracking\n• Time analysis\n• Performance predictions');
+                
+                // Show limited version for free users
+                showLimitedAnalytics();
+                return;
+            }
+            
+            loadUserAnalytics();
+            updateDynamicStats();
+        });
+        
+        function loadUserAnalytics() {
+            // Load user's quiz data from localStorage
+            const username = localStorage.getItem('username');
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
+            
+            // Load comprehensive user activity data
+            const userQuizData = localStorage.getItem(`quizData_${currentUser}`) || '[]';
+            const userActivityData = localStorage.getItem(`userActivity_${currentUser}`) || '[]';
+            const userProgressData = localStorage.getItem(`userProgress_${currentUser}`) || '{}';
+            
+            const quizzes = JSON.parse(userQuizData);
+            const activities = JSON.parse(userActivityData);
+            const progress = JSON.parse(userProgressData);
+            
+            if (quizzes.length > 0 || activities.length > 0) {
+                updateStatsFromRealData(quizzes, activities, progress);
+                updateProgressCharts(quizzes, activities);
+                generatePersonalizedInsights(quizzes, activities, progress);
+            } else {
+                showFirstTimeUserStats();
+            }
+        }
+        
+        function updateStatsFromRealData(quizzes, activities, progress) {
+            // Calculate comprehensive stats from real user data
+            const totalQuizzes = quizzes.length;
+            const totalCorrect = quizzes.reduce((sum, quiz) => sum + (quiz.correct || 0), 0);
+            const totalQuestions = quizzes.reduce((sum, quiz) => sum + (quiz.total || 10), 0);
+            
+            const overallAccuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+            
+            // Calculate real streak based on daily activity
+            const currentStreak = calculateRealStreak(quizzes, activities);
+            
+            // Calculate actual study time from session data
+            const studyTimeHours = calculateStudyTime(quizzes, activities);
+            
+            // Calculate topics mastered
+            const topicsMastered = calculateTopicsMastery(progress);
+            
+            // Update UI with real data
+            document.getElementById('total-quizzes').textContent = totalQuizzes;
+            document.getElementById('overall-accuracy').textContent = overallAccuracy + '%';
+            document.getElementById('current-streak').textContent = currentStreak + ' days';
+            document.getElementById('study-time').textContent = studyTimeHours;
+            
+            // Update additional stats if elements exist
+            const topicsMasteredEl = document.getElementById('topics-mastered');
+            if (topicsMasteredEl) topicsMasteredEl.textContent = topicsMastered;
+            
+            const averageScoreEl = document.getElementById('average-score');
+            if (averageScoreEl) {
+                const avgScore = quizzes.length > 0 ? 
+                    Math.round(quizzes.reduce((sum, q) => sum + (q.score || (q.correct/q.total * 100) || 0), 0) / quizzes.length) : 0;
+                averageScoreEl.textContent = avgScore + '%';
+            }
+        }
+        
+        function calculateRealStreak(quizzes, activities) {
+            const allActivity = [...quizzes, ...activities];
+            if (allActivity.length === 0) return 0;
+            
+            // Get unique days of activity
+            const activityDates = allActivity
+                .filter(item => item.timestamp)
+                .map(item => {
+                    const date = new Date(item.timestamp);
+                    return date.toDateString();
+                })
+                .filter((date, index, arr) => arr.indexOf(date) === index)
+                .sort((a, b) => new Date(b) - new Date(a));
+            
+            if (activityDates.length === 0) return 0;
+            
+            // Calculate consecutive days from most recent
+            let streak = 0;
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
+            
+            // Check if user was active today or yesterday
+            if (activityDates.includes(today) || activityDates.includes(yesterday)) {
+                streak = 1;
+                
+                // Count consecutive days backwards
+                for (let i = 1; i < activityDates.length; i++) {
+                    const currentDate = new Date(activityDates[i]);
+                    const previousDate = new Date(activityDates[i-1]);
+                    const dayDifference = Math.abs(previousDate - currentDate) / (1000 * 60 * 60 * 24);
+                    
+                    if (dayDifference <= 1) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            
+            return streak;
+        }
+        
+        function calculateStudyTime(quizzes, activities) {
+            let totalMinutes = 0;
+            
+            // Add time from quizzes (estimate 2-4 minutes per quiz)
+            totalMinutes += quizzes.length * 3;
+            
+            // Add time from other activities
+            activities.forEach(activity => {
+                if (activity.type === 'theme_selection') totalMinutes += 1;
+                if (activity.type === 'study_plan_view') totalMinutes += 5;
+                if (activity.type === 'homework_helper') totalMinutes += 8;
+                if (activity.type === 'competition_prep') totalMinutes += 15;
+            });
+            
+            return (totalMinutes / 60).toFixed(1);
+        }
+        
+        function calculateTopicsMastery(progress) {
+            if (!progress || typeof progress !== 'object') return 0;
+            
+            let masteredTopics = 0;
+            Object.keys(progress).forEach(topic => {
+                if (progress[topic] && progress[topic].accuracy >= 85 && progress[topic].attempts >= 5) {
+                    masteredTopics++;
+                }
+            });
+            
+            return masteredTopics;
+        }
+        
+        function showFirstTimeUserStats() {
+            // Show encouraging stats for new users
+            document.getElementById('total-quizzes').textContent = '0';
+            document.getElementById('overall-accuracy').textContent = '0%';
+            document.getElementById('current-streak').textContent = '0 days';
+            document.getElementById('study-time').textContent = '0.0';
+            
+            // Add welcome message
+            const statsOverview = document.querySelector('.stats-overview');
+            if (statsOverview) {
+                const welcomeCard = document.createElement('div');
+                welcomeCard.className = 'stat-card';
+                welcomeCard.innerHTML = `
+                    <h3>🌟 Welcome to MathsMayhem!</h3>
+                    <p>Complete your first quiz to start building your analytics dashboard!</p>
+                    <button onclick="location.href='index.html'" style="
+                        background: linear-gradient(90deg, #4a90e2, #667eea);
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 15px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 10px;
+                    ">Start First Quiz 🚀</button>
+                `;
+                statsOverview.appendChild(welcomeCard);
+            }
+        }
+        
+        function updateProgressCharts(quizzes, activities) {
+            // Update progress visualization with real data
+            const progressRing = document.querySelector('.ring-progress');
+            if (progressRing && quizzes.length > 0) {
+                const avgAccuracy = quizzes.reduce((sum, q) => sum + (q.correct/q.total * 100 || 0), 0) / quizzes.length;
+                const circumference = 2 * Math.PI * 40; // assuming radius of 40
+                const offset = circumference - (avgAccuracy / 100) * circumference;
+                progressRing.style.strokeDashoffset = offset;
+            }
+        }
+        
+        function generatePersonalizedInsights(quizzes, activities, progress) {
+            const isPremium = isPremiumUser();
+            
+            if (!isPremium) {
+                showLimitedAnalytics();
+                return;
+            }
+            
+            // Generate AI-powered insights for premium users
+            const insights = [];
+            
+            // Performance trend analysis
+            if (quizzes.length >= 5) {
+                const recent5 = quizzes.slice(-5);
+                const older5 = quizzes.slice(-10, -5);
+                
+                if (older5.length > 0) {
+                    const recentAvg = recent5.reduce((sum, q) => sum + (q.correct/q.total * 100), 0) / recent5.length;
+                    const olderAvg = older5.reduce((sum, q) => sum + (q.correct/q.total * 100), 0) / older5.length;
+                    
+                    if (recentAvg > olderAvg + 5) {
+                        insights.push({
+                            type: 'improvement',
+                            title: '📈 Great Progress!',
+                            message: `Your accuracy has improved by ${Math.round(recentAvg - olderAvg)}% in recent quizzes!`
+                        });
+                    } else if (recentAvg < olderAvg - 5) {
+                        insights.push({
+                            type: 'concern',
+                            title: '🎯 Focus Needed',
+                            message: `Consider reviewing topics where accuracy has declined. Practice makes perfect!`
+                        });
+                    }
+                }
+            }
+            
+            // Time-based insights
+            const studyHours = parseFloat(calculateStudyTime(quizzes, activities));
+            if (studyHours > 10) {
+                insights.push({
+                    type: 'achievement',
+                    title: '⏰ Study Champion!',
+                    message: `You've dedicated ${studyHours} hours to learning. Fantastic commitment!`
+                });
+            }
+            
+            // Streak insights
+            const streak = calculateRealStreak(quizzes, activities);
+            if (streak >= 7) {
+                insights.push({
+                    type: 'streak',
+                    title: '🔥 Amazing Streak!',
+                    message: `${streak} days in a row! You're building excellent study habits.`
+                });
+            } else if (streak === 0 && quizzes.length > 0) {
+                insights.push({
+                    type: 'motivation',
+                    title: '🌟 Come Back Strong!',
+                    message: `Ready to restart your learning journey? Every expert was once a beginner!`
+                });
+            }
+            
+            // Topic mastery insights
+            const masteredTopics = calculateTopicsMastery(progress);
+            if (masteredTopics > 0) {
+                insights.push({
+                    type: 'mastery',
+                    title: '🏆 Topic Master!',
+                    message: `You've mastered ${masteredTopics} topics. Consider exploring more challenging areas!`
+                });
+            }
+            
+            displayInsights(insights);
+        }
+        
+        function displayInsights(insights) {
+            const insightsSection = document.querySelector('.insights-section');
+            if (!insightsSection || insights.length === 0) return;
+            
+            const insightsHTML = insights.map(insight => `
+                <div class="insight-card ${insight.type}" style="
+                    background: rgba(255,255,255,0.95);
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                    border-left: 4px solid ${getInsightColor(insight.type)};
+                ">
+                    <h4 style="margin: 0 0 10px 0; color: #333;">${insight.title}</h4>
+                    <p style="margin: 0; color: #666;">${insight.message}</p>
+                </div>
+            `).join('');
+            
+            insightsSection.innerHTML = `
+                <div class="insights-title" style="
+                    color: white;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                    text-align: center;
+                ">🤖 AI-Powered Insights</div>
+                ${insightsHTML}
+            `;
+        }
+        
+        function getInsightColor(type) {
+            const colors = {
+                'improvement': '#2ed573',
+                'concern': '#ffa726',
+                'achievement': '#4a90e2',
+                'streak': '#ff6b6b',
+                'motivation': '#ab47bc',
+                'mastery': '#ffd700'
+            };
+            return colors[type] || '#4a90e2';
+        }
+        
+        // Enhanced tracking functions for better analytics
+        function trackQuizActivity(quizType, score, correct, total, timeSpent) {
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
+            
+            // Store quiz data
+            const quizData = JSON.parse(localStorage.getItem(`quizData_${currentUser}`) || '[]');
+            quizData.push({
+                type: quizType,
+                score: score,
+                correct: correct,
+                total: total,
+                timeSpent: timeSpent,
+                timestamp: new Date().toISOString(),
+                date: new Date().toDateString()
+            });
+            localStorage.setItem(`quizData_${currentUser}`, JSON.stringify(quizData));
+            
+            // Update topic progress
+            updateTopicProgress(currentUser, quizType, correct, total);
+        }
+        
+        function trackActivity(activityType, details = {}) {
+            const currentUser = localStorage.getItem('currentUser') || 'guest';
+            
+            const activities = JSON.parse(localStorage.getItem(`userActivity_${currentUser}`) || '[]');
+            activities.push({
+                type: activityType,
+                details: details,
+                timestamp: new Date().toISOString(),
+                date: new Date().toDateString()
+            });
+            
+            // Keep only last 100 activities to prevent localStorage bloat
+            if (activities.length > 100) {
+                activities.splice(0, activities.length - 100);
+            }
+            
+            localStorage.setItem(`userActivity_${currentUser}`, JSON.stringify(activities));
+        }
+        
+        function updateTopicProgress(user, topic, correct, total) {
+            const progress = JSON.parse(localStorage.getItem(`userProgress_${user}`) || '{}');
+            
+            if (!progress[topic]) {
+                progress[topic] = { attempts: 0, totalCorrect: 0, totalQuestions: 0 };
+            }
+            
+            progress[topic].attempts++;
+            progress[topic].totalCorrect += correct;
+            progress[topic].totalQuestions += total;
+            progress[topic].accuracy = Math.round((progress[topic].totalCorrect / progress[topic].totalQuestions) * 100);
+            progress[topic].lastAttempt = new Date().toISOString();
+            
+            localStorage.setItem(`userProgress_${user}`, JSON.stringify(progress));
+        }
+        
+        function updateDynamicStats() {
+            // Animate progress rings and other dynamic elements
+            setTimeout(() => {
+                const progressRing = document.querySelector('.ring-progress');
+                if (progressRing) {
+                    // Animate the circular progress
+                    progressRing.style.transform = 'rotate(-90deg)';
+                }
+            }, 500);
+        }
+        
+        function showLimitedAnalytics() {
+            // Hide premium features for free users
+            const premiumCards = document.querySelectorAll('.achievement-card.premium');
+            premiumCards.forEach(card => {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    border-radius: 15px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-weight: bold;
+                    cursor: pointer;
+                `;
+                overlay.innerHTML = '🔒 Premium Only';
+                overlay.onclick = () => {
+                    alert('🌟 Upgrade to Premium to unlock this achievement!\n\nPremium features include:\n• Exclusive premium achievements\n• Advanced analytics\n• Unlimited quizzes\n• Priority support');
+                    window.location.href = 'subscription.html';
+                };
+                card.style.position = 'relative';
+                card.appendChild(overlay);
+            });
+            
+            // Add upgrade prompts to insights
+            const insightsSection = document.querySelector('.insights-section');
+            if (insightsSection) {
+                insightsSection.innerHTML = `
+                    <div class="insights-title">🤖 AI-Powered Insights</div>
+                    <div class="insight-card" style="text-align: center; padding: 40px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
+                        <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; color: #333;">
+                            AI Insights Available in Premium
+                        </div>
+                        <div style="color: #666; margin-bottom: 20px;">
+                            Get personalized learning recommendations, strength analysis, and performance predictions with our AI tutor.
+                        </div>
+                        <button onclick="location.href='subscription.html'" style="
+                            background: linear-gradient(90deg, #4a90e2, #667eea);
+                            color: white;
+                            border: none;
+                            padding: 12px 25px;
+                            border-radius: 20px;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                        ">
+                            🌟 Upgrade to Premium
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Billing & Subscription - MathsMayhem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        
+        .billing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .billing-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .billing-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .billing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-right: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .current-plan {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .plan-name i {
+            margin-right: 10px;
+        }
+        
+        .plan-details {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .next-billing {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .usage-chart {
+            height: 200px;
+            margin: 20px 0;
+        }
+        
+        .billing-history {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 15px;
+            color: #667eea;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .history-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .history-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .status-paid {
+            background: #e8f5e8;
+            color: #4caf50;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: #fff3e0;
+            color: #ff9800;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .download-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .subscription-management {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .management-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .management-card:hover {
+            background: #e2e8f0;
+            transform: scale(1.02);
+        }
+        
+        .mgmt-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .mgmt-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .mgmt-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .mgmt-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .mgmt-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .payment-methods {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .payment-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-type {
+            width: 40px;
+            height: 25px;
+            border-radius: 5px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .visa {
+            background: #1a1f71;
+        }
+        
+        .mastercard {
+            background: #ff5f00;
+        }
+        
+        .card-details {
+            color: #666;
+        }
+        
+        .card-primary {
+            background: #e8f5e8;
+            color: #4caf50;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .card-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .card-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .add-payment-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+        }
+        
+        .add-payment-btn:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+        
+        .add-payment-btn i {
+            margin-right: 10px;
+        }
+        
+        .billing-alerts {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .alert-item {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+            color: #ff9800;
+            margin-right: 15px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .alert-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .alert-action {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-action:hover {
+            background: #f57c00;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 768px) {
+            .billing-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-table {
+                font-size: 0.9rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="billing-container">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        
+        <div class="header">
+            <h1>💳 Billing & Subscription</h1>
+            <p>Manage your subscription, billing, and payment methods</p>
+        </div>
+        
+        <!-- Billing Overview -->
+        <div class="billing-overview">
+            <!-- Current Plan -->
+            <div class="billing-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="card-title">Current Plan</div>
+                </div>
+                
+                <div class="current-plan">
+                    <div class="plan-name">
+                        <i class="fas fa-star"></i>
+                        Premium Plus
+                    </div>
+                    <div class="plan-details">
+                        Unlimited access to all courses, live tutoring, and research projects
+                    </div>
+                    <div class="plan-price">$29.99/month</div>
+                    <div class="next-billing">Next billing: December 15, 2024</div>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="mgmt-btn" onclick="upgradePlan()" style="background: #4CAF50;">
+                        <i class="fas fa-arrow-up"></i>&nbsp;&nbsp;Upgrade
+                    </button>
+                    <button class="mgmt-btn" onclick="managePlan()">
+                        <i class="fas fa-cog"></i>&nbsp;&nbsp;Manage
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Usage Statistics -->
+            <div class="billing-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #2196F3, #1976D2);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-title">Usage This Month</div>
+                </div>
+                
+                <div class="usage-chart">
+                    <canvas id="usageChart"></canvas>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #2196F3;">847</div>
+                        <div style="font-size: 0.8rem; color: #666;">Problems Solved</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #4CAF50;">23.5</div>
+                        <div style="font-size: 0.8rem; color: #666;">Hours Studied</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #FF9800;">12</div>
+                        <div style="font-size: 0.8rem; color: #666;">Live Sessions</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Balance -->
+            <div class="billing-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #FF9800, #F57C00);">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="card-title">Account Balance</div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #4CAF50; margin-bottom: 10px;">
+                        $15.50
+                    </div>
+                    <div style="color: #666; margin-bottom: 20px;">
+                        Available credit from referrals and promotions
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="mgmt-btn" onclick="addFunds()">
+                        <i class="fas fa-plus"></i>&nbsp;&nbsp;Add Funds
+                    </button>
+                    <button class="mgmt-btn" onclick="viewCredits()">
+                        <i class="fas fa-history"></i>&nbsp;&nbsp;History
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Billing History -->
+        <div class="billing-history">
+            <div class="section-title">
+                <i class="fas fa-receipt"></i>
+                Billing History
+            </div>
+            
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nov 15, 2024</td>
+                        <td>Premium Plus Monthly Subscription</td>
+                        <td>$29.99</td>
+                        <td><span class="status-paid">Paid</span></td>
+                        <td><button class="download-btn" onclick="downloadInvoice('INV-2024-11-001')"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>Oct 15, 2024</td>
+                        <td>Premium Plus Monthly Subscription</td>
+                        <td>$29.99</td>
+                        <td><span class="status-paid">Paid</span></td>
+                        <td><button class="download-btn" onclick="downloadInvoice('INV-2024-10-001')"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>Sep 15, 2024</td>
+                        <td>Premium Plus Monthly Subscription</td>
+                        <td>$29.99</td>
+                        <td><span class="status-paid">Paid</span></td>
+                        <td><button class="download-btn" onclick="downloadInvoice('INV-2024-09-001')"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>Aug 15, 2024</td>
+                        <td>Premium Upgrade</td>
+                        <td>$19.99</td>
+                        <td><span class="status-paid">Paid</span></td>
+                        <td><button class="download-btn" onclick="downloadInvoice('INV-2024-08-001')"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                    <tr>
+                        <td>Jul 15, 2024</td>
+                        <td>Basic Monthly Subscription</td>
+                        <td>$9.99</td>
+                        <td><span class="status-paid">Paid</span></td>
+                        <td><button class="download-btn" onclick="downloadInvoice('INV-2024-07-001')"><i class="fas fa-download"></i> Download</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Subscription Management -->
+        <div class="subscription-management">
+            <div class="section-title">
+                <i class="fas fa-cogs"></i>
+                Subscription Management
+            </div>
+            
+            <div class="management-grid">
+                <div class="management-card">
+                    <div class="mgmt-icon"><i class="fas fa-arrow-up"></i></div>
+                    <div class="mgmt-title">Upgrade Plan</div>
+                    <div class="mgmt-description">Access more features and unlimited resources</div>
+                    <button class="mgmt-btn" onclick="upgradePlan()">View Plans</button>
+                </div>
+                
+                <div class="management-card">
+                    <div class="mgmt-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="mgmt-title">Billing Cycle</div>
+                    <div class="mgmt-description">Change from monthly to annual billing</div>
+                    <button class="mgmt-btn" onclick="changeBillingCycle()">Modify</button>
+                </div>
+                
+                <div class="management-card">
+                    <div class="mgmt-icon"><i class="fas fa-pause"></i></div>
+                    <div class="mgmt-title">Pause Subscription</div>
+                    <div class="mgmt-description">Temporarily pause your subscription</div>
+                    <button class="mgmt-btn" onclick="pauseSubscription()">Pause</button>
+                </div>
+                
+                <div class="management-card">
+                    <div class="mgmt-icon"><i class="fas fa-times"></i></div>
+                    <div class="mgmt-title">Cancel Subscription</div>
+                    <div class="mgmt-description">Cancel your subscription anytime</div>
+                    <button class="mgmt-btn" onclick="cancelSubscription()" style="background: #f44336;">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <div class="section-title">
+                <i class="fas fa-credit-card"></i>
+                Payment Methods
+            </div>
+            
+            <div class="payment-card">
+                <div class="card-info">
+                    <div class="card-type visa">VISA</div>
+                    <div class="card-details">
+                        <div style="font-weight: bold;">•••• •••• •••• 4242</div>
+                        <div style="color: #999; font-size: 0.9rem;">Expires 12/27</div>
+                    </div>
+                    <div class="card-primary">Primary</div>
+                </div>
+                <div class="card-actions">
+                    <button class="card-btn" onclick="editPaymentMethod('visa-4242')">Edit</button>
+                    <button class="card-btn" onclick="deletePaymentMethod('visa-4242')">Remove</button>
+                </div>
+            </div>
+            
+            <div class="payment-card">
+                <div class="card-info">
+                    <div class="card-type mastercard">MC</div>
+                    <div class="card-details">
+                        <div style="font-weight: bold;">•••• •••• •••• 8888</div>
+                        <div style="color: #999; font-size: 0.9rem;">Expires 06/26</div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="card-btn" onclick="setPrimaryCard('mc-8888')">Set Primary</button>
+                    <button class="card-btn" onclick="editPaymentMethod('mc-8888')">Edit</button>
+                    <button class="card-btn" onclick="deletePaymentMethod('mc-8888')">Remove</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="add-payment-btn" onclick="addPaymentMethod()">
+                    <i class="fas fa-plus"></i>
+                    Add New Payment Method
+                </button>
+            </div>
+        </div>
+        
+        <!-- Billing Alerts -->
+        <div class="billing-alerts">
+            <div class="section-title">
+                <i class="fas fa-bell"></i>
+                Billing Alerts & Notifications
+            </div>
+            
+            <div class="alert-item">
+                <div class="alert-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="alert-content">
+                    <div class="alert-title">Next Payment Due</div>
+                    <div class="alert-description">Your next payment of $29.99 is due on December 15, 2024</div>
+                </div>
+                <button class="alert-action" onclick="viewPaymentDetails()">View Details</button>
+            </div>
+            
+            <div class="alert-item" style="border-left-color: #4CAF50;">
+                <div class="alert-icon" style="color: #4CAF50;"><i class="fas fa-check-circle"></i></div>
+                <div class="alert-content">
+                    <div class="alert-title">Payment Successful</div>
+                    <div class="alert-description">Your payment of $29.99 was processed successfully on November 15, 2024</div>
+                </div>
+                <button class="alert-action" style="background: #4CAF50;" onclick="downloadReceipt()">Receipt</button>
+            </div>
+            
+            <div class="alert-item" style="border-left-color: #2196F3;">
+                <div class="alert-icon" style="color: #2196F3;"><i class="fas fa-gift"></i></div>
+                <div class="alert-content">
+                    <div class="alert-title">Annual Plan Discount</div>
+                    <div class="alert-description">Save 20% by switching to annual billing. Limited time offer!</div>
+                </div>
+                <button class="alert-action" style="background: #2196F3;" onclick="viewAnnualOffer()">Learn More</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="data-migration.js"></script>
+    <script src="user-manager.js"></script>
+    <script>
+        // Billing management functions
+        function upgradePlan() {
+            alert('🚀 Plan Upgrade Options\n\nAvailable upgrades:\n\n🌟 Premium Plus Pro - $39.99/month\n• Everything in Premium Plus\n• 1-on-1 tutoring sessions\n• Priority support\n• Early access to new features\n\n💎 Ultimate - $59.99/month\n• Everything in Premium Plus Pro\n• Custom learning path creation\n• Advanced analytics\n• Certification programs\n\nUpgrade now?');
+        }
+        
+        function managePlan() {
+            alert('⚙️ Plan Management\n\nCurrent Plan: Premium Plus ($29.99/month)\n\nOptions:\n• Change billing frequency\n• Add family members\n• Customize features\n• View usage statistics\n• Download tax documents\n\nWhat would you like to do?');
+        }
+        
+        function changeBillingCycle() {
+            if (confirm('💰 Switch to Annual Billing?\n\nSave 20% with annual billing!\n\nMonthly: $29.99 × 12 = $359.88\nAnnual: $287.90 (2 months free!)\n\nYour savings: $71.98 per year\n\nSwitch to annual billing?')) {
+                alert('✅ Billing cycle changed to Annual!\n\n📧 Confirmation email sent\n💳 Next charge: $287.90 on Dec 15, 2024\n🎉 You\'ll save $71.98 per year!');
+            }
+        }
+        
+        function pauseSubscription() {
+            if (confirm('⏸️ Pause Subscription\n\nYou can pause for up to 3 months:\n• Keep your progress and data\n• No charges during pause\n• Resume anytime\n• Premium features disabled\n\nPause your subscription now?')) {
+                alert('✅ Subscription Paused\n\n📅 Paused until: February 15, 2025\n💾 All your data is preserved\n📧 Resume instructions sent via email\n🔄 You can resume anytime from your dashboard');
+            }
+        }
+        
+        function cancelSubscription() {
+            if (confirm('❌ Cancel Subscription\n\n⚠️ This will:\n• End your Premium Plus benefits\n• Cancel recurring payments\n• Keep your account and progress\n• Allow reactivation anytime\n\nAre you sure you want to cancel?')) {
+                alert('💔 We\'re sad to see you go!\n\n✅ Subscription cancelled\n📅 Access continues until: Dec 15, 2024\n💾 Account and progress preserved\n📧 Cancellation confirmation sent\n\n🎁 Special offer: 50% off for 3 months if you change your mind!');
+            }
+        }
+        
+        // Payment method functions
+        function addPaymentMethod() {
+            alert('💳 Add Payment Method\n\nSupported payment methods:\n• Visa, Mastercard, American Express\n• PayPal\n• Apple Pay\n• Google Pay\n• Bank transfer\n\nThis would open the secure payment form.');
+        }
+        
+        function editPaymentMethod(cardId) {
+            alert(`✏️ Edit Payment Method\n\nEditing: ${cardId}\n\nYou can update:\n• Expiration date\n• Billing address\n• Cardholder name\n• Security settings\n\nThis would open the secure edit form.`);
+        }
+        
+        function deletePaymentMethod(cardId) {
+            if (confirm(`🗑️ Remove Payment Method\n\nAre you sure you want to remove ${cardId}?\n\nThis action cannot be undone.`)) {
+                alert('✅ Payment method removed successfully!\n\nThe payment method has been securely deleted from your account.');
+            }
+        }
+        
+        function setPrimaryCard(cardId) {
+            alert(`⭐ Set Primary Payment Method\n\n${cardId} is now your primary payment method for:\n• Subscription renewals\n• One-time purchases\n• Automatic payments\n\n✅ Changes saved successfully!`);
+        }
+        
+        // Invoice and receipt functions
+        function downloadInvoice(invoiceId) {
+            alert(`📄 Downloading Invoice ${invoiceId}\n\nInvoice details:\n• PDF format\n• Tax information included\n• Payment details\n• Itemized charges\n\nDownload would start now...`);
+        }
+        
+        function downloadReceipt() {
+            alert('🧾 Downloading Receipt\n\nReceipt for payment on Nov 15, 2024:\n• Amount: $29.99\n• Premium Plus subscription\n• Tax receipt included\n\nDownload starting...');
+        }
+        
+        // Alert functions
+        function viewPaymentDetails() {
+            alert('💳 Next Payment Details\n\nAmount: $29.99\nDate: December 15, 2024\nMethod: Visa ••••4242\nPlan: Premium Plus Monthly\n\nAutomatic payment enabled\nYou\'ll receive email confirmation');
+        }
+        
+        function viewAnnualOffer() {
+            alert('🎁 Special Annual Plan Offer\n\nLimited time: Save 20% with annual billing!\n\n💰 Your savings:\nMonthly: $29.99 × 12 = $359.88\nAnnual: $287.90\nSavings: $71.98 (20% off)\n\n⏰ Offer expires: December 31, 2024\n\nSwitch now to lock in this price!');
+        }
+        
+        function addFunds() {
+            alert('💰 Add Funds to Account\n\nAdd credit to your account:\n• $10.00\n• $25.00\n• $50.00\n• Custom amount\n\nCredit can be used for:\n• Subscription payments\n• One-time purchases\n• Premium features\n\nSelect an amount to continue.');
+        }
+        
+        function viewCredits() {
+            alert('📊 Credit History\n\nCurrent balance: $15.50\n\nRecent transactions:\n• +$10.00 - Referral bonus (Nov 10)\n• +$5.00 - Promotional credit (Nov 1)\n• +$0.50 - Survey completion (Oct 28)\n• -$0.00 - No usage yet\n\nCredits expire after 12 months');
+        }
+        
+        // Initialize usage chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('usageChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [
+                        {
+                            label: 'Study Hours',
+                            data: [5.2, 6.8, 7.1, 4.4],
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Problems Solved',
+                            data: [45, 62, 58, 72],
+                            borderColor: '#2196F3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Study Hours'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Problems Solved'
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

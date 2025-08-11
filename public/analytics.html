@@ -5,7 +5,22 @@
     <title>Analytics Dashboard - MathsMayhem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js loaded lazily for better performance -->
+    <script>
+        // Lazy load Chart.js only when needed
+        window.loadChartJS = function() {
+            return new Promise((resolve) => {
+                if (window.Chart) {
+                    resolve();
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+        };
+    </script>
     <style>
         * {
             margin: 0;
@@ -938,7 +953,7 @@
             });
         }
         
-        // Animation keyframes
+        // Animation keyframes and premium overlay styles
         const style = document.createElement('style');
         style.textContent = `
             @keyframes pulse {
@@ -946,33 +961,8 @@
                 50% { transform: scale(1.05); }
                 100% { transform: scale(1); }
             }
-        `;
-        document.head.appendChild(style);
-        
-        // Initialize everything when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check user subscription status
-            const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
             
-            if (subscriptionPlan === 'free') {
-                // Add premium prompts for free users
-                addPremiumPrompts();
-            }
-            
-            initPerformanceChart();
-            initTopicChart();
-            initSpeedAccuracyChart();
-            initWeeklyActivityChart();
-            
-            // Start real-time updates
-            setInterval(updateRealTimeStats, 5000);
-        });
-        
-        function addPremiumPrompts() {
-            // Add premium overlay to AI insights
-            const insightsSection = document.querySelector('.insights-section');
-            const overlay = document.createElement('div');
-            overlay.style.cssText = `
+            .premium-overlay {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -987,7 +977,68 @@
                 color: white;
                 text-align: center;
                 cursor: pointer;
-            `;
+                transition: all 0.3s ease;
+            }
+            
+            .premium-overlay:hover {
+                background: rgba(102, 126, 234, 1);
+                transform: scale(1.02);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize everything when page loads - OPTIMIZED FOR SPEED
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loading indicators first
+            showLoadingState();
+            
+            // Load Chart.js library first, then initialize charts
+            loadChartJS().then(() => {
+                // Check user subscription status
+                const subscriptionPlan = localStorage.getItem('subscriptionPlan') || 'free';
+                
+                // Initialize charts progressively to avoid blocking
+                setTimeout(() => {
+                    initPerformanceChart();
+                    hideLoadingForChart('performanceChart');
+                }, 100);
+                
+                setTimeout(() => {
+                    initTopicChart();
+                    hideLoadingForChart('topicChart');
+                }, 200);
+                
+                setTimeout(() => {
+                    initSpeedAccuracyChart();
+                    hideLoadingForChart('speedAccuracyChart');
+                }, 300);
+                
+                setTimeout(() => {
+                    initWeeklyActivityChart();
+                    hideLoadingForChart('weeklyActivityChart');
+                }, 400);
+                
+                // Add premium prompts after charts load
+                setTimeout(() => {
+                    if (subscriptionPlan === 'free') {
+                        addPremiumPrompts();
+                    }
+                }, 500);
+                
+                // Start real-time updates with longer interval to reduce load
+                setTimeout(() => {
+                    setInterval(updateRealTimeStats, 15000); // Reduced from 5s to 15s
+                }, 1000);
+            });
+        });
+        
+        function addPremiumPrompts() {
+            // Add premium overlay to AI insights (OPTIMIZED)
+            const insightsSection = document.querySelector('.insights-section');
+            if (!insightsSection) return; // Safety check
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'premium-overlay';
             overlay.innerHTML = `
                 <div style="font-size: 3rem; margin-bottom: 20px;">🔒</div>
                 <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 15px;">
@@ -1004,6 +1055,21 @@
             
             insightsSection.style.position = 'relative';
             insightsSection.appendChild(overlay);
+        }
+        
+        // PERFORMANCE OPTIMIZATION FUNCTIONS
+        function showLoadingState() {
+            const chartContainers = ['performanceChart', 'topicChart', 'speedAccuracyChart', 'weeklyActivityChart'];
+            chartContainers.forEach(id => {
+                const container = document.getElementById(id);
+                if (container) {
+                    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:250px;color:#666;"><i class="fas fa-spinner fa-spin" style="margin-right:10px;"></i>Loading chart...</div>';
+                }
+            });
+        }
+        
+        function hideLoadingForChart(chartId) {
+            // Chart will be rendered by Chart.js, so loading is automatically replaced
         }
     </script>
 </body>
